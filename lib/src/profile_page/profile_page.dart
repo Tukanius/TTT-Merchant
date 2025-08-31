@@ -1,0 +1,247 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
+import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_history_page.dart';
+
+class ProfilePage extends StatefulWidget {
+  static const routeName = "ProfilePage";
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: white,
+        centerTitle: false,
+        elevation: 1,
+        automaticallyImplyLeading: false,
+        title: SvgPicture.asset('assets/svg/TTT.svg'),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(NotifyPage.routeName);
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      child: Center(
+                        child: SvgPicture.asset('assets/svg/notify.svg'),
+                      ),
+                    ),
+                    Positioned(
+                      right: 7,
+                      top: 4,
+                      child: Container(
+                        height: 12,
+                        width: 12,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: rednotify,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 16),
+              ],
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: white50,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(ProfileDetailPage.routeName);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/svg/profile.svg'),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Ганболд Батбаяр',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Салбар #13',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SvgPicture.asset('assets/svg/arrow_right.svg'),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(
+                  context,
+                ).pushNamed(PurchaseRequestHistoryPage.routeName);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/svg/board.svg'),
+                        SizedBox(width: 12),
+                        Text(
+                          'Татан авах хүсэлт',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SvgPicture.asset('assets/svg/arrow_right.svg'),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(IncomeListPage.routeName);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/svg/board.svg'),
+                        SizedBox(width: 12),
+                        Text(
+                          'Хүлээн авах захиалга',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SvgPicture.asset('assets/svg/arrow_right.svg'),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(SalesHistoryPage.routeName);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/svg/board.svg'),
+                        SizedBox(width: 12),
+                        Text(
+                          'Борлуулалтын түүх',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SvgPicture.asset('assets/svg/arrow_right.svg'),
+                  ],
+                ),
+              ),
+            ),
+            // SizedBox(height: 16),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: white,
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   padding: EdgeInsets.all(12),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Row(
+            //         children: [
+            //           SvgPicture.asset('assets/svg/board.svg'),
+            //           SizedBox(width: 12),
+            //           Text(
+            //             'Татан авах хүсэлт',
+            //             style: TextStyle(
+            //               color: black950,
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.w500,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       SvgPicture.asset('assets/svg/arrow_right.svg'),
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+}
