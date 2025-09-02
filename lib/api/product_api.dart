@@ -1,3 +1,4 @@
+import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/income_models/confirm_income.dart';
 import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase/purchase_model.dart';
@@ -51,6 +52,15 @@ class ProductApi extends HttpRequest {
       handler: true,
     );
     return res;
+  }
+
+  getCardBalance(CheckCard data) async {
+    var res = await post(
+      '/sls/app/order/check-card',
+      data: data.toJson(),
+      handler: true,
+    );
+    return CheckCard.fromJson(res as Map<String, dynamic>);
   }
 
   // putConfirmIncome(ConfirmIncome data) async {

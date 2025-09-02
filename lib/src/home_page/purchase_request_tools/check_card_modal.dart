@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
+import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 
 class CheckCardModal extends StatefulWidget {
@@ -19,7 +21,7 @@ class CheckCardModal extends StatefulWidget {
 class _CheckCardModalState extends State<CheckCardModal> {
   TextEditingController controller = TextEditingController();
   GlobalKey<FormBuilderState> fbkey = GlobalKey<FormBuilderState>();
-
+  CheckCard card = CheckCard();
   bool isLoading = false;
   onSubmit() async {
     if (fbkey.currentState!.saveAndValidate()) {
@@ -27,22 +29,12 @@ class _CheckCardModalState extends State<CheckCardModal> {
         setState(() {
           isLoading = true;
         });
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
+        card.cardNumber = controller.text;
+        card = await ProductApi().getCardBalance(card);
+        Navigator.of(context).popAndPushNamed(
           PurchaseRequestPage.routeName,
-          arguments: PurchaseRequestPageArguments(cardNumber: controller.text),
+          arguments: PurchaseRequestPageArguments(data: card, payType: "CARD"),
         );
-        // if (saveIsUsername == true) {
-        //   email = fbkey.currentState?.fields['email']?.value;
-        //   _storePhone(email);
-        // } else {
-        //   secureStorage.deleteAll();
-        // }
-        // User save = User.fromJson(fbkey.currentState!.value);
-        // await Provider.of<UserProvider>(context, listen: false).login(save);
-        // // UserProvider().setUsername(save.username.toString());
-        // await Provider.of<UserProvider>(context, listen: false).me(true);
-
         setState(() {
           isLoading = false;
         });

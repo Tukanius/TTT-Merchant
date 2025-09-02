@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/services/navigation.dart';
+import 'package:ttt_merchant_flutter/src/auth/first_user_login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
@@ -171,7 +172,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   settings.arguments as PurchaseRequestPageArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return PurchaseRequestPage(cardNumber: arguments.cardNumber);
+                  return PurchaseRequestPage(
+                    data: arguments.data,
+                    payType: arguments.payType,
+                  );
                 },
               );
 
@@ -238,6 +242,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return ConfirmSaleRequest(data: arguments.data);
+                },
+              );
+            case LoginPhonePage.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const LoginPhonePage();
                 },
               );
             default:

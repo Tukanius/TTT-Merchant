@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
+// import 'package:ttt_merchant_flutter/src/auth/first_user_login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 
@@ -26,6 +27,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin {
         arguments: MainPageArguments(changeIndex: 0),
       );
     } catch (e) {
+      // Navigator.of(context).pushNamed(LoginPhonePage.routeName);
       Navigator.of(context).pushNamed(LoginPage.routeName);
     }
   }

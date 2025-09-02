@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
@@ -16,15 +17,21 @@ import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
 
 class PurchaseRequestPageArguments {
-  final String cardNumber;
-  PurchaseRequestPageArguments({required this.cardNumber});
+  final CheckCard data;
+  final String payType;
+  PurchaseRequestPageArguments({required this.data, required this.payType});
 }
 
 class PurchaseRequestPage extends StatefulWidget {
-  final String cardNumber;
+  final CheckCard data;
+  final String payType;
 
   static const routeName = "PurchaseRequestPage";
-  const PurchaseRequestPage({super.key, required this.cardNumber});
+  const PurchaseRequestPage({
+    super.key,
+    required this.data,
+    required this.payType,
+  });
 
   @override
   State<PurchaseRequestPage> createState() => _PurchaseRequestPageState();
@@ -43,6 +50,11 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
+    print('======test=====');
+    print(widget.data.availableLimit);
+    print(widget.data.cardNumber);
+    print('======test=====');
+
     try {
       general = await Provider.of<GeneralProvider>(
         context,
@@ -85,13 +97,13 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
         }
       }
       PurchaseRequest request = PurchaseRequest();
-      request.cardNumber = widget.cardNumber;
+      request.cardNumber = widget.data.cardNo;
       request.products = products;
       await Navigator.of(context).pushNamed(
         ConfirmPurchaseRequest.routeName,
         arguments: ConfirmPurchaseRequestArguments(
           data: request,
-          payType: "CARD",
+          payType: widget.payType,
         ),
       );
       // await ProductApi().postPurchaseRequest(request);
@@ -475,7 +487,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              '0 шуудай эрх',
+                                              '${widget.data.availableLimit} шуудай эрх',
                                               style: TextStyle(
                                                 color: orange,
                                                 fontSize: 20,

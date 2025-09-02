@@ -128,18 +128,18 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                         child: SvgPicture.asset('assets/svg/notify.svg'),
                       ),
                     ),
-                    Positioned(
-                      right: 7,
-                      top: 4,
-                      child: Container(
-                        height: 12,
-                        width: 12,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: rednotify,
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   right: 7,
+                    //   top: 4,
+                    //   child: Container(
+                    //     height: 12,
+                    //     width: 12,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(100),
+                    //       color: rednotify,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(width: 16),
@@ -190,10 +190,11 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                                               SvgPicture.asset(
                                                 'assets/svg/dropdown.svg',
                                               ),
-                                              const SizedBox(width: 6),
+                                              const SizedBox(width: 8),
                                             ],
                                           ),
                                         ),
+
                                         selectedItemBuilder: (context) {
                                           return general.residual!.map((data) {
                                             return Row(

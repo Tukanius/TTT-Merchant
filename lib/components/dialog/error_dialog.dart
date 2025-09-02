@@ -11,7 +11,7 @@ class ErrorDialog {
 
   ErrorDialog({this.context});
 
-  void show(String message, {VoidCallback? onPress}) {
+  show(String message, {VoidCallback? onPress}) {
     // final local = Provider.of<LocalizationProvider>(context!, listen: false);
 
     final currentContext = context;

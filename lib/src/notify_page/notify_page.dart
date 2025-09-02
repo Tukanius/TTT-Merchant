@@ -45,7 +45,7 @@ class _NotifyPageState extends State<NotifyPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: [1, 2, 3, 4, 5, 6]
+          children: [1]
               .map(
                 (test) => Column(
                   children: [
@@ -75,7 +75,7 @@ class _NotifyPageState extends State<NotifyPage> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Үлдэгдэл: 120 шуудай',
+                                'Үлдэгдэл: 1 шуудай',
                                 style: TextStyle(
                                   color: black600,
                                   fontSize: 14,

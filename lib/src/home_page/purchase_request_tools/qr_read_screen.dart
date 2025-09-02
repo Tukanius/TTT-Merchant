@@ -1,12 +1,19 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/check_card.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
+// import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 
 class QrReadScreenArguments {
   final Function() onNavigateMain;
@@ -158,6 +165,8 @@ class _QrReadScreenState extends State<QrReadScreen> {
     );
   }
 
+  late StreamSubscription<Barcode> _scanSubscription;
+
   Widget buildQrView(BuildContext context) {
     var scanArea =
         (MediaQuery.of(context).size.width < 400 ||
@@ -179,31 +188,45 @@ class _QrReadScreenState extends State<QrReadScreen> {
     );
   }
 
+  bool isErrorShown = false;
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
-      if (!isNavigated) {
-        setState(() {
-          result = scanData;
-        });
-        if (result != null) {
-          print('======RESULT======');
-          print(result!.format);
-          print(result!.code);
-          print(result!.rawBytes);
-          print('======RESULT======');
+
+    _scanSubscription = controller.scannedDataStream.listen((scanData) async {
+      if (!isNavigated && !isErrorShown) {
+        try {
+          final data = jsonDecode(scanData.code!);
+          final String cardNo = data['card']['cardNo'];
+          CheckCard card = CheckCard()..cardNumber = cardNo;
+
+          card = await ProductApi().getCardBalance(card);
+
           isNavigated = true;
-          Navigator.of(context).pop();
-          // Navigator.of(context)
-          //     .pushNamed(
-          //       QrSuccessPage.routeName,
-          //       arguments: QrSuccessPageArguments(token: result!.code),
-          //     )
-          //     .then((_) {
-          //       isNavigated = false;
-          //     });
+          await controller.pauseCamera();
+          _scanSubscription.cancel();
+
+          Navigator.of(context)
+              .pushReplacementNamed(
+                PurchaseRequestPage.routeName,
+                arguments: PurchaseRequestPageArguments(
+                  data: card,
+                  payType: "QR",
+                ),
+              )
+              .then((_) {
+                isNavigated = false;
+                controller.resumeCamera();
+              });
+        } catch (e) {
+          if (!isErrorShown) {
+            isErrorShown = true;
+            ErrorDialog(context: context).show('Буруу QR');
+            Future.delayed(Duration(seconds: 2), () {
+              isErrorShown = false;
+            });
+          }
         }
       }
     });
@@ -246,6 +269,7 @@ class _QrReadScreenState extends State<QrReadScreen> {
 
   @override
   void dispose() {
+    _scanSubscription.cancel();
     controller?.dispose();
     super.dispose();
   }
