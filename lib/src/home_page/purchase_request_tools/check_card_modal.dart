@@ -1,27 +1,60 @@
 import 'dart:io';
 
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 
-class OrderProblemModal extends StatefulWidget {
-  const OrderProblemModal({super.key});
+class CheckCardModal extends StatefulWidget {
+  const CheckCardModal({super.key});
 
   @override
-  State<OrderProblemModal> createState() => _OrderProblemModalState();
+  State<CheckCardModal> createState() => _CheckCardModalState();
 }
 
-class _OrderProblemModalState extends State<OrderProblemModal>
-    with AfterLayoutMixin {
-  TextEditingController pinput = TextEditingController();
+class _CheckCardModalState extends State<CheckCardModal> {
+  TextEditingController controller = TextEditingController();
+  GlobalKey<FormBuilderState> fbkey = GlobalKey<FormBuilderState>();
 
   bool isLoading = false;
+  onSubmit() async {
+    if (fbkey.currentState!.saveAndValidate()) {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(
+          PurchaseRequestPage.routeName,
+          arguments: PurchaseRequestPageArguments(cardNumber: controller.text),
+        );
+        // if (saveIsUsername == true) {
+        //   email = fbkey.currentState?.fields['email']?.value;
+        //   _storePhone(email);
+        // } else {
+        //   secureStorage.deleteAll();
+        // }
+        // User save = User.fromJson(fbkey.currentState!.value);
+        // await Provider.of<UserProvider>(context, listen: false).login(save);
+        // // UserProvider().setUsername(save.username.toString());
+        // await Provider.of<UserProvider>(context, listen: false).me(true);
 
-  @override
-  afterFirstLayout(BuildContext context) async {}
+        setState(() {
+          isLoading = false;
+        });
+        // await Navigator.of(context).pushNamed(SplashPage.routeName);
+      } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+        print(e.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +85,7 @@ class _OrderProblemModalState extends State<OrderProblemModal>
               ),
               SizedBox(height: 16),
               Text(
-                'Зөрчил мэдэгдэх',
+                'Картын мэдээлэл',
                 style: TextStyle(
                   color: black950,
                   fontSize: 18,
@@ -72,87 +105,71 @@ class _OrderProblemModalState extends State<OrderProblemModal>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FormTextField(
-                        contentPadding: EdgeInsets.all(12),
-                        dense: true,
-                        colortext: black,
-                        color: white50,
-                        name: 'cardNumber',
-                        hintTextStyle: TextStyle(
-                          color: black500,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        hintText: 'Тайлбар оруулна уу.',
-                        labelText: 'Тайлбар',
-                        labelColor: black600,
-                        borderRadius: 12,
-                        maxLines: 5,
-                        // validator: FormBuilderValidators.compose([
-                        //   (value) {
-                        //     return validatePhoneNumber(context, value.toString());
-                        //   },
-                        // ]),
-                      ),
-                      SizedBox(height: 16),
-
                       Text(
-                        'Бүтээгдэхүүний зураг',
+                        'Хэрэглээний үлдэгдэл:',
                         style: TextStyle(
-                          color: black600,
+                          color: black800,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(height: 6),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: white50,
-                          border: Border.all(color: black200),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                SvgPicture.asset('assets/svg/add_image.svg'),
-                                SizedBox(height: 12),
-                                Text(
-                                  'Зураг оруулах',
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Хамгийн багадаа 3 ширхэг зураг оруулна уу.',
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                      SizedBox(height: 4),
+                      Text(
+                        'Хэрэглэгчийн картын дугаар оруулна уу.',
+                        style: TextStyle(
+                          color: black300,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: FormBuilder(
+                  key: fbkey,
+                  child: FormTextField(
+                    controller: controller,
+                    contentPadding: EdgeInsets.all(12),
+                    dense: true,
+                    colortext: black,
+                    color: white,
+                    name: 'cardNumber',
+                    hintTextStyle: TextStyle(
+                      color: black500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    hintText: 'Картын дугаар оруулна уу.',
+                    prefixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(width: 12),
+                        SvgPicture.asset('assets/svg/edit.svg'),
+                        SizedBox(width: 12),
+                      ],
+                    ),
+                    borderRadius: 12,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                        errorText: 'Картын дугаар оруулна уу.',
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
               SizedBox(height: 16),
               Row(
                 children: [
                   SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        onSubmit();
+                      },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
@@ -181,7 +198,7 @@ class _OrderProblemModalState extends State<OrderProblemModal>
                                           ),
                                   )
                                 : Text(
-                                    'Илгээх',
+                                    'Шалгах',
                                     style: TextStyle(
                                       color: white,
                                       fontSize: 14,

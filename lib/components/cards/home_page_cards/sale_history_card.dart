@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/purchase/purchase_model.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SaleHistoryCard extends StatefulWidget {
   final bool isExtended;
@@ -42,7 +43,11 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         // color: green.withOpacity(0.4),
-                        color: redColor.withOpacity(0.4),
+                        color: widget.data.orderStatus == "NEW"
+                            ? redColor.withOpacity(0.4)
+                            : widget.data.orderStatus == "DONE"
+                            ? green.withOpacity(0.4)
+                            : redColor.withOpacity(0.4),
                       ),
                     ),
                     SizedBox(width: 12),
@@ -50,7 +55,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${DateFormat('yyyy/MM/dd hh:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                          '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -71,7 +76,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                   ],
                 ),
                 Text(
-                  '${widget.data.totalAmount}₮',
+                  '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
                   style: TextStyle(
                     color: orange,
                     fontSize: 16,
@@ -116,7 +121,11 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '-',
+                          '${widget.data.salesType == "CARD"
+                              ? 'Карт'
+                              : widget.data.salesType == "QR"
+                              ? 'QR'
+                              : '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -138,7 +147,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '-',
+                          '${widget.data.distributor?.name ?? '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -182,7 +191,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '-',
+                          '${widget.data.orderStatus}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -226,7 +235,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                                       ),
                                     ),
                                     Text(
-                                      '${item.quantity} x ${item.price}₮',
+                                      '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
                                       style: TextStyle(
                                         color: black950,
                                         fontSize: 14,
@@ -283,7 +292,8 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      '${widget.data.totalAmount}₮',
+                      // Utils().formatTextCustom(dataReceive.fee ?? 0)
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount!.toDouble())}₮',
                       style: TextStyle(
                         color: orange,
                         fontSize: 26,

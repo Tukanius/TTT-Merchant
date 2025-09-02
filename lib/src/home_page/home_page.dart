@@ -17,8 +17,8 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/general/residual.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -315,7 +315,7 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                               onTap: () {
                                 Navigator.of(
                                   context,
-                                ).pushNamed(PurchaseRequestPage.routeName);
+                                ).pushNamed(SalesRequestPage.routeName);
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                             onTap: () {
                               Navigator.of(
                                 context,
-                              ).pushNamed(SalesHistoryPage.routeName);
+                              ).pushNamed(PurchaseHistoryPage.routeName);
                             },
                             child: Row(
                               children: [

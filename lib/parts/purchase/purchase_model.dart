@@ -2,13 +2,18 @@ part of '../../models/purchase/purchase_model.dart';
 
 Purchase _$PurchaseFromJson(Map<String, dynamic> json) {
   return Purchase(
+    orderStatus: json['orderStatus'] != null
+        ? json['orderStatus'] as String
+        : null,
+    salesType: json['salesType'] != null ? json['salesType'] as String : null,
     id: json['_id'] != null ? json['_id'] as String : null,
     type: json['type'] != null ? json['type'] as String : null,
     user: json['user'] != null ? User.fromJson(json['user']) : null,
 
     distributor: json['distributor'] != null
-        ? json['distributor'] as String
+        ? StaffUser.fromJson(json['distributor'])
         : null,
+
     code: json['code'] != null ? json['code'] as String : null,
     quantity: json['quantity'] != null ? json['quantity'] as int : null,
     totalAmount: json['totalAmount'] != null
@@ -30,7 +35,8 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PurchaseToJson(Purchase instance) {
   Map<String, dynamic> json = {};
-
+  if (instance.orderStatus != null) json['orderStatus'] = instance.orderStatus;
+  if (instance.salesType != null) json['salesType'] = instance.salesType;
   if (instance.id != null) json['_id'] = instance.id;
   if (instance.type != null) json['type'] = instance.type;
   if (instance.user != null) json['user'] = instance.user;
@@ -40,12 +46,12 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) {
   if (instance.totalAmount != null) json['totalAmount'] = instance.totalAmount;
   if (instance.payAmount != null) json['payAmount'] = instance.payAmount;
   if (instance.paidAmount != null) json['paidAmount'] = instance.paidAmount;
-  if (instance.orderStatusDate != null) json['orderStatusDate'] = instance.orderStatusDate;
+  if (instance.orderStatusDate != null)
+    json['orderStatusDate'] = instance.orderStatusDate;
   if (instance.deletedAt != null) json['deletedAt'] = instance.deletedAt;
   if (instance.createdAt != null) json['createdAt'] = instance.createdAt;
   if (instance.updatedAt != null) json['updatedAt'] = instance.updatedAt;
   if (instance.products != null) json['products'] = instance.products;
-  
 
   return json;
 }

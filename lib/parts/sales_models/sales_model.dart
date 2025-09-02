@@ -42,6 +42,9 @@ Sales _$SalesFromJson(Map<String, dynamic> json) {
     saleType: json['saleType'] != null ? json['saleType'] as String : null,
     loadDate: json['loadDate'] != null ? json['loadDate'] as String : null,
     sendDate: json['sendDate'] != null ? json['sendDate'] as String : null,
+    totalAmount: json['totalAmount'] != null
+        ? json['totalAmount'] as int
+        : null,
   );
 }
 
@@ -71,6 +74,7 @@ Map<String, dynamic> _$SalesToJson(Sales instance) {
   if (instance.saleType != null) json['saleType'] = instance.saleType;
   if (instance.loadDate != null) json['loadDate'] = instance.loadDate;
   if (instance.sendDate != null) json['sendDate'] = instance.sendDate;
+  if (instance.totalAmount != null) json['totalAmount'] = instance.totalAmount;
 
   return json;
 }

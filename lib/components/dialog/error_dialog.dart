@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 
@@ -36,13 +37,15 @@ class ErrorDialog {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SvgPicture.asset('assets/svg/error.svg'),
+                SizedBox(height: 12),
                 // SvgPicture.asset('assets/svg/error_dialog.svg'),
                 Text(
                   'Амжилтгүй',
                   style: TextStyle(
-                    color: black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
+                    color: redColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
                     decoration: TextDecoration.none,
                   ),
                 ),
@@ -50,9 +53,9 @@ class ErrorDialog {
                 Text(
                   message,
                   style: const TextStyle(
-                    color: gray600,
+                    color: black400,
                     fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     decoration: TextDecoration.none,
                   ),
 

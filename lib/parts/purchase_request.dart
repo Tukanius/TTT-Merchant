@@ -8,6 +8,7 @@ PurchaseRequest _$PurchaseRequestFromJson(Map<String, dynamic> json) {
     products: json['products'] != null
         ? (json['products'] as List).map((e) => Products.fromJson(e)).toList()
         : null,
+    salesType: json['salesType'] != null ? json['salesType'] as String : null,
   );
 }
 
@@ -16,6 +17,7 @@ Map<String, dynamic> _$PurchaseRequestToJson(PurchaseRequest instance) {
 
   if (instance.cardNumber != null) json['cardNumber'] = instance.cardNumber;
   if (instance.products != null) json['products'] = instance.products;
+  if (instance.salesType != null) json['salesType'] = instance.salesType;
 
   return json;
 }

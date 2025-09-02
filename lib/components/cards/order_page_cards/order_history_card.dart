@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class OrderHistoryCard extends StatefulWidget {
   final bool isExtended;
@@ -47,7 +48,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                     ),
                     SizedBox(width: 2),
                     Text(
-                      '${DateFormat('yyyy/MM/dd hh:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                      '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                       style: TextStyle(
                         color: black400,
                         fontSize: 12,
@@ -76,7 +77,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '${widget.data.totalCount ?? 0}₮',
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
                       style: TextStyle(
                         color: black950,
                         fontSize: 16,
@@ -145,7 +146,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                           ),
                         ),
                         Text(
-                          '-',
+                          '${widget.data.user?.firstname ?? '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -188,13 +189,25 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Text(
-                                      '${item.totalCount}',
-                                      style: TextStyle(
-                                        color: black950,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${item.totalCount} x ',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -246,7 +259,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      '${widget.data.totalCount ?? 0}₮',
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
                       style: TextStyle(
                         color: orange,
                         fontSize: 26,

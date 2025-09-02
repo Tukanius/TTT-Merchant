@@ -4,9 +4,10 @@ part '../parts/purchase_request.dart';
 
 class PurchaseRequest {
   String? cardNumber;
+  String? salesType;
   List<Products>? products;
 
-  PurchaseRequest({this.cardNumber, this.products});
+  PurchaseRequest({this.cardNumber, this.products, this.salesType});
   static $fromJson(Map<String, dynamic> json) =>
       _$PurchaseRequestFromJson(json);
 

@@ -4,10 +4,23 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/income_models/confirm_income.dart';
+import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 
 class AcceptOrderModal extends StatefulWidget {
-  const AcceptOrderModal({super.key});
+  final ConfirmIncomeRequest data;
+  final String id;
+  final Map<int, int> editedQuantity;
+  final Income product;
+  const AcceptOrderModal({
+    super.key,
+    required this.data,
+    required this.id,
+    required this.editedQuantity,
+    required this.product,
+  });
 
   @override
   State<AcceptOrderModal> createState() => _AcceptOrderModalState();
@@ -16,7 +29,7 @@ class AcceptOrderModal extends StatefulWidget {
 class _AcceptOrderModalState extends State<AcceptOrderModal>
     with AfterLayoutMixin {
   TextEditingController pinput = TextEditingController();
-
+  bool validate = false;
   bool isLoading = false;
   final defaultPinTheme = PinTheme(
     width: 80,
@@ -32,8 +45,42 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
       borderRadius: BorderRadius.circular(8),
     ),
   );
+
   @override
-  afterFirstLayout(BuildContext context) async {}
+  afterFirstLayout(BuildContext context) async {
+    print(widget.data);
+    print('=====widget====data====');
+  }
+
+  void _saveEdits() {
+    widget.editedQuantity.forEach((index, value) {
+      widget.product.products![index].quantity = value;
+    });
+  }
+
+  onSubmit() async {
+    print(pinput.text);
+    print('====pinput===text====');
+    if (pinput.text != 'null' &&
+        pinput.text.length <= 4 &&
+        pinput.text.isEmpty == false) {
+      _saveEdits();
+      setState(() {
+        validate = false;
+      });
+      ConfirmIncomeRequest request = ConfirmIncomeRequest()
+        ..code = pinput.text
+        ..isComplaint = widget.data.isComplaint
+        ..receivedProducts = widget.data.receivedProducts;
+      await ProductApi().incomeConfirm(request, widget.id);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    } else {
+      setState(() {
+        validate = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +120,145 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
                 ),
               ),
               SizedBox(height: 16),
-              // Padding(
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: white,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Жолоочын бааталгаажуулах 4 оронтой кодыг оруулна уу.',
+                        style: TextStyle(
+                          color: black950,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 16),
+                      Pinput(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        autofocus: true,
+                        keyboardType: TextInputType.number,
+                        closeKeyboardWhenCompleted: true,
+                        // onCompleted: (value) => checkOpt(value),
+                        controller: pinput,
+                        validator: (value) {
+                          if (value == null || value.isEmpty || value == '') {
+                            return "Код оруулна уу";
+                          }
+                          if (value.length < 4) {
+                            return "Баталгаажуулах код оруулна уу";
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            validate = false;
+                          });
+                        },
+                        length: 4,
+                        hapticFeedbackType: HapticFeedbackType.lightImpact,
+                        defaultPinTheme: defaultPinTheme,
+                        errorPinTheme: defaultPinTheme.copyBorderWith(
+                          border: Border.all(color: errorColor),
+                        ),
+                        errorTextStyle: TextStyle(
+                          color: errorColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      validate == true
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 12),
+                                Text(
+                                  'Баталгаажуулах код оруулна уу',
+                                  style: TextStyle(
+                                    color: redColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                                SizedBox(height: 12),
+                              ],
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        onSubmit();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: orange,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            isLoading == true
+                                ? Container(
+                                    // margin: EdgeInsets.only(right: 15),
+                                    width: 17,
+                                    height: 17,
+                                    child: Platform.isAndroid
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: white,
+                                              strokeWidth: 2.5,
+                                            ),
+                                          )
+                                        : Center(
+                                            child: CupertinoActivityIndicator(
+                                              color: white,
+                                            ),
+                                          ),
+                                  )
+                                : Text(
+                                    'Батлах',
+                                    style: TextStyle(
+                                      color: white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+// Padding(
               //   padding: const EdgeInsets.all(16),
               //   child: Container(
               //     width: MediaQuery.of(context).size.width,
@@ -452,114 +637,3 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
               //     ),
               //   ),
               // ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: white,
-                  ),
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Жолоочын бааталгаажуулах 4 оронтой кодыг оруулна уу.',
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 16),
-                      Pinput(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        autofocus: true,
-                        keyboardType: TextInputType.number,
-                        closeKeyboardWhenCompleted: true,
-                        // onCompleted: (value) => checkOpt(value),
-                        controller: pinput,
-                        // validator: (value) {
-                        //   return value == "${user.otpCode}"
-                        //       ? null
-                        //       : local.translate('verification_incorrect');
-                        // },
-                        length: 4,
-                        hapticFeedbackType: HapticFeedbackType.lightImpact,
-                        defaultPinTheme: defaultPinTheme,
-                        errorPinTheme: defaultPinTheme.copyBorderWith(
-                          border: Border.all(color: errorColor),
-                        ),
-                        errorTextStyle: TextStyle(
-                          color: errorColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: orange,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            isLoading == true
-                                ? Container(
-                                    // margin: EdgeInsets.only(right: 15),
-                                    width: 17,
-                                    height: 17,
-                                    child: Platform.isAndroid
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: white,
-                                              strokeWidth: 2.5,
-                                            ),
-                                          )
-                                        : Center(
-                                            child: CupertinoActivityIndicator(
-                                              color: white,
-                                            ),
-                                          ),
-                                  )
-                                : Text(
-                                    'Батлах',
-                                    style: TextStyle(
-                                      color: white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

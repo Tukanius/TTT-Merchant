@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/custom_keyboard/custom_keyboard.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/accept_order_modal.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/order_problem_modal.dart';
 
 class OrderAcceptPage extends StatefulWidget {
   static const routeName = "OrderAcceptPage";
@@ -345,14 +343,18 @@ class _OrderAcceptPageState extends State<OrderAcceptPage> {
                         SizedBox(height: 6),
                         GestureDetector(
                           onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: transparent,
-                              builder: (context) {
-                                return OrderProblemModal();
-                              },
-                            );
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   isScrollControlled: true,
+                            //   backgroundColor: transparent,
+                            //   builder: (context) {
+                            //     return OrderProblemModal(
+                            //       isIssue: (is) {
+
+                            //       },
+                            //     );
+                            //   },
+                            // );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -446,14 +448,14 @@ class _OrderAcceptPageState extends State<OrderAcceptPage> {
                 children: [
                   SizedBox(height: 16),
                   buildCustomKeyboard(controller, 6, () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: transparent,
-                      builder: (context) {
-                        return AcceptOrderModal();
-                      },
-                    );
+                    // showModalBottomSheet(
+                    //   context: context,
+                    //   isScrollControlled: true,
+                    //   backgroundColor: transparent,
+                    //   builder: (context) {
+                    //     return AcceptOrderModal();
+                    //   },
+                    // );
                   }),
                   // SizedBox(height: MediaQuery.of(context).padding.bottom),
                 ],

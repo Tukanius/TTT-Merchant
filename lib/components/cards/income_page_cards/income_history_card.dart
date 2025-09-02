@@ -34,7 +34,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.code ?? '#0000'}',
+                      '${widget.data.code ?? '#'}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
@@ -43,7 +43,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '${DateFormat('yyyy/MM/dd hh:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                      '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                       style: TextStyle(
                         color: black400,
                         fontSize: 12,

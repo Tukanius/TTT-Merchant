@@ -46,6 +46,9 @@ Income _$IncomeFromJson(Map<String, dynamic> json) {
     products: json['products'] != null
         ? (json['products'] as List).map((e) => Products.fromJson(e)).toList()
         : null,
+    totalAmount: json['totalAmount'] != null
+        ? json['totalAmount'] as int
+        : null,
   );
 }
 
@@ -77,6 +80,7 @@ Map<String, dynamic> _$IncomeToJson(Income instance) {
     json['receiverUser'] = instance.receiverUser;
   if (instance.quantity != null) json['quantity'] = instance.quantity;
   if (instance.products != null) json['products'] = instance.products;
+  if (instance.totalAmount != null) json['totalAmount'] = instance.totalAmount;
 
   return json;
 }

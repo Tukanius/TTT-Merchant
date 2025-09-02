@@ -14,26 +14,33 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
 
-class ConfirmRequestArguments {
+class ConfirmPurchaseRequestArguments {
   final PurchaseRequest data;
-  ConfirmRequestArguments({required this.data});
+  final String payType;
+  ConfirmPurchaseRequestArguments({required this.payType, required this.data});
 }
 
-class ConfirmRequest extends StatefulWidget {
+class ConfirmPurchaseRequest extends StatefulWidget {
+  final String payType;
   final PurchaseRequest data;
 
-  static const routeName = "ConfirmRequest";
-  const ConfirmRequest({super.key, required this.data});
+  static const routeName = "ConfirmPurchaseRequest";
+  const ConfirmPurchaseRequest({
+    super.key,
+    required this.data,
+    required this.payType,
+  });
 
   @override
-  State<ConfirmRequest> createState() => _ConfirmRequestState();
+  State<ConfirmPurchaseRequest> createState() => _ConfirmPurchaseRequestState();
 }
 
-class _ConfirmRequestState extends State<ConfirmRequest> with AfterLayoutMixin {
+class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
+    with AfterLayoutMixin {
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   int purchaseIndex = 0;
@@ -66,6 +73,7 @@ class _ConfirmRequestState extends State<ConfirmRequest> with AfterLayoutMixin {
       setState(() {
         isLoading = true;
       });
+
       List<Products> products = widget.data.products!
           .where((p) => (p.quantity ?? 0) > 0)
           .map((p) {
@@ -76,11 +84,12 @@ class _ConfirmRequestState extends State<ConfirmRequest> with AfterLayoutMixin {
 
       PurchaseRequest request = PurchaseRequest()
         ..cardNumber = widget.data.cardNumber
-        ..products = products;
+        ..products = products
+        ..salesType = widget.payType;
 
       // await Navigator.of(context).pushNamed(
-      //   ConfirmRequest.routeName,
-      //   arguments: ConfirmRequestArguments(data: request),
+      //   ConfirmPurchaseRequest.routeName,
+      //   arguments: ConfirmPurchaseRequestArguments(data: request),
       // );
       await ProductApi().postPurchaseRequest(request);
       setState(() {
@@ -172,7 +181,9 @@ class _ConfirmRequestState extends State<ConfirmRequest> with AfterLayoutMixin {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(SalesHistoryPage.routeName);
+                    Navigator.of(
+                      context,
+                    ).pushNamed(PurchaseHistoryPage.routeName);
                   },
                   child: Container(
                     decoration: BoxDecoration(

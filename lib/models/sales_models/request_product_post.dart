@@ -3,8 +3,9 @@ part '../../parts/sales_models/request_product_post.dart';
 class RequestProductPost {
   String? product;
   int? totalCount;
+  String? name;
 
-  RequestProductPost({this.product, this.totalCount});
+  RequestProductPost({this.product, this.totalCount, this.name});
   static $fromJson(Map<String, dynamic> json) =>
       _$RequestProductPostFromJson(json);
 

@@ -12,17 +12,17 @@ import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart
 import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_page.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
 
-class OrderlistPage extends StatefulWidget {
-  static const routeName = 'OrderlistPage';
-  const OrderlistPage({super.key});
+class SalesListPage extends StatefulWidget {
+  static const routeName = 'SalesListPage';
+  const SalesListPage({super.key});
 
   @override
-  State<OrderlistPage> createState() => _OrderlistPageState();
+  State<SalesListPage> createState() => _SalesListPageState();
 }
 
-class _OrderlistPageState extends State<OrderlistPage> with AfterLayoutMixin {
+class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int selectedIndex = 0;
   int? selectedIndexTile;
   final List<String> tabs = ['Нийт', 'Өнөөдөр', '7 Хоног', '1 Сар', '1 Жил'];
@@ -123,9 +123,7 @@ class _OrderlistPageState extends State<OrderlistPage> with AfterLayoutMixin {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(
-                    context,
-                  ).pushNamed(PurchaseRequestPage.routeName);
+                  Navigator.of(context).pushNamed(SalesRequestPage.routeName);
                 },
                 child: Container(
                   decoration: BoxDecoration(

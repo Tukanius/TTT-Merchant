@@ -12,15 +12,16 @@ import 'package:ttt_merchant_flutter/services/navigation.dart';
 import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/confirm_request.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/sale_request_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/qr_read_screen.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/order_accept_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
@@ -133,10 +134,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return const ForgetPasswordPage();
                 },
               );
-            case PurchaseRequestPage.routeName:
+            case SalesRequestPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
-                  return const PurchaseRequestPage();
+                  return const SalesRequestPage();
                 },
               );
             case NotifyPage.routeName:
@@ -153,10 +154,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return QrReadScreen(onNavigateMain: arguments.onNavigateMain);
                 },
               );
-            case SalesHistoryPage.routeName:
+            case PurchaseHistoryPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
-                  return const SalesHistoryPage();
+                  return const PurchaseHistoryPage();
                 },
               );
             case PurchaseRequestHistoryPage.routeName:
@@ -165,12 +166,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return const PurchaseRequestHistoryPage();
                 },
               );
-            case SaleRequestPage.routeName:
-              SaleRequestPageArguments arguments =
-                  settings.arguments as SaleRequestPageArguments;
+            case PurchaseRequestPage.routeName:
+              PurchaseRequestPageArguments arguments =
+                  settings.arguments as PurchaseRequestPageArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return SaleRequestPage(cardNumber: arguments.cardNumber);
+                  return PurchaseRequestPage(cardNumber: arguments.cardNumber);
                 },
               );
 
@@ -204,12 +205,15 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return const SetPasswordPage();
                 },
               );
-            case ConfirmRequest.routeName:
-              ConfirmRequestArguments arguments =
-                  settings.arguments as ConfirmRequestArguments;
+            case ConfirmPurchaseRequest.routeName:
+              ConfirmPurchaseRequestArguments arguments =
+                  settings.arguments as ConfirmPurchaseRequestArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return ConfirmRequest(data: arguments.data);
+                  return ConfirmPurchaseRequest(
+                    data: arguments.data,
+                    payType: arguments.payType,
+                  );
                 },
               );
             case IncomeDetailPage.routeName:
@@ -226,6 +230,14 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return IncomeConfirmPage(data: arguments.data);
+                },
+              );
+            case ConfirmSaleRequest.routeName:
+              ConfirmSaleRequestArguments arguments =
+                  settings.arguments as ConfirmSaleRequestArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return ConfirmSaleRequest(data: arguments.data);
                 },
               );
             default:

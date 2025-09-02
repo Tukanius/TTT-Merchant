@@ -16,15 +16,15 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 
-class SalesHistoryPage extends StatefulWidget {
-  static const routeName = "SalesHistoryPage";
-  const SalesHistoryPage({super.key});
+class PurchaseHistoryPage extends StatefulWidget {
+  static const routeName = "PurchaseHistoryPage";
+  const PurchaseHistoryPage({super.key});
 
   @override
-  State<SalesHistoryPage> createState() => _SalesHistoryPageState();
+  State<PurchaseHistoryPage> createState() => _PurchaseHistoryPageState();
 }
 
-class _SalesHistoryPageState extends State<SalesHistoryPage>
+class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
     with AfterLayoutMixin {
   int selectedIndex = 0;
   int? selectedIndexTile;

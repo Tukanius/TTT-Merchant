@@ -1,3 +1,4 @@
+import 'package:ttt_merchant_flutter/models/income_models/confirm_income.dart';
 import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase/purchase_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
@@ -37,6 +38,15 @@ class ProductApi extends HttpRequest {
   postSalesRequest(SalesRequest data) async {
     var res = await post(
       '/sls/app/request',
+      data: data.toJson(),
+      handler: true,
+    );
+    return res;
+  }
+
+  incomeConfirm(ConfirmIncomeRequest data, String id) async {
+    var res = await put(
+      '/inv/app/inout/$id/note',
       data: data.toJson(),
       handler: true,
     );

@@ -22,6 +22,7 @@ class Income {
   StaffUser? receiverUser;
   int? quantity;
   List<Products>? products;
+  int? totalAmount;
 
   Income({
     this.id,
@@ -42,6 +43,7 @@ class Income {
     this.receiverUser,
     this.quantity,
     this.products,
+    this.totalAmount,
   });
   static $fromJson(Map<String, dynamic> json) => _$IncomeFromJson(json);
 

@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class IncomeDetailPageArguments {
   final Income data;
@@ -30,23 +31,23 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
   bool isLoading = false;
   final steps = [
     TimelineStepData(
-      title: 'Хүсэлт илгээсэн',
-      subtitle: 'Захиалгын хүсэлт илгээгдлээ.',
+      title: 'Захиалга баталгаажсан',
+      subtitle: 'Тээврийн компанид руу шилжүүлсэн',
       time: '2025/08/20 14:00',
     ),
     TimelineStepData(
-      title: 'Захиалга баталгаажсан',
-      subtitle: 'Татан авах хүсэлт баталгаажлаа.',
+      title: 'Тээвэрлэлт',
+      subtitle: 'Тээврийн хэрэгсэл ачааг авахаар очиж байна.',
       time: '2025/08/20 14:10',
     ),
     TimelineStepData(
-      title: 'Төлбөр төлөгдсөн',
-      subtitle: 'Захиалгын төлбөр төлөгдлөө.',
+      title: 'Агуулахаас гарсан',
+      subtitle: 'Захиалга тээвэрлэлтэд гарсан.',
       time: '2025/08/20 15:00',
     ),
     TimelineStepData(
-      title: 'Захиалга цуцалсан',
-      subtitle: 'Захиалга цуцлагдлаа.',
+      title: 'Хүлээн авсан',
+      subtitle: 'Түлшийг хүлээлгэн өгсөн.',
       time: '2025/08/20 16:30',
     ),
   ];
@@ -272,7 +273,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${DateFormat('yyyy/MM/dd hh:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                                    '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 14,
@@ -504,7 +505,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                                 ),
                                               ),
                                               Text(
-                                                '${item.quantity} x ${item.price}',
+                                                '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
                                                 style: TextStyle(
                                                   color: black950,
                                                   fontSize: 14,
@@ -578,7 +579,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '0₮',
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
                       style: TextStyle(
                         color: orange,
                         fontSize: 26,
@@ -726,38 +727,38 @@ class OrderTimeline extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.title,
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        style: TextStyle(
+                          color: black950,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      item.subtitle,
-                      style: TextStyle(
-                        color: black600,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 2),
+                      Text(
+                        item.subtitle,
+                        style: TextStyle(
+                          color: black600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    item.time,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      color: black400,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                Text(
+                  item.time,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    color: black400,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],

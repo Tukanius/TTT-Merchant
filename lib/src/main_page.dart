@@ -8,11 +8,11 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/src/home_page/home_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/check_card_modal.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/check_card_modal.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
-import 'package:ttt_merchant_flutter/src/orderlist_page/orderlist_page.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/qr_read_screen.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
 
 class MainPageArguments {
   final int? changeIndex;
@@ -34,9 +34,9 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> get widgetOptions => <Widget>[
     HomePage(),
-    OrderlistPage(),
+    SalesListPage(),
     IncomeListPage(),
-    ProfilePage(),
+    ProfilePage(onChangePage: (index) => onItemTapped(index)),
   ];
 
   void onItemTapped(int index) {
@@ -61,7 +61,7 @@ class _MainPageState extends State<MainPage> {
     );
     final mediaQuery = MediaQuery.of(context);
     return PopScope(
-      canPop: true,
+      canPop: false,
       child: Scaffold(
         floatingActionButton: _selectedIndex == 0
             ? Column(

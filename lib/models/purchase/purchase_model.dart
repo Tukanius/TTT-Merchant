@@ -1,13 +1,16 @@
+import 'package:ttt_merchant_flutter/models/income_models/staff_user.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 
 part '../../parts/purchase/purchase_model.dart';
 
 class Purchase {
+  String? salesType;
+  String? orderStatus;
   String? id;
   String? type;
   User? user;
-  String? distributor;
+  StaffUser? distributor;
   String? code;
   int? quantity;
   int? totalAmount;
@@ -20,6 +23,8 @@ class Purchase {
   List<Products>? products;
 
   Purchase({
+    this.salesType,
+    this.orderStatus,
     this.id,
     this.type,
     this.user,

@@ -195,7 +195,7 @@ class _QrReadScreenState extends State<QrReadScreen> {
           print(result!.rawBytes);
           print('======RESULT======');
           isNavigated = true;
-
+          Navigator.of(context).pop();
           // Navigator.of(context)
           //     .pushNamed(
           //       QrSuccessPage.routeName,

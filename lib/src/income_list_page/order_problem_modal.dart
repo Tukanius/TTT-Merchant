@@ -1,60 +1,35 @@
 import 'dart:io';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/src/home_page/add_sales/sale_request_page.dart';
 
-class CheckCardModal extends StatefulWidget {
-  const CheckCardModal({super.key});
+class OrderProblemModal extends StatefulWidget {
+  final Function(bool) chechIssue;
+  final List<String> images;
+  final Function(String) note;
+  const OrderProblemModal({
+    super.key,
+    required this.chechIssue,
+    required this.images,
+    required this.note,
+  });
 
   @override
-  State<CheckCardModal> createState() => _CheckCardModalState();
+  State<OrderProblemModal> createState() => _OrderProblemModalState();
 }
 
-class _CheckCardModalState extends State<CheckCardModal> {
-  TextEditingController controller = TextEditingController();
-  GlobalKey<FormBuilderState> fbkey = GlobalKey<FormBuilderState>();
+class _OrderProblemModalState extends State<OrderProblemModal>
+    with AfterLayoutMixin {
+  TextEditingController textController = TextEditingController();
 
   bool isLoading = false;
-  onSubmit() async {
-    if (fbkey.currentState!.saveAndValidate()) {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
-          SaleRequestPage.routeName,
-          arguments: SaleRequestPageArguments(cardNumber: controller.text),
-        );
-        // if (saveIsUsername == true) {
-        //   email = fbkey.currentState?.fields['email']?.value;
-        //   _storePhone(email);
-        // } else {
-        //   secureStorage.deleteAll();
-        // }
-        // User save = User.fromJson(fbkey.currentState!.value);
-        // await Provider.of<UserProvider>(context, listen: false).login(save);
-        // // UserProvider().setUsername(save.username.toString());
-        // await Provider.of<UserProvider>(context, listen: false).me(true);
 
-        setState(() {
-          isLoading = false;
-        });
-        // await Navigator.of(context).pushNamed(SplashPage.routeName);
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-        });
-        print(e.toString());
-      }
-    }
-  }
+  @override
+  afterFirstLayout(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +60,7 @@ class _CheckCardModalState extends State<CheckCardModal> {
               ),
               SizedBox(height: 16),
               Text(
-                'Картын мэдээлэл',
+                'Зөрчил мэдэгдэх',
                 style: TextStyle(
                   color: black950,
                   fontSize: 18,
@@ -105,62 +80,81 @@ class _CheckCardModalState extends State<CheckCardModal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      FormTextField(
+                        contentPadding: EdgeInsets.all(12),
+                        dense: true,
+                        colortext: black,
+                        color: white50,
+                        name: 'cardNumber',
+                        hintTextStyle: TextStyle(
+                          color: black500,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        controller: textController,
+                        hintText: 'Тайлбар оруулна уу.',
+                        labelText: 'Тайлбар',
+                        labelColor: black600,
+                        borderRadius: 12,
+                        maxLines: 5,
+                        // validator: FormBuilderValidators.compose([
+                        //   (value) {
+                        //     return validatePhoneNumber(context, value.toString());
+                        //   },
+                        // ]),
+                      ),
+                      SizedBox(height: 16),
+
                       Text(
-                        'Хэрэглээний үлдэгдэл:',
+                        'Бүтээгдэхүүний зураг',
                         style: TextStyle(
-                          color: black800,
+                          color: black600,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Хэрэглэгчийн картын дугаар оруулна уу.',
-                        style: TextStyle(
-                          color: black300,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                      SizedBox(height: 6),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: white50,
+                          border: Border.all(color: black200),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                SvgPicture.asset('assets/svg/add_image.svg'),
+                                SizedBox(height: 12),
+                                Text(
+                                  'Зураг оруулах',
+                                  style: TextStyle(
+                                    color: black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Хамгийн багадаа 3 ширхэг зураг оруулна уу.',
+                                  style: TextStyle(
+                                    color: black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: FormBuilder(
-                  key: fbkey,
-                  child: FormTextField(
-                    controller: controller,
-                    contentPadding: EdgeInsets.all(12),
-                    dense: true,
-                    colortext: black,
-                    color: white,
-                    name: 'cardNumber',
-                    hintTextStyle: TextStyle(
-                      color: black500,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    hintText: 'Картын дугаар оруулна уу.',
-                    prefixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(width: 12),
-                        SvgPicture.asset('assets/svg/edit.svg'),
-                        SizedBox(width: 12),
-                      ],
-                    ),
-                    borderRadius: 12,
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(
-                        errorText: 'Картын дугаар оруулна уу.',
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
+
               SizedBox(height: 16),
               Row(
                 children: [
@@ -168,7 +162,18 @@ class _CheckCardModalState extends State<CheckCardModal> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        onSubmit();
+                        if (textController.text != '') {
+                          setState(() {
+                            widget.note(textController.text);
+                            widget.chechIssue(true);
+                            FocusScope.of(context).unfocus();
+                            Navigator.of(context).pop();
+                          });
+                        } else {
+                          widget.chechIssue(false);
+                          FocusScope.of(context).unfocus();
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -198,7 +203,7 @@ class _CheckCardModalState extends State<CheckCardModal> {
                                           ),
                                   )
                                 : Text(
-                                    'Шалгах',
+                                    'Хадгалах',
                                     style: TextStyle(
                                       color: white,
                                       fontSize: 14,
