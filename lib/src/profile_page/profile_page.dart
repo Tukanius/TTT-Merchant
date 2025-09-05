@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${user.lastname} ${user.firstname}',
+                                  '${user.firstName} ${user.lastName}',
                                   style: TextStyle(
                                     color: black950,
                                     fontSize: 16,
@@ -135,46 +135,59 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                     ),
                   ),
                   SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.of(
-                      //   context,
-                      // ).pushNamed(PurchaseRequestHistoryPage.routeName);
-                      widget.onChangePage(1);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset('assets/svg/board.svg'),
-                              SizedBox(width: 12),
-                              Text(
-                                'Татан авах хүсэлт',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                  user.userType == "STORE_MAN"
+                      ? SizedBox()
+                      : Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Navigator.of(
+                                //   context,
+                                // ).pushNamed(PurchaseRequestHistoryPage.routeName);
+                                widget.onChangePage(1);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.all(12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/svg/board.svg',
+                                        ),
+                                        SizedBox(width: 12),
+                                        Text(
+                                          'Татан авах хүсэлт',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/svg/arrow_right.svg',
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          SvgPicture.asset('assets/svg/arrow_right.svg'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
+                            ),
+                            SizedBox(height: 16),
+                          ],
+                        ),
                   GestureDetector(
                     onTap: () {
                       // Navigator.of(context).pushNamed(IncomeListPage.routeName);
-                      widget.onChangePage(2);
+                      user.userType == "STORE_MAN"
+                          ? widget.onChangePage(1)
+                          : widget.onChangePage(2);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -205,40 +218,42 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                     ),
                   ),
                   SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(
-                        context,
-                      ).pushNamed(PurchaseHistoryPage.routeName);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset('assets/svg/board.svg'),
-                              SizedBox(width: 12),
-                              Text(
-                                'Борлуулалтын түүх',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                  user.userType == "STORE_MAN"
+                      ? SizedBox()
+                      : GestureDetector(
+                          onTap: () {
+                            Navigator.of(
+                              context,
+                            ).pushNamed(PurchaseHistoryPage.routeName);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.all(12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset('assets/svg/board.svg'),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Борлуулалтын түүх',
+                                      style: TextStyle(
+                                        color: black950,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                SvgPicture.asset('assets/svg/arrow_right.svg'),
+                              ],
+                            ),
                           ),
-                          SvgPicture.asset('assets/svg/arrow_right.svg'),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                   // SizedBox(height: 16),
                   // Container(
                   //   decoration: BoxDecoration(

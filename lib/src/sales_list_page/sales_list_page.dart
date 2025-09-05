@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
-import 'package:ttt_merchant_flutter/components/cards/order_page_cards/order_history_card.dart';
+import 'package:ttt_merchant_flutter/components/cards/sale_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -249,7 +249,9 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                       SizedBox(height: 16),
                       isLoadingHistory == true
                           ? CustomLoader()
-                          : ClipRRect(
+                          : salesHistory.rows != null ||
+                                salesHistory.rows?.isEmpty == false
+                          ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Column(
                                 children: List.generate(
@@ -268,7 +270,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                                           }
                                         });
                                       },
-                                      child: OrderHistoryCard(
+                                      child: SaleHistoryCard(
                                         isExtended: isExpanded,
                                         data: item,
                                       ),
@@ -276,7 +278,8 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                                   },
                                 ),
                               ),
-                            ),
+                            )
+                          : Text('No data'),
 
                       SizedBox(height: mediaQuery.padding.bottom + 50),
                     ],

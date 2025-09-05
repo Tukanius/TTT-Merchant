@@ -5,6 +5,8 @@ RequestProductPost _$RequestProductPostFromJson(Map<String, dynamic> json) {
     product: json['product'] != null ? json['product'] as String : null,
     totalCount: json['totalCount'] != null ? json['totalCount'] as int : null,
     name: json['name'] != null ? json['name'] as String : null,
+    price: json['price'] != null ? json['price'] as int : null,
+    residual: json['residual'] != null ? json['residual'] as int : null,
   );
 }
 
@@ -14,6 +16,7 @@ Map<String, dynamic> _$RequestProductPostToJson(RequestProductPost instance) {
   if (instance.product != null) json['product'] = instance.product;
   if (instance.totalCount != null) json['totalCount'] = instance.totalCount;
   if (instance.name != null) json['name'] = instance.name;
-
+  if (instance.price != null) json['price'] = instance.price;
+  if (instance.residual != null) json['residual'] = instance.residual;
   return json;
 }

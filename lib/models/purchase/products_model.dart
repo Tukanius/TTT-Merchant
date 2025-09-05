@@ -14,6 +14,7 @@ class Products {
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
+  int? residual;
 
   Products({
     this.id,
@@ -29,6 +30,7 @@ class Products {
     this.deletedAt,
     this.createdAt,
     this.updatedAt,
+    this.residual,
   });
   static $fromJson(Map<String, dynamic> json) => _$ProductsFromJson(json);
 

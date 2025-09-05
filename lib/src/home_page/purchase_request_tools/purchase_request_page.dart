@@ -8,6 +8,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
@@ -79,42 +80,48 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
   }
 
   onSubmit() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      List<Products> products = [];
+    if (totalQuantity == 0) {
+      ErrorDialog(context: context).show('Бараа сонгоно уу.');
+    } else {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        List<Products> products = [];
 
-      for (int i = 0; i < general.residual!.length; i++) {
-        if (quantities[i] > 0) {
-          products.add(
-            Products(
-              product: general.residual![i].id,
-              quantity: quantities[i],
-              name: general.residual![i].name,
-            ),
-          );
+        for (int i = 0; i < general.residual!.length; i++) {
+          if (quantities[i] > 0) {
+            products.add(
+              Products(
+                product: general.residual![i].id,
+                quantity: quantities[i],
+                name: general.residual![i].name,
+                price: general.productTypes![i].price,
+                residual: general.residual![i].residual,
+              ),
+            );
+          }
         }
+        PurchaseRequest request = PurchaseRequest();
+        request.cardNumber = widget.data.cardNo;
+        request.products = products;
+        await Navigator.of(context).pushNamed(
+          ConfirmPurchaseRequest.routeName,
+          arguments: ConfirmPurchaseRequestArguments(
+            data: request,
+            payType: widget.payType,
+          ),
+        );
+        // await ProductApi().postPurchaseRequest(request);
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        print(e);
+        setState(() {
+          isLoading = false;
+        });
       }
-      PurchaseRequest request = PurchaseRequest();
-      request.cardNumber = widget.data.cardNo;
-      request.products = products;
-      await Navigator.of(context).pushNamed(
-        ConfirmPurchaseRequest.routeName,
-        arguments: ConfirmPurchaseRequestArguments(
-          data: request,
-          payType: widget.payType,
-        ),
-      );
-      // await ProductApi().postPurchaseRequest(request);
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e);
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 

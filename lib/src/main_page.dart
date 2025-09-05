@@ -16,14 +16,16 @@ import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_rea
 
 class MainPageArguments {
   final int? changeIndex;
-  MainPageArguments({this.changeIndex});
+  final String? userType;
+  MainPageArguments({this.userType, this.changeIndex});
 }
 
 class MainPage extends StatefulWidget {
   final int? changeIndex;
+  final String? userType;
 
   static const routeName = "MainPage";
-  const MainPage({super.key, this.changeIndex});
+  const MainPage({super.key, this.changeIndex, this.userType});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -31,13 +33,29 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late int _selectedIndex = widget.changeIndex ?? 0;
+  @override
+  void initState() {
+    super.initState();
+    print(widget.userType);
+    print('====USERTYPE======');
+  }
 
-  List<Widget> get widgetOptions => <Widget>[
-    HomePage(),
-    SalesListPage(),
-    IncomeListPage(),
-    ProfilePage(onChangePage: (index) => onItemTapped(index)),
-  ];
+  List<Widget> get widgetOptions {
+    if (widget.userType == "STORE_MAN") {
+      return [
+        HomePage(onChangePage: (index) => onItemTapped(index)),
+        IncomeListPage(userType: widget.userType ?? ''),
+        ProfilePage(onChangePage: (index) => onItemTapped(index)),
+      ];
+    } else {
+      return [
+        HomePage(onChangePage: (index) => onItemTapped(index)),
+        SalesListPage(),
+        IncomeListPage(userType: widget.userType ?? ''),
+        ProfilePage(onChangePage: (index) => onItemTapped(index)),
+      ];
+    }
+  }
 
   void onItemTapped(int index) {
     setState(() {
@@ -63,18 +81,15 @@ class _MainPageState extends State<MainPage> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        floatingActionButton: _selectedIndex == 0
+        floatingActionButton: widget.userType == "STORE_MAN"
+            ? null
+            : _selectedIndex == 0
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                        QrReadScreen.routeName,
-                        arguments: QrReadScreenArguments(
-                          onNavigateMain: () => onItemTapped(0),
-                        ),
-                      );
+                      Navigator.of(context).pushNamed(QrReadScreen.routeName);
                     },
                     child: Container(
                       padding: EdgeInsets.all(16),
@@ -139,24 +154,27 @@ class _MainPageState extends State<MainPage> {
                       selectedIndex: _selectedIndex,
                       onTap: onItemTapped,
                     ),
-                    _buildNavItem(
-                      selectedIconPath: 'assets/svg/shop_selected.svg',
-                      unselectedIconPath: 'assets/svg/shop_unselected.svg',
-                      index: 1,
-                      selectedIndex: _selectedIndex,
-                      onTap: onItemTapped,
-                    ),
+                    widget.userType == "STORE_MAN"
+                        ? SizedBox()
+                        : _buildNavItem(
+                            selectedIconPath: 'assets/svg/shop_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/shop_unselected.svg',
+                            index: 1,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
                     _buildNavItem(
                       selectedIconPath: 'assets/svg/truck_selected.svg',
                       unselectedIconPath: 'assets/svg/truck_unselected.svg',
-                      index: 2,
+                      index: widget.userType == "STORE_MAN" ? 1 : 2,
                       selectedIndex: _selectedIndex,
                       onTap: onItemTapped,
                     ),
                     _buildNavItem(
                       selectedIconPath: 'assets/svg/menu_selected.svg',
                       unselectedIconPath: 'assets/svg/menu_unselected.svg',
-                      index: 3,
+                      index: widget.userType == "STORE_MAN" ? 2 : 3,
                       selectedIndex: _selectedIndex,
                       onTap: onItemTapped,
                     ),

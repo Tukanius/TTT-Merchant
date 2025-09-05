@@ -1,8 +1,8 @@
 part '../parts/user.dart';
 
 class User {
-  String? firstname;
-  String? lastname;
+  String? firstName;
+  String? lastName;
   String? birthDate;
   String? gender;
   String? country;
@@ -66,8 +66,8 @@ class User {
     this.userStatusDate,
     this.message,
     this.oldPassword,
-    this.firstname,
-    this.lastname,
+    this.firstName,
+    this.lastName,
     this.birthDate,
     this.gender,
     this.country,

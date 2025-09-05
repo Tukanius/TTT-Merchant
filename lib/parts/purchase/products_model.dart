@@ -15,6 +15,7 @@ Products _$ProductsFromJson(Map<String, dynamic> json) {
     deletedAt: json['deletedAt'] != null ? json['deletedAt'] as String : null,
     createdAt: json['createdAt'] != null ? json['createdAt'] as String : null,
     updatedAt: json['updatedAt'] != null ? json['updatedAt'] as String : null,
+    residual: json['residual'] != null ? json['residual'] as int : null,
   );
 }
 
@@ -34,6 +35,7 @@ Map<String, dynamic> _$ProductsToJson(Products instance) {
   if (instance.deletedAt != null) json['deletedAt'] = instance.deletedAt;
   if (instance.createdAt != null) json['createdAt'] = instance.createdAt;
   if (instance.updatedAt != null) json['updatedAt'] = instance.updatedAt;
+  if (instance.residual != null) json['residual'] = instance.residual;
 
   return json;
 }

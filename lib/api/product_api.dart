@@ -27,6 +27,11 @@ class ProductApi extends HttpRequest {
     return Result.fromJson(res, Income.fromJson);
   }
 
+  getIncomeSaleMan(ResultArguments resultArguments) async {
+    var res = await get('/inv/app/inout', data: resultArguments.toJson());
+    return Result.fromJson(res, Income.fromJson);
+  }
+
   postPurchaseRequest(PurchaseRequest data) async {
     var res = await post(
       '/sls/app/order/purchase',

@@ -124,6 +124,7 @@ class _CheckCardModalState extends State<CheckCardModal> {
                 child: FormBuilder(
                   key: fbkey,
                   child: FormTextField(
+                    inputType: TextInputType.number,
                     controller: controller,
                     contentPadding: EdgeInsets.all(12),
                     dense: true,

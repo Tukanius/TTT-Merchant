@@ -1,19 +1,24 @@
 import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:ttt_merchant_flutter/firebase_options.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/services/navigation.dart';
-import 'package:ttt_merchant_flutter/src/auth/first_user_login_page.dart';
+import 'package:ttt_merchant_flutter/services/notification.dart';
+import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
@@ -32,15 +37,16 @@ import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await NotifyService().initNotify();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotifyService().initNotify();
+  await FirebaseMessaging.instance.requestPermission();
 
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   NotifyService().showNotification(
-  //     title: message.notification?.title,
-  //     body: message.notification?.body,
-  //   );
-  // });
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    NotifyService().showNotification(
+      title: message.notification?.title,
+      body: message.notification?.body,
+    );
+  });
   locator.registerLazySingleton(() => NavigationService());
 
   SystemChrome.setPreferredOrientations([
@@ -77,14 +83,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
-    // FirebaseMessaging.instance.requestPermission();
-    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-    // String? token = await _firebaseMessaging.getToken();
-    // print('TOKEN==== $token');
-    // if (token != null) {
-    //   userProvider.setDeviceToken(token);
-    // }
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await FirebaseMessaging.instance.requestPermission();
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    String? token = await _firebaseMessaging.getToken();
+    print('TOKEN==== $token');
+    if (token != null) {
+      userProvider.setDeviceToken(token);
+    }
   }
 
   // void initState() {
@@ -120,7 +126,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   settings.arguments as MainPageArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return MainPage(changeIndex: arguments.changeIndex);
+                  return MainPage(
+                    changeIndex: arguments.changeIndex,
+                    userType: arguments.userType,
+                  );
                 },
               );
             case LoginPage.routeName:
@@ -148,11 +157,9 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                 },
               );
             case QrReadScreen.routeName:
-              QrReadScreenArguments arguments =
-                  settings.arguments as QrReadScreenArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return QrReadScreen(onNavigateMain: arguments.onNavigateMain);
+                  return QrReadScreen();
                 },
               );
             case PurchaseHistoryPage.routeName:
@@ -189,12 +196,6 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return const ProfileDetailPage();
-                },
-              );
-            case IncomeListPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const IncomeListPage();
                 },
               );
             case OrderAcceptPage.routeName:
@@ -244,10 +245,18 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return ConfirmSaleRequest(data: arguments.data);
                 },
               );
-            case LoginPhonePage.routeName:
+            case UserSetPasswordPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
-                  return const LoginPhonePage();
+                  return const UserSetPasswordPage();
+                },
+              );
+            case SaleDetailPage.routeName:
+              SaleDetailPageArguments arguments =
+                  settings.arguments as SaleDetailPageArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return SaleDetailPage(data: arguments.data);
                 },
               );
             default:

@@ -6,16 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/general/general_init.dart';
+// import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
-import 'package:ttt_merchant_flutter/provider/general_provider.dart';
+// import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
 
 class ConfirmPurchaseRequestArguments {
@@ -44,16 +45,31 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   int purchaseIndex = 0;
-  GeneralInit general = GeneralInit();
+  // GeneralInit general = GeneralInit();
   bool isLoadingPage = true;
+  int get totalPrice {
+    return (widget.data.products ?? [])
+        .map((p) => (p.price ?? 0) * (p.quantity ?? 0))
+        .fold(0, (a, b) => a + b);
+  }
+
+  @override
+  void initState() {
+    widget.data.products?.map((p) {
+      print("✅ Product ID: ${p.product}, ${p.quantity}, ${p.price}");
+      print('=====totalAmount=====');
+    }).toList();
+    print(widget.data);
+    super.initState();
+  }
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      general = await Provider.of<GeneralProvider>(
-        context,
-        listen: false,
-      ).init();
+      // general = await Provider.of<GeneralProvider>(
+      //   context,
+      //   listen: false,
+      // ).init();
       setState(() {
         isLoadingPage = false;
       });
@@ -277,7 +293,8 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                 itemCount: widget.data.products!.length,
                                 itemBuilder: (context, index) {
                                   final resData = widget.data.products![index];
-                                  final residual = general.residual![index];
+                                  final residual =
+                                      widget.data.products![index].residual;
                                   return Column(
                                     children: [
                                       ClipRRect(
@@ -381,7 +398,7 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                                             ),
                                                           ),
                                                           Text(
-                                                            '${residual.residual} ш',
+                                                            '${residual} ш',
                                                             style: TextStyle(
                                                               color: black950,
                                                               fontSize: 12,
@@ -516,24 +533,6 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 12),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset('assets/svg/warning.svg'),
-                                    SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        'Хэрэглэгч баталгаажуулснаар таны үлдэгдэлээс хасагдах болохыг анхаарна уу.',
-                                        style: TextStyle(
-                                          color: redColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 12),
                                 Text(
                                   'Нийт дүн:',
                                   style: TextStyle(
@@ -544,7 +543,7 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  '0₮',
+                                  '${Utils().formatCurrencyDouble(totalPrice.toDouble())}₮',
                                   style: TextStyle(
                                     color: orange,
                                     fontSize: 26,

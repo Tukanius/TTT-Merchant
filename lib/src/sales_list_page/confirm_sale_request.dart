@@ -16,6 +16,7 @@ import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
 
 class ConfirmSaleRequestArguments {
@@ -38,13 +39,25 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   int purchaseIndex = 0;
-  GeneralInit general = GeneralInit();
+  // GeneralInit general = GeneralInit();
   bool isLoadingPage = true;
+  List<TextEditingController> controllers = [];
+
+  int get totalPrice {
+    return (widget.data.requestProducts ?? [])
+        .map((p) => (p.price ?? 0) * (p.totalCount ?? 0))
+        .fold(0, (a, b) => a + b);
+  }
+
   @override
   void initState() {
     widget.data.requestProducts?.map((p) {
-      print("✅ Product ID: ${p.product}, ${p.totalCount}");
+      print("✅ Product ID: ${p.product}, ${p.totalCount}, ${p.price}");
+      print('=====totalAmount=====');
     }).toList();
+    controllers = (widget.data.requestProducts ?? [])
+        .map((p) => TextEditingController(text: "${p.totalCount ?? 0}"))
+        .toList();
     print(widget.data);
     super.initState();
   }
@@ -52,10 +65,10 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      general = await Provider.of<GeneralProvider>(
-        context,
-        listen: false,
-      ).init();
+      // general = await Provider.of<GeneralProvider>(
+      //   context,
+      //   listen: false,
+      // ).init();
       setState(() {
         isLoadingPage = false;
       });
@@ -292,11 +305,10 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(
-                      context,
-                    ).pushNamed(PurchaseHistoryPage.routeName);
+                    Navigator.of(context).pushNamed(
+                      MainPage.routeName,
+                      arguments: MainPageArguments(changeIndex: 1),
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -329,6 +341,14 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     );
   }
 
+  @override
+  void dispose() {
+    // Санах ой цэвэрлэх
+    for (var c in controllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
   // final List<Product> items = List.generate(
   //   3,
   //   (i) => Product(
@@ -344,398 +364,480 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     final bool isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
       context,
     );
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: white,
-        centerTitle: false,
-        elevation: 1,
-        automaticallyImplyLeading: false,
-        titleSpacing: 12,
-        title: Text(
-          'Баталгаажуулах',
-          style: TextStyle(
-            color: black950,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: white,
+          centerTitle: false,
+          elevation: 1,
+          automaticallyImplyLeading: false,
+          titleSpacing: 12,
+          title: Text(
+            'Баталгаажуулах',
+            style: TextStyle(
+              color: black950,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(width: 16),
-              SvgPicture.asset('assets/svg/arrow_left_wide.svg'),
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: white50,
-      body: isLoadingPage == true
-          ? CustomLoader()
-          : Stack(
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        widget.data.requestProducts != null
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: widget.data.requestProducts!.length,
-                                itemBuilder: (context, index) {
-                                  final resData =
-                                      widget.data.requestProducts![index];
-                                  final residual = general.residual![index];
-                                  return Column(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadiusGeometry.circular(12),
-                                        child: Dismissible(
-                                          key: Key(resData.product.toString()),
-                                          direction:
-                                              DismissDirection.endToStart,
-                                          background: Container(
-                                            alignment: Alignment.centerRight,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 20,
+                SizedBox(width: 16),
+                SvgPicture.asset('assets/svg/arrow_left_wide.svg'),
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: white50,
+        body: isLoadingPage == true
+            ? CustomLoader()
+            : Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          widget.data.requestProducts != null
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      widget.data.requestProducts!.length,
+                                  itemBuilder: (context, index) {
+                                    final resData =
+                                        widget.data.requestProducts![index];
+                                    final residual = widget
+                                        .data
+                                        .requestProducts![index]
+                                        .residual;
+                                    return Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadiusGeometry.circular(12),
+                                          child: Dismissible(
+                                            key: Key(
+                                              resData.product.toString(),
                                             ),
-                                            color: redColor,
-                                            child: SvgPicture.asset(
-                                              'assets/svg/trash.svg',
-                                            ),
-                                          ),
-                                          onDismissed: (direction) {
-                                            setState(() {
-                                              widget.data.requestProducts!
-                                                  .removeAt(index);
-                                            });
-
-                                            if (widget
-                                                .data
-                                                .requestProducts!
-                                                .isEmpty) {
-                                              Navigator.pop(context);
-                                            }
-
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                backgroundColor: orange,
-                                                content: Text(
-                                                  "${resData.name} устлаа",
-                                                  style: TextStyle(
-                                                    color: white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
+                                            direction:
+                                                DismissDirection.endToStart,
+                                            background: Container(
+                                              alignment: Alignment.centerRight,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 20,
                                                   ),
-                                                ),
+                                              color: redColor,
+                                              child: SvgPicture.asset(
+                                                'assets/svg/trash.svg',
                                               ),
-                                            );
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              color: white,
                                             ),
-                                            padding: const EdgeInsets.only(
-                                              left: 4,
-                                              right: 16,
-                                              top: 4,
-                                              bottom: 4,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  child: Image.asset(
-                                                    'assets/images/default.jpg',
-                                                    height: 62,
-                                                    width: 62,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 12),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        resData.name!,
-                                                        style: TextStyle(
-                                                          color: black950,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            'Үлдэгдэл: ',
-                                                            style: TextStyle(
-                                                              color: black600,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            '${residual.residual} ш',
-                                                            style: TextStyle(
-                                                              color: black950,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            8,
-                                                          ),
-                                                      border: Border.all(
-                                                        color: white100,
-                                                      ),
+                                            onDismissed: (direction) {
+                                              setState(() {
+                                                widget.data.requestProducts!
+                                                    .removeAt(index);
+                                              });
+
+                                              if (widget
+                                                  .data
+                                                  .requestProducts!
+                                                  .isEmpty) {
+                                                Navigator.pop(context);
+                                              }
+
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor: orange,
+                                                  content: Text(
+                                                    "${resData.name} устлаа",
+                                                    style: TextStyle(
+                                                      color: white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                    child: Row(
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              if ((resData.totalCount ??
-                                                                      0) >
-                                                                  0) {
-                                                                resData.totalCount =
-                                                                    resData
-                                                                        .totalCount! -
-                                                                    1;
-                                                              }
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            color: white50,
-                                                            padding:
-                                                                const EdgeInsets.all(
-                                                                  6,
-                                                                ),
-                                                            child: Icon(
-                                                              Icons.remove,
-                                                              size: 20,
-                                                            ),
-                                                          ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: white,
+                                              ),
+                                              padding: const EdgeInsets.only(
+                                                left: 4,
+                                                right: 16,
+                                                top: 4,
+                                                bottom: 4,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          6,
                                                         ),
-                                                        Expanded(
-                                                          child: Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            padding:
-                                                                const EdgeInsets.symmetric(
-                                                                  horizontal:
-                                                                      12,
-                                                                ),
-                                                            child: Text(
-                                                              '${resData.totalCount ?? 0}',
+                                                    child: Image.asset(
+                                                      'assets/images/default.jpg',
+                                                      height: 62,
+                                                      width: 62,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 12),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          resData.name!,
+                                                          style: TextStyle(
+                                                            color: black950,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 4,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'Үлдэгдэл: ',
                                                               style: TextStyle(
-                                                                color: black950,
-                                                                fontSize: 16,
+                                                                color: black600,
+                                                                fontSize: 12,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w600,
+                                                                        .w400,
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              resData.totalCount =
-                                                                  (resData.totalCount ??
-                                                                      0) +
-                                                                  1;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            color: white50,
-                                                            padding:
-                                                                const EdgeInsets.all(
-                                                                  6,
-                                                                ),
-                                                            child: Icon(
-                                                              Icons.add,
-                                                              size: 20,
+                                                            Text(
+                                                              '${residual} ш',
+                                                              style: TextStyle(
+                                                                color: black950,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                ),
+                                                  SizedBox(width: 12),
+                                                  Expanded(
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              8,
+                                                            ),
+                                                        border: Border.all(
+                                                          color: white100,
+                                                        ),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          GestureDetector(
+                                                            // onTap: () {
+                                                            //   setState(() {
+                                                            //     if ((resData.totalCount ??
+                                                            //             0) >
+                                                            //         0) {
+                                                            //       resData.totalCount =
+                                                            //           resData
+                                                            //               .totalCount! -
+                                                            //           1;
+                                                            //     }
+                                                            //   });
+                                                            // },
+                                                            onTap: () {
+                                                              setState(() {
+                                                                if ((resData.totalCount ??
+                                                                        0) >
+                                                                    0) {
+                                                                  resData.totalCount =
+                                                                      (resData.totalCount ??
+                                                                          0) -
+                                                                      1;
+                                                                  controllers[index]
+                                                                      .text = resData
+                                                                      .totalCount
+                                                                      .toString(); // 🔥 энд шинэчилж өгнө
+                                                                }
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              color: white50,
+                                                              padding:
+                                                                  const EdgeInsets.all(
+                                                                    6,
+                                                                  ),
+                                                              child: Icon(
+                                                                Icons.remove,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              padding:
+                                                                  const EdgeInsets.symmetric(
+                                                                    horizontal:
+                                                                        12,
+                                                                  ),
+                                                              child: TextField(
+                                                                controller:
+                                                                    controllers[index], // тухайн мөрийн controller
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                  color:
+                                                                      black950,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                                onChanged: (value) {
+                                                                  setState(() {
+                                                                    final parsed =
+                                                                        int.tryParse(
+                                                                          value,
+                                                                        ) ??
+                                                                        0;
+                                                                    widget
+                                                                            .data
+                                                                            .requestProducts![index]
+                                                                            .totalCount =
+                                                                        parsed;
+                                                                  });
+                                                                },
+                                                                decoration: const InputDecoration(
+                                                                  isDense: true,
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+
+                                                          // Expanded(
+                                                          //   child: Container(
+                                                          //     alignment: Alignment
+                                                          //         .center,
+                                                          //     padding:
+                                                          //         const EdgeInsets.symmetric(
+                                                          //           horizontal:
+                                                          //               12,
+                                                          //         ),
+                                                          //     child: Text(
+                                                          //       '${resData.totalCount ?? 0}',
+                                                          //       style: TextStyle(
+                                                          //         color: black950,
+                                                          //         fontSize: 16,
+                                                          //         fontWeight:
+                                                          //             FontWeight
+                                                          //                 .w600,
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                          GestureDetector(
+                                                            // onTap: () {
+                                                            //   setState(() {
+                                                            //     resData.totalCount =
+                                                            //         (resData.totalCount ??
+                                                            //             0) +
+                                                            //         1;
+                                                            //   });
+                                                            // },
+                                                            onTap: () {
+                                                              setState(() {
+                                                                resData.totalCount =
+                                                                    (resData.totalCount ??
+                                                                        0) +
+                                                                    1;
+                                                                controllers[index]
+                                                                    .text = resData
+                                                                    .totalCount
+                                                                    .toString(); // 🔥 энд бас
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              color: white50,
+                                                              padding:
+                                                                  const EdgeInsets.all(
+                                                                    6,
+                                                                  ),
+                                                              child: Icon(
+                                                                Icons.add,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 16),
+                                      ],
+                                    );
+                                  },
+                                )
+                              : const SizedBox(),
+                          SizedBox(
+                            height: MediaQuery.of(context).padding.bottom + 150,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  !isKeyboardVisible
+                      ? Align(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: Container(
+                            color: white,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: 16,
+                                right: 16,
+                                left: 16,
+                                bottom: Platform.isIOS
+                                    ? MediaQuery.of(context).padding.bottom
+                                    : MediaQuery.of(context).padding.bottom +
+                                          16,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Нийт дүн:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '${Utils().formatCurrencyDouble(totalPrice.toDouble())}₮',
+                                    style: TextStyle(
+                                      color: orange,
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            await onSubmit();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: orange,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                isLoading == true
+                                                    ? Container(
+                                                        // margin: EdgeInsets.only(right: 15),
+                                                        width: 17,
+                                                        height: 17,
+                                                        child:
+                                                            Platform.isAndroid
+                                                            ? Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                      color:
+                                                                          white,
+                                                                      strokeWidth:
+                                                                          2.5,
+                                                                    ),
+                                                              )
+                                                            : Center(
+                                                                child:
+                                                                    CupertinoActivityIndicator(
+                                                                      color:
+                                                                          white,
+                                                                    ),
+                                                              ),
+                                                      )
+                                                    : Text(
+                                                        'Үргэлжлүүлэх',
+                                                        style: TextStyle(
+                                                          color: white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
                                               ],
                                             ),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 16),
                                     ],
-                                  );
-                                },
-                              )
-                            : const SizedBox(),
-                        SizedBox(
-                          height: MediaQuery.of(context).padding.bottom + 150,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                !isKeyboardVisible
-                    ? Align(
-                        alignment: AlignmentDirectional.bottomCenter,
-                        child: Container(
-                          color: white,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: 16,
-                              right: 16,
-                              left: 16,
-                              bottom: Platform.isIOS
-                                  ? MediaQuery.of(context).padding.bottom
-                                  : MediaQuery.of(context).padding.bottom + 16,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 12),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset('assets/svg/warning.svg'),
-                                    SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        'Хэрэглэгч баталгаажуулснаар таны үлдэгдэлээс хасагдах болохыг анхаарна уу.',
-                                        style: TextStyle(
-                                          color: redColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 12),
-                                Text(
-                                  'Нийт дүн:',
-                                  style: TextStyle(
-                                    color: black950,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  '0₮',
-                                  style: TextStyle(
-                                    color: orange,
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          await onSubmit();
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            color: orange,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              isLoading == true
-                                                  ? Container(
-                                                      // margin: EdgeInsets.only(right: 15),
-                                                      width: 17,
-                                                      height: 17,
-                                                      child: Platform.isAndroid
-                                                          ? Center(
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                    color:
-                                                                        white,
-                                                                    strokeWidth:
-                                                                        2.5,
-                                                                  ),
-                                                            )
-                                                          : Center(
-                                                              child:
-                                                                  CupertinoActivityIndicator(
-                                                                    color:
-                                                                        white,
-                                                                  ),
-                                                            ),
-                                                    )
-                                                  : Text(
-                                                      'Үргэлжлүүлэх',
-                                                      style: TextStyle(
-                                                        color: white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    : SizedBox(),
-              ],
-            ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+      ),
     );
   }
 }

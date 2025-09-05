@@ -46,8 +46,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
         ? json['oldPassword'] as String
         : null,
     // avatar: json['avatar'] != null ? Avatar.fromJson(json['avatar']) : null,
-    firstname: json['firstname'] != null ? json['firstname'] as String : null,
-    lastname: json['lastname'] != null ? json['lastname'] as String : null,
+    firstName: json['firstName'] != null ? json['firstName'] as String : null,
+    lastName: json['lastName'] != null ? json['lastName'] as String : null,
     birthDate: json['birthDate'] != null ? json['birthDate'] as String : null,
     gender: json['gender'] != null ? json['gender'] as String : null,
     country: json['country'] != null ? json['country'] as String : null,
@@ -111,8 +111,8 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.message != null) json['message'] = instance.message;
   if (instance.oldPassword != null) json['oldPassword'] = instance.oldPassword;
 
-  if (instance.firstname != null) json['firstname'] = instance.firstname;
-  if (instance.lastname != null) json['lastname'] = instance.lastname;
+  if (instance.firstName != null) json['firstName'] = instance.firstName;
+  if (instance.lastName != null) json['lastName'] = instance.lastName;
   if (instance.birthDate != null) json['birthDate'] = instance.birthDate;
   if (instance.gender != null) json['gender'] = instance.gender;
   if (instance.country != null) json['country'] = instance.country;

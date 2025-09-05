@@ -169,7 +169,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '-',
+                          '${widget.data.confirmedUser != null ? widget.data.confirmedUser?.firstName : '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -191,7 +191,11 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '${widget.data.orderStatus}',
+                          '${widget.data.orderStatus == "NEW"
+                              ? 'Хүлээгдэж байна'
+                              : widget.data.orderStatus == "DONE"
+                              ? 'Амжилттай'
+                              : '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,

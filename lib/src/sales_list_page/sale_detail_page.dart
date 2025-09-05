@@ -7,26 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
+import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
-class IncomeDetailPageArguments {
-  final Income data;
+class SaleDetailPageArguments {
+  final Sales data;
 
-  IncomeDetailPageArguments({required this.data});
+  SaleDetailPageArguments({required this.data});
 }
 
-class IncomeDetailPage extends StatefulWidget {
-  final Income data;
-  static const routeName = "IncomeDetailPage";
-  const IncomeDetailPage({super.key, required this.data});
+class SaleDetailPage extends StatefulWidget {
+  final Sales data;
+  static const routeName = "SaleDetailPage";
+  const SaleDetailPage({super.key, required this.data});
 
   @override
-  State<IncomeDetailPage> createState() => _IncomeDetailPageState();
+  State<SaleDetailPage> createState() => _SaleDetailPageState();
 }
 
-class _IncomeDetailPageState extends State<IncomeDetailPage> {
+class _SaleDetailPageState extends State<SaleDetailPage> {
   int stepIndex = 2;
   bool isLoading = false;
   final steps = [
@@ -142,7 +142,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                       // ),
                                       // SizedBox(width: 4),
                                       Text(
-                                        '${widget.data.quantity ?? '-'} ш',
+                                        // '${widget.data.quantity ?? '-'} ш',
+                                        '123',
                                         style: TextStyle(
                                           color: black950,
                                           fontSize: 12,
@@ -181,42 +182,42 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                           //     ),
                                           //   ),
                                           // ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              color:
-                                                  widget.data.inOutType == "IN"
-                                                  ? green.withOpacity(0.1)
-                                                  : widget.data.inOutType ==
-                                                        "OUT"
-                                                  ? redColor.withOpacity(0.1)
-                                                  : green.withOpacity(0.1),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 9,
-                                              vertical: 4,
-                                            ),
-                                            child: Text(
-                                              '${widget.data.inOutType == "IN"
-                                                  ? "Орлого"
-                                                  : widget.data.inOutType == "OUT"
-                                                  ? "Зарлага"
-                                                  : '${widget.data.transportStatus}'}',
-                                              style: TextStyle(
-                                                color:
-                                                    widget.data.inOutType ==
-                                                        "IN"
-                                                    ? green
-                                                    : widget.data.inOutType ==
-                                                          "OUT"
-                                                    ? redColor
-                                                    : green,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
+                                          // Container(
+                                          //   decoration: BoxDecoration(
+                                          //     borderRadius:
+                                          //         BorderRadius.circular(100),
+                                          //     color:
+                                          //         widget.data.inOutType == "IN"
+                                          //         ? green.withOpacity(0.1)
+                                          //         : widget.data.inOutType ==
+                                          //               "OUT"
+                                          //         ? redColor.withOpacity(0.1)
+                                          //         : green.withOpacity(0.1),
+                                          //   ),
+                                          //   padding: EdgeInsets.symmetric(
+                                          //     horizontal: 9,
+                                          //     vertical: 4,
+                                          //   ),
+                                          //   child: Text(
+                                          //     '${widget.data.inOutType == "IN"
+                                          //         ? "Орлого"
+                                          //         : widget.data.inOutType == "OUT"
+                                          //         ? "Зарлага"
+                                          //         : '${widget.data.transportStatus}'}',
+                                          //     style: TextStyle(
+                                          //       color:
+                                          //           widget.data.inOutType ==
+                                          //               "IN"
+                                          //           ? green
+                                          //           : widget.data.inOutType ==
+                                          //                 "OUT"
+                                          //           ? redColor
+                                          //           : green,
+                                          //       fontSize: 10,
+                                          //       fontWeight: FontWeight.w500,
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           // Container(
                                           //   decoration: BoxDecoration(
                                           //     borderRadius:
@@ -238,7 +239,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                           // ),
                                           SizedBox(height: 4),
                                           Text(
-                                            '${widget.data.quantity ?? '-'} ш',
+                                            // '${widget.data.quantity ?? '-'} ш',
+                                            '123',
                                             style: TextStyle(
                                               color: black950,
                                               fontSize: 14,
@@ -267,7 +269,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                         Text(
                                           textAlign: TextAlign.end,
 
-                                          '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutStatusDate!).toLocal())}',
+                                          // '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutStatusDate!).toLocal())}',
+                                          '123',
                                           style: TextStyle(
                                             color: black950,
                                             fontSize: 12,
@@ -370,7 +373,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${widget.data.quantity ?? '-'} ш',
+                                    // '${widget.data.quantity ?? '-'} ш',
+                                    '123',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 14,
@@ -454,7 +458,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${widget.data.transportCompany ?? '-'}',
+                                    // '${widget.data.transportCompany ?? '-'}',
+                                    '123',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 14,
@@ -477,7 +482,8 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${widget.data.vehiclePlateNo ?? '-'}',
+                                    // '${widget.data.vehiclePlateNo ?? '-'}',
+                                    '123',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 14,
@@ -539,7 +545,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                               ),
                               SizedBox(height: 8),
                               Column(
-                                children: widget.data.products!
+                                children: widget.data.requestProduct!
                                     .map(
                                       (item) => Column(
                                         children: [
@@ -556,7 +562,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                                                 ),
                                               ),
                                               Text(
-                                                '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
+                                                '${item.totalCount} x ${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
                                                 style: TextStyle(
                                                   color: black950,
                                                   fontSize: 14,
@@ -644,12 +650,12 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
                           child: GestureDetector(
                             onTap: () {
                               // onSubmit();
-                              Navigator.of(context).pushNamed(
-                                IncomeConfirmPage.routeName,
-                                arguments: IncomeConfirmPageArguments(
-                                  data: widget.data,
-                                ),
-                              );
+                              // Navigator.of(context).pushNamed(
+                              //   IncomeConfirmPage.routeName,
+                              //   arguments: IncomeConfirmPageArguments(
+                              //     data: widget.data,
+                              //   ),
+                              // );
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 10),

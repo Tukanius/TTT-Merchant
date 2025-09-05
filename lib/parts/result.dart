@@ -48,6 +48,22 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
       }
     }
     if (instance.filter != null) {
+      params['filter'] ??= {}; // хоосон map оноож өгнө
+      if (instance.filter!.type != null && instance.filter!.type != '') {
+        params['filter']['type'] = instance.filter!.type;
+      } else {
+        params['filter']['type'] = [];
+      }
+    }
+    if (instance.filter != null) {
+      params['filter'] ??= {}; // хоосон map оноож өгнө
+      if (instance.filter!.status != null && instance.filter!.status != '') {
+        params['filter']['status'] = instance.filter!.status;
+      } else {
+        params['filter']['status'] = [];
+      }
+    }
+    if (instance.filter != null) {
       params['filter'] ??= {};
       if (instance.filter!.dateType != null &&
           instance.filter!.dateType != '') {

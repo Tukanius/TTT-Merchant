@@ -18,9 +18,6 @@ class UserProvider extends ChangeNotifier {
     user = await AuthApi().login(data);
     setAccessToken(user.accessToken);
     myAccessToken == '' ? myAccessToken = user.accessToken! : '';
-    print('==========token========');
-    print(myAccessToken);
-    print('==========token========');
     notifyListeners();
   }
 
@@ -76,11 +73,11 @@ class UserProvider extends ChangeNotifier {
     return token;
   }
 
-  // setDeviceToken(String? token) async {
-  //   print('success');
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (token != null) prefs.setString("DEVICE_TOKEN", token);
-  // }
+  setDeviceToken(String? token) async {
+    print('success');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (token != null) prefs.setString("DEVICE_TOKEN", token);
+  }
 
   // // setUsername(String email) async {
   // //   SharedPreferences prefs = await SharedPreferences.getInstance();

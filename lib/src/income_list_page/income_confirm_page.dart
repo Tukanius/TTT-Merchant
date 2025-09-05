@@ -133,21 +133,51 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: green.withOpacity(0.1),
+                            color: widget.data.inOutType == "IN"
+                                ? green.withOpacity(0.1)
+                                : widget.data.inOutType == "OUT"
+                                ? redColor.withOpacity(0.1)
+                                : green.withOpacity(0.1),
                           ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 9,
                             vertical: 4,
                           ),
                           child: Text(
-                            '${widget.data.transportStatus}',
+                            '${widget.data.inOutType == "IN"
+                                ? "Орлого"
+                                : widget.data.inOutType == "OUT"
+                                ? "Зарлага"
+                                : '${widget.data.transportStatus}'}',
                             style: TextStyle(
-                              color: green,
+                              color: widget.data.inOutType == "IN"
+                                  ? green
+                                  : widget.data.inOutType == "OUT"
+                                  ? redColor
+                                  : green,
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(100),
+                        //     color: green.withOpacity(0.1),
+                        //   ),
+                        //   padding: EdgeInsets.symmetric(
+                        //     horizontal: 9,
+                        //     vertical: 4,
+                        //   ),
+                        //   child: Text(
+                        //     '${widget.data.transportStatus}',
+                        //     style: TextStyle(
+                        //       color: green,
+                        //       fontSize: 10,
+                        //       fontWeight: FontWeight.w500,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -224,51 +254,148 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                     margin: EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isIssueNumber = !isIssueNumber;
-                                });
-                              },
-                              child: isIssueNumber == true
-                                  ? SvgPicture.asset(
-                                      'assets/svg/check_complain.svg',
-                                    )
-                                  : Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(color: gray300),
+                        // Row(
+                        //   children: [
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         setState(() {
+                        //           isIssueNumber = !isIssueNumber;
+                        //         });
+                        //       },
+                        //       child: isIssueNumber == true
+                        //           ? SvgPicture.asset(
+                        //               'assets/svg/check_complain.svg',
+                        //             )
+                        //           : Container(
+                        //               width: 20,
+                        //               height: 20,
+                        //               decoration: BoxDecoration(
+                        //                 borderRadius: BorderRadius.circular(6),
+                        //                 border: Border.all(color: gray300),
+                        //               ),
+                        //               // child: Center(child: Icon(Icons.check, size: 16)),
+                        //             ),
+                        //     ),
+
+                        //     SizedBox(width: 6),
+                        //     Text(
+                        //       'Хянагч хянасан',
+                        //       style: TextStyle(
+                        //         color: black950,
+                        //         fontSize: 14,
+                        //         fontWeight: FontWeight.w600,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 30),
+                        widget.data.inOutType == "IN" ||
+                                widget.data.inOutType == null
+                            ? Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isIssueNumber = !isIssueNumber;
+                                          });
+                                        },
+                                        child: isIssueNumber == true
+                                            ? SvgPicture.asset(
+                                                'assets/svg/check_complain.svg',
+                                              )
+                                            : Container(
+                                                width: 20,
+                                                height: 20,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  border: Border.all(
+                                                    color: gray300,
+                                                  ),
+                                                ),
+                                                // child: Center(child: Icon(Icons.check, size: 16)),
+                                              ),
                                       ),
-                                      // child: Center(child: Icon(Icons.check, size: 16)),
+
+                                      SizedBox(width: 6),
+                                      Text(
+                                        'Дутсан',
+                                        style: TextStyle(
+                                          color: black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    'Танд ирсэн бүтээгдэхүүний тоо дутсан бол та бэлэн ирсэн тоог оруулаарай.',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                            ),
+                                  ),
+                                  SizedBox(height: 16),
+                                ],
+                              )
+                            : widget.data.inOutType == "OUT"
+                            ? Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          // setState(() {
+                                          //   isIssueNumber = !isIssueNumber;
+                                          // });
+                                        },
+                                        child: isIssueNumber == true
+                                            ? SvgPicture.asset(
+                                                'assets/svg/check_complain.svg',
+                                              )
+                                            : Container(
+                                                width: 20,
+                                                height: 20,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  border: Border.all(
+                                                    color: gray300,
+                                                  ),
+                                                ),
+                                                // child: Center(child: Icon(Icons.check, size: 16)),
+                                              ),
+                                      ),
 
-                            SizedBox(width: 6),
-                            Text(
-                              'Дутсан',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 6),
-                        Text(
-                          'Танд ирсэн бүтээгдэхүүний тоо дутсан бол та бэлэн ирсэн тоог оруулаарай.',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        'Хяналтын тоологч хянасан',
+                                        style: TextStyle(
+                                          color: black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    'Хяналтын тоологч хянасан үед агуулахаас түлш зарлагадах боломжтой.',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16),
+                                ],
+                              )
+                            : SizedBox(),
 
-                        SizedBox(height: 16),
                         widget.data.products != null
                             ? Column(
                                 children: widget.data.products!.asMap().entries.map((

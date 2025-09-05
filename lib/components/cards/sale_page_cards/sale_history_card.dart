@@ -1,25 +1,30 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
-class OrderHistoryCard extends StatefulWidget {
+class SaleHistoryCard extends StatefulWidget {
   final bool isExtended;
   final Sales data;
-  const OrderHistoryCard({
+  const SaleHistoryCard({
     super.key,
     required this.isExtended,
     required this.data,
   });
 
   @override
-  State<OrderHistoryCard> createState() => _OrderHistoryCardState();
+  State<SaleHistoryCard> createState() => _SaleHistoryCardState();
 }
 
-class _OrderHistoryCardState extends State<OrderHistoryCard> {
+class _SaleHistoryCardState extends State<SaleHistoryCard> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -67,7 +72,15 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                         color: green.withOpacity(0.1),
                       ),
                       child: Text(
-                        '${widget.data.requestType}',
+                        '${widget.data.requestType == "NEW"
+                            ? 'Шинэ'
+                            : widget.data.requestType == "DONE"
+                            ? 'Тооцоо хийгдсэн'
+                            : widget.data.requestType == "REJECTED"
+                            ? 'Татгалзсан'
+                            : widget.data.requestType == "APPROVED"
+                            ? 'Зөвшөөрсөн'
+                            : '-'}',
                         style: TextStyle(
                           color: green,
                           fontSize: 10,
@@ -138,7 +151,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Захиалсан ажилтан:',
+                          'Захиалсан цэг:',
                           style: TextStyle(
                             color: black800,
                             fontSize: 14,
@@ -146,7 +159,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                           ),
                         ),
                         Text(
-                          '${widget.data.user?.firstname ?? '-'}',
+                          '${widget.data.distributor != null ? widget.data.distributor?.name : '-'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -155,7 +168,28 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                         ),
                       ],
                     ),
-
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Захиалсан ажилтан:',
+                          style: TextStyle(
+                            color: black800,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          '${widget.data.user?.firstName ?? '-'}',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 14),
                     Container(
                       width: mediaQuery.size.width,
@@ -244,6 +278,64 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                                 }),
                               );
                             },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              // onSubmit();
+                              Navigator.of(context).pushNamed(
+                                SaleDetailPage.routeName,
+                                arguments: SaleDetailPageArguments(
+                                  data: widget.data,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: orange,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  isLoading == true
+                                      ? Container(
+                                          // margin: EdgeInsets.only(right: 15),
+                                          width: 17,
+                                          height: 17,
+                                          child: Platform.isAndroid
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        color: white,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                )
+                                              : Center(
+                                                  child:
+                                                      CupertinoActivityIndicator(
+                                                        color: white,
+                                                      ),
+                                                ),
+                                        )
+                                      : Text(
+                                          'Дэлгэрэнгүй',
+                                          style: TextStyle(
+                                            color: white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],

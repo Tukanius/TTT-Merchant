@@ -7,15 +7,16 @@ import 'package:ttt_merchant_flutter/src/income_list_page/income_detail_page.dar
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 
-class IncomeHistoryCard extends StatefulWidget {
+class IncomeSalemanHistoryCard extends StatefulWidget {
   final Income data;
-  const IncomeHistoryCard({super.key, required this.data});
+  const IncomeSalemanHistoryCard({super.key, required this.data});
 
   @override
-  State<IncomeHistoryCard> createState() => _IncomeHistoryCardState();
+  State<IncomeSalemanHistoryCard> createState() =>
+      _IncomeSalemanHistoryCardState();
 }
 
-class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
+class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +35,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.code ?? '#'}',
+                      '${widget.data.code ?? "#0"}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
@@ -55,13 +56,25 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: green.withOpacity(0.1),
+                    color: widget.data.inOutType == "IN"
+                        ? green.withOpacity(0.1)
+                        : widget.data.inOutType == "OUT"
+                        ? redColor.withOpacity(0.1)
+                        : black950,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.transportStatus}',
+                    '${widget.data.inOutType == "IN"
+                        ? "Орлого"
+                        : widget.data.inOutType == "OUT"
+                        ? "Зарлага"
+                        : '-'}',
                     style: TextStyle(
-                      color: green,
+                      color: widget.data.inOutType == "IN"
+                          ? green
+                          : widget.data.inOutType == "OUT"
+                          ? redColor
+                          : black950,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
@@ -103,7 +116,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                             children: [
                               Text(
                                 // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
-                                '${widget.data.driverName ?? ''}',
+                                '${widget.data.driverName ?? '-'}',
                                 style: TextStyle(
                                   color: black950,
                                   fontSize: 16,
@@ -112,7 +125,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                               ),
                               SizedBox(height: 2),
                               Text(
-                                '${widget.data.vehiclePlateNo}',
+                                '${widget.data.vehiclePlateNo ?? '-'}',
                                 style: TextStyle(
                                   color: black950,
                                   fontSize: 12,
@@ -135,7 +148,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                               ),
                               SizedBox(height: 2),
                               Text(
-                                '${widget.data.quantity} Ш',
+                                '${widget.data.quantity ?? '-'} Ш',
                                 style: TextStyle(
                                   color: orange,
                                   fontSize: 22,

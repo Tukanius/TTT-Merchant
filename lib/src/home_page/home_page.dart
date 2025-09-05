@@ -8,22 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/home_page_cards/sale_history_card.dart';
+import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_done_history_card.dart';
+import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/general/residual.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
+// import 'package:ttt_merchant_flutter/services/notification.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class HomePage extends StatefulWidget {
+  final Function(int) onChangePage;
   static const routeName = "HomePage";
-  const HomePage({super.key});
+  const HomePage({super.key, required this.onChangePage});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -53,23 +60,49 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     });
   }
 
+  Result incomeHistory = Result();
+  bool isLoadingHistoryIncome = true;
+  User user = User();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
+      user = await AuthApi().me(false);
       general = await Provider.of<GeneralProvider>(
         context,
         listen: false,
       ).init();
-      await listOfHistory(page, limit);
+      user.userType == "STORE_MAN"
+          ? await listOfInOut(page, limit)
+          : await listOfHistory(page, limit);
       setState(() {
         isLoadingPage = false;
       });
+
+      print('===loader===');
+      print(isLoadingHistoryIncome);
+      print(isLoadingHistory);
+      print('===loader===');
     } catch (e) {
       print(e);
       setState(() {
         isLoadingPage = false;
       });
     }
+  }
+
+  listOfInOut(page, limit) async {
+    // final String selectedTab = tabs[selectedIndex];
+    // final String dateType = tabFilters[selectedTab] ?? 'ALL';
+    incomeHistory = await ProductApi().getIncomeSaleMan(
+      ResultArguments(
+        offset: Offset(page: page, limit: limit),
+        filter: Filter(status: "DONE", type: "ALL"),
+      ),
+    );
+    selectedResidual = general.residual?.first;
+    setState(() {
+      isLoadingHistoryIncome = false;
+    });
   }
 
   final RefreshController refreshController = RefreshController(
@@ -81,6 +114,7 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     if (!mounted) return;
     setState(() {
       isLoadingHistory = true;
+      isLoadingHistoryIncome = true;
       isLoadingPage = true;
       limit = 10;
     });
@@ -88,7 +122,9 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
-    await listOfHistory(page, limit);
+    user.userType == "STORE_MAN"
+        ? await listOfInOut(page, limit)
+        : await listOfHistory(page, limit);
     refreshController.refreshCompleted();
   }
 
@@ -97,7 +133,9 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
-    await listOfHistory(page, limit);
+    user.userType == "STORE_MAN"
+        ? await listOfInOut(page, limit)
+        : await listOfHistory(page, limit);
     refreshController.loadComplete();
   }
 
@@ -110,7 +148,15 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
         centerTitle: false,
         elevation: 1,
         automaticallyImplyLeading: false,
-        title: SvgPicture.asset('assets/svg/TTT.svg'),
+        title: GestureDetector(
+          onTap: () {
+            // NotifyService().showNotification(
+            //   title: "TTTETET HAHA",
+            //   body: "TEST BODY AHHAHAH",
+            // );
+          },
+          child: SvgPicture.asset('assets/svg/TTT.svg'),
+        ),
         actions: [
           GestureDetector(
             onTap: () {
@@ -291,7 +337,7 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${selectedResidual?.residual ?? '-'} ш',
+                                      '${selectedResidual?.residual != null ? Utils().formatCurrencyDouble(selectedResidual!.residual!.toDouble()) : '-'} ш',
                                       style: TextStyle(
                                         color: orange,
                                         fontSize: 20,
@@ -312,33 +358,38 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                               ],
                             ),
                             SizedBox(height: 12),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(
-                                  context,
-                                ).pushNamed(SalesRequestPage.routeName);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: orange,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '+ Татан авалт',
-                                      style: TextStyle(
-                                        color: white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
+                            user.userType == "STORE_MAN"
+                                ? SizedBox()
+                                : GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(
+                                        context,
+                                      ).pushNamed(SalesRequestPage.routeName);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: orange,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '+ Татан авалт',
+                                            style: TextStyle(
+                                              color: white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  ),
                           ],
                         ),
                       ),
@@ -347,7 +398,9 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Борлуулалтын түүх',
+                            user.userType == "STORE_MAN"
+                                ? 'Агуулахын хөдөлгөөн'
+                                : 'Борлуулалтын түүх',
                             style: TextStyle(
                               color: black800,
                               fontSize: 14,
@@ -356,9 +409,11 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(
-                                context,
-                              ).pushNamed(PurchaseHistoryPage.routeName);
+                              user.userType == "STORE_MAN"
+                                  ? widget.onChangePage(1)
+                                  : Navigator.of(
+                                      context,
+                                    ).pushNamed(PurchaseHistoryPage.routeName);
                             },
                             child: Row(
                               children: [
@@ -378,37 +433,215 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
                         ],
                       ),
                       SizedBox(height: 12),
-
-                      isLoadingHistory == true
-                          ? CustomLoader()
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Column(
-                                children: List.generate(
-                                  salesHistory.rows!.length,
-                                  (index) {
-                                    final isExpanded =
-                                        selectedIndexTile == index;
-                                    final item = salesHistory.rows![index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          if (selectedIndexTile == index) {
-                                            selectedIndexTile = null;
-                                          } else {
-                                            selectedIndexTile = index;
-                                          }
-                                        });
+                      Column(
+                        children: [
+                          user.userType != "STORE_MAN"
+                              ? const SizedBox.shrink()
+                              : isLoadingHistoryIncome
+                              ? CustomLoader()
+                              : (incomeHistory.rows != null &&
+                                    incomeHistory.rows!.isNotEmpty)
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Column(
+                                    children: List.generate(
+                                      incomeHistory.rows!.length,
+                                      (index) {
+                                        final isExpanded =
+                                            selectedIndexTile == index;
+                                        final item = incomeHistory.rows![index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (selectedIndexTile == index) {
+                                                selectedIndexTile = null;
+                                              } else {
+                                                selectedIndexTile = index;
+                                              }
+                                            });
+                                          },
+                                          child: IncomeDoneHistoryCard(
+                                            isExtended: isExpanded,
+                                            data: item,
+                                          ),
+                                        );
                                       },
-                                      child: SaleHistoryCard(
-                                        isExtended: isExpanded,
-                                        data: item,
+                                    ),
+                                  ),
+                                )
+                              // Column(
+                              //     children: incomeHistory.rows!
+                              //         .map(
+                              //           (data) => Column(
+                              //             children: [
+                              //               IncomeDoneHistoryCard(data: data,isExtended: isExpanded,),
+                              //               const SizedBox(height: 16),
+                              //             ],
+                              //           ),
+                              //         )
+                              //         .toList(),
+                              //   )
+                              : Column(
+                                  children: [
+                                    SizedBox(height: 12),
+                                    Center(
+                                      child: const Text(
+                                        'Түүх алга байна',
+                                        style: TextStyle(
+                                          color: black600,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
+                          user.userType != "DISTRIBUTOR"
+                              ? const SizedBox.shrink()
+                              : isLoadingHistory
+                              ? CustomLoader()
+                              : (salesHistory.rows != null &&
+                                    salesHistory.rows!.isNotEmpty)
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Column(
+                                    children: List.generate(
+                                      salesHistory.rows!.length,
+                                      (index) {
+                                        final isExpanded =
+                                            selectedIndexTile == index;
+                                        final item = salesHistory.rows![index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (selectedIndexTile == index) {
+                                                selectedIndexTile = null;
+                                              } else {
+                                                selectedIndexTile = index;
+                                              }
+                                            });
+                                          },
+                                          child: SaleHistoryCard(
+                                            isExtended: isExpanded,
+                                            data: item,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              : Column(
+                                  children: [
+                                    SizedBox(height: 12),
+                                    Center(
+                                      child: const Text(
+                                        'Түүх алга байна',
+                                        style: TextStyle(
+                                          color: black600,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ],
+                      ),
+
+                      // Column(
+                      //   children: [
+                      //     user.userType == "STORE_MAN" &&
+                      //             isLoadingHistoryIncome == true
+                      //         ? CustomLoader()
+                      //         : incomeHistory.rows != null ||
+                      //               incomeHistory.rows?.isEmpty == false
+                      //         ? Column(
+                      //             children: incomeHistory.rows!
+                      //                 .map(
+                      //                   (data) => Column(
+                      //                     children: [
+                      //                       IncomeHistoryCard(data: data),
+                      //                       SizedBox(height: 16),
+                      //                     ],
+                      //                   ),
+                      //                 )
+                      //                 .toList(),
+                      //           )
+                      //         : Text('No data'),
+                      //     user.userType == "STORE_MAN" &&
+                      //             isLoadingHistory == true
+                      //         ? CustomLoader()
+                      //         : salesHistory.rows != null ||
+                      //               salesHistory.rows?.isEmpty == false
+                      //         ? ClipRRect(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //             child: Column(
+                      //               children: List.generate(
+                      //                 salesHistory.rows!.length,
+                      //                 (index) {
+                      //                   final isExpanded =
+                      //                       selectedIndexTile == index;
+                      //                   final item = salesHistory.rows![index];
+                      //                   return GestureDetector(
+                      //                     onTap: () {
+                      //                       setState(() {
+                      //                         if (selectedIndexTile == index) {
+                      //                           selectedIndexTile = null;
+                      //                         } else {
+                      //                           selectedIndexTile = index;
+                      //                         }
+                      //                       });
+                      //                     },
+                      //                     child: SaleHistoryCard(
+                      //                       isExtended: isExpanded,
+                      //                       data: item,
+                      //                     ),
+                      //                   );
+                      //                 },
+                      //               ),
+                      //             ),
+                      //           )
+                      //         : Text('No data'),
+                      //   ],
+                      // ),
+
+                      // isLoadingHistory == true || isLoadingHistoryIncome == true
+                      //     ? CustomLoader()
+                      //     : salesHistory.rows != null ||
+                      //           salesHistory.rows?.isEmpty == false
+                      //     ? user.userType == "STORE_MAN"
+                      //           ?
+                      //           : ClipRRect(
+                      //               borderRadius: BorderRadius.circular(12),
+                      //               child: Column(
+                      //                 children: List.generate(
+                      //                   salesHistory.rows!.length,
+                      //                   (index) {
+                      //                     final isExpanded =
+                      //                         selectedIndexTile == index;
+                      //                     final item =
+                      //                         salesHistory.rows![index];
+                      //                     return GestureDetector(
+                      //                       onTap: () {
+                      //                         setState(() {
+                      //                           if (selectedIndexTile ==
+                      //                               index) {
+                      //                             selectedIndexTile = null;
+                      //                           } else {
+                      //                             selectedIndexTile = index;
+                      //                           }
+                      //                         });
+                      //                       },
+                      //                       child: SaleHistoryCard(
+                      //                         isExtended: isExpanded,
+                      //                         data: item,
+                      //                       ),
+                      //                     );
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //             )
+                      //     : Text('No data'),
                       SizedBox(height: mediaQuery.padding.bottom + 24),
                     ],
                   ),

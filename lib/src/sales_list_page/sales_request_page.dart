@@ -8,6 +8,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
@@ -59,37 +60,43 @@ class _SalesRequestPageState extends State<SalesRequestPage>
   }
 
   onSubmit() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      List<RequestProductPost> products = [];
-      for (int i = 0; i < general.residual!.length; i++) {
-        if (quantities[i] > 0) {
-          products.add(
-            RequestProductPost(
-              product: general.residual![i].id,
-              totalCount: quantities[i],
-              name: general.residual![i].name,
-            ),
-          );
+    if (totalQuantity == 0) {
+      ErrorDialog(context: context).show('Бараа сонгоно уу.');
+    } else {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        List<RequestProductPost> products = [];
+        for (int i = 0; i < general.residual!.length; i++) {
+          if (quantities[i] > 0) {
+            products.add(
+              RequestProductPost(
+                product: general.residual![i].id,
+                totalCount: quantities[i],
+                name: general.residual![i].name,
+                price: general.productTypes![i].price,
+                residual: general.residual![i].residual,
+              ),
+            );
+          }
         }
-      }
-      SalesRequest request = SalesRequest()..requestProducts = products;
+        SalesRequest request = SalesRequest()..requestProducts = products;
 
-      await Navigator.of(context).pushNamed(
-        ConfirmSaleRequest.routeName,
-        arguments: ConfirmSaleRequestArguments(data: request),
-      );
-      // await ProductApi().postPurchaseRequest(request);
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e);
-      setState(() {
-        isLoading = false;
-      });
+        await Navigator.of(context).pushNamed(
+          ConfirmSaleRequest.routeName,
+          arguments: ConfirmSaleRequestArguments(data: request),
+        );
+        // await ProductApi().postPurchaseRequest(request);
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        print(e);
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -345,16 +352,13 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                   //   });
                                                   // },
                                                   onTap: () {
-                                                    if (resData.residual! > 0) {
+                                                    if (quantities[index] > 0) {
                                                       setState(() {
-                                                        if (quantities[index] >
-                                                            0) {
-                                                          quantities[index]--;
-                                                          controllers[index]
-                                                                  .text =
-                                                              quantities[index]
-                                                                  .toString();
-                                                        }
+                                                        quantities[index]--;
+                                                        controllers[index]
+                                                                .text =
+                                                            quantities[index]
+                                                                .toString();
                                                       });
                                                     }
                                                   },
@@ -386,14 +390,10 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                           TextInputType.number,
                                                       textAlign:
                                                           TextAlign.center,
-                                                      enabled:
-                                                          resData.residual! > 0,
+                                                      // enabled:
+                                                      //     resData.residual! > 0,
                                                       style: TextStyle(
-                                                        color:
-                                                            resData.residual! >
-                                                                0
-                                                            ? black950
-                                                            : black400,
+                                                        color: black950,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w600,
@@ -414,27 +414,29 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                               ) ??
                                                               0;
 
-                                                          if (parsed < 0)
-                                                            parsed = 0;
-                                                          if (parsed >
-                                                              resData
-                                                                  .residual!) {
-                                                            parsed = resData
-                                                                .residual!;
-                                                            // хэрэглэгч их бичсэн тохиолдолд шууд зөв утгаар солино
-                                                            controllers[index]
-                                                                .text = parsed
-                                                                .toString();
-                                                            controllers[index]
-                                                                    .selection =
-                                                                TextSelection.fromPosition(
-                                                                  TextPosition(
-                                                                    offset: controllers[index]
-                                                                        .text
-                                                                        .length,
-                                                                  ),
-                                                                );
-                                                          }
+                                                          // if (parsed < 0)
+                                                          //   parsed = 0;
+                                                          // parsed =
+                                                          //     resData.residual!;
+                                                          // хэрэглэгч их бичсэн тохиолдолд шууд зөв утгаар солино
+                                                          controllers[index]
+                                                              .text = parsed
+                                                              .toString();
+                                                          controllers[index]
+                                                                  .selection =
+                                                              TextSelection.fromPosition(
+                                                                TextPosition(
+                                                                  offset:
+                                                                      controllers[index]
+                                                                          .text
+                                                                          .length,
+                                                                ),
+                                                              );
+                                                          // if (parsed >
+                                                          //     resData
+                                                          //         .residual!) {
+
+                                                          // }
 
                                                           quantities[index] =
                                                               parsed;
@@ -450,18 +452,16 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                   //   });
                                                   // },
                                                   onTap: () {
-                                                    if (resData.residual! > 0) {
-                                                      setState(() {
-                                                        if (quantities[index] <
-                                                            resData.residual!) {
-                                                          quantities[index]++;
-                                                          controllers[index]
-                                                                  .text =
-                                                              quantities[index]
-                                                                  .toString();
-                                                        }
-                                                      });
-                                                    }
+                                                    setState(() {
+                                                      quantities[index]++;
+                                                      controllers[index].text =
+                                                          quantities[index]
+                                                              .toString();
+                                                      // if (quantities[index] <
+                                                      //     resData.residual!) {
+
+                                                      // }
+                                                    });
                                                   },
                                                   child: Container(
                                                     color: white50,

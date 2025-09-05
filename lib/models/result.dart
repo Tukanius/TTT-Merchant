@@ -3,8 +3,10 @@ part '../parts/result.dart';
 class Filter {
   String? date;
   String? dateType;
+  String? status;
+  String? type;
 
-  Filter({this.date, this.dateType});
+  Filter({this.date, this.dateType, this.status, this.type});
 }
 
 class Offset {

@@ -1,4 +1,4 @@
-package com.example.ttt_merchant_flutter
+package ttt.merchant.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

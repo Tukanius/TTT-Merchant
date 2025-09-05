@@ -30,6 +30,9 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) {
     products: json['products'] != null
         ? (json['products'] as List).map((e) => Products.fromJson(e)).toList()
         : null,
+    confirmedUser: json['confirmedUser'] != null
+        ? StaffUser.fromJson(json['confirmedUser'])
+        : null,
   );
 }
 
@@ -52,6 +55,8 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) {
   if (instance.createdAt != null) json['createdAt'] = instance.createdAt;
   if (instance.updatedAt != null) json['updatedAt'] = instance.updatedAt;
   if (instance.products != null) json['products'] = instance.products;
+  if (instance.confirmedUser != null)
+    json['confirmedUser'] = instance.confirmedUser;
 
   return json;
 }

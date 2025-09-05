@@ -183,7 +183,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${user.firstname} ${user.lastname}',
+                                '${user.firstName} ${user.lastName}',
                                 style: TextStyle(
                                   color: black950,
                                   fontSize: 16,
@@ -296,7 +296,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                                 ),
                               ),
                               Text(
-                                '${user.firstname} ${user.lastname}',
+                                '${user.firstName} ${user.lastName}',
                                 style: TextStyle(
                                   color: black950,
                                   fontSize: 14,
