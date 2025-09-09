@@ -285,7 +285,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                    hintText: 'Батаглаагжуулах код',
+                                    hintText: 'Баталгаажуулах код',
                                     dense: true,
                                     color: white50,
                                     name: 'otp',

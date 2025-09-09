@@ -1,6 +1,6 @@
 part '../../parts/general/request_types.dart';
 
-class RequestTypes {
+class  RequestTypes {
   String? code;
   String? name;
 

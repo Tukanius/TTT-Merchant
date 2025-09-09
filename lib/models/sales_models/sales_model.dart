@@ -29,6 +29,7 @@ class Sales {
   String? loadDate;
   String? sendDate;
   int? totalAmount;
+  String? requestStatus;
 
   Sales({
     this.id,
@@ -53,6 +54,7 @@ class Sales {
     this.loadDate,
     this.sendDate,
     this.totalAmount,
+    this.requestStatus,
   });
   static $fromJson(Map<String, dynamic> json) => _$SalesFromJson(json);
 

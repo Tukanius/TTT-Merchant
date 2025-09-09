@@ -1,10 +1,13 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
@@ -21,11 +24,16 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
   User user = User();
   bool isLoadingPage = true;
+  GeneralInit general = GeneralInit();
 
   @override
   afterFirstLayout(BuildContext context) async {
     try {
       user = await AuthApi().me(false);
+      general = await Provider.of<GeneralProvider>(
+        context,
+        listen: false,
+      ).init();
       setState(() {
         isLoadingPage = false;
       });
@@ -91,9 +99,10 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(
-                        context,
-                      ).pushNamed(ProfileDetailPage.routeName);
+                      Navigator.of(context).pushNamed(
+                        ProfileDetailPage.routeName,
+                        arguments: ProfileDetailPageArguments(data: general),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -119,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  'Салбар #13',
+                                  '${general.inventory?.name ?? '-'}',
                                   style: TextStyle(
                                     color: black800,
                                     fontSize: 14,

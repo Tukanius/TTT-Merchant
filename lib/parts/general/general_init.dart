@@ -15,6 +15,9 @@ GeneralInit _$GeneralInitFromJson(Map<String, dynamic> json) {
               .map((e) => RequestTypes.fromJson(e))
               .toList()
         : null,
+    inventory: json['inventory'] != null
+        ? InventoryUser.fromJson(json['inventory'])
+        : null,
   );
 }
 
@@ -26,6 +29,7 @@ Map<String, dynamic> _$GeneralInitToJson(GeneralInit instance) {
   if (instance.residual != null) json['residual'] = instance.residual;
   if (instance.requestTypes != null)
     json['requestTypes'] = instance.requestTypes;
+  if (instance.inventory != null) json['inventory'] = instance.inventory;
 
   return json;
 }

@@ -596,7 +596,7 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                                             ),
                                                     )
                                                   : Text(
-                                                      'Үргэлжлүүлэх',
+                                                      'Баталгаажуулах',
                                                       style: TextStyle(
                                                         color: white,
                                                         fontSize: 14,

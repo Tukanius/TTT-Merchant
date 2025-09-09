@@ -6,15 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/general/general_init.dart';
+// import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
-import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
+// import 'package:ttt_merchant_flutter/provider/general_provider.dart';
+// import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
@@ -814,7 +814,7 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                               ),
                                                       )
                                                     : Text(
-                                                        'Үргэлжлүүлэх',
+                                                        'Баталгаажуулах',
                                                         style: TextStyle(
                                                           color: white,
                                                           fontSize: 14,

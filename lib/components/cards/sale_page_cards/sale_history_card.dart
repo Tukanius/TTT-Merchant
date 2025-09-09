@@ -72,14 +72,16 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         color: green.withOpacity(0.1),
                       ),
                       child: Text(
-                        '${widget.data.requestType == "NEW"
+                        '${widget.data.requestStatus == "NEW"
                             ? 'Шинэ'
-                            : widget.data.requestType == "DONE"
+                            : widget.data.requestStatus == "DONE"
                             ? 'Тооцоо хийгдсэн'
-                            : widget.data.requestType == "REJECTED"
+                            : widget.data.requestStatus == "REJECTED"
                             ? 'Татгалзсан'
-                            : widget.data.requestType == "APPROVED"
+                            : widget.data.requestStatus == "APPROVED"
                             ? 'Зөвшөөрсөн'
+                            : widget.data.requestStatus == "SALES_APPROVED"
+                            ? 'Баталгаажсан'
                             : '-'}',
                         style: TextStyle(
                           color: green,

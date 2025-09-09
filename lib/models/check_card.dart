@@ -5,7 +5,14 @@ class CheckCard {
   int? balance;
   String? cardNo;
   int? availableLimit;
-  CheckCard({this.cardNumber, this.balance, this.cardNo, this.availableLimit});
+  String? appUserId;
+  CheckCard({
+    this.cardNumber,
+    this.balance,
+    this.cardNo,
+    this.availableLimit,
+    this.appUserId,
+  });
   static $fromJson(Map<String, dynamic> json) => _$CheckCardFromJson(json);
 
   factory CheckCard.fromJson(Map<String, dynamic> json) =>

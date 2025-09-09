@@ -38,6 +38,7 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
   String compNote = '';
   ConfirmIncomeRequest confirmRequest = ConfirmIncomeRequest();
   List<Products>? receiveProdut;
+  TextEditingController textController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -555,9 +556,10 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                                   backgroundColor: transparent,
                                   builder: (context) {
                                     return OrderProblemModal(
+                                      controller: textController,
                                       note: (value) {
                                         setState(() {
-                                          compNote = value;
+                                          compNote = textController.text;
                                         });
                                       },
                                       images: [],

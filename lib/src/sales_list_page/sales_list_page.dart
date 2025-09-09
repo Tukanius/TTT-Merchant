@@ -1,15 +1,19 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
+// import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+// import 'package:table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/sale_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
@@ -25,7 +29,13 @@ class SalesListPage extends StatefulWidget {
 class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int selectedIndex = 0;
   int? selectedIndexTile;
-  final List<String> tabs = ['Нийт', 'Өнөөдөр', '7 Хоног', '1 Сар', '1 Жил'];
+  final List<String> tabs = [
+    'Бүгд',
+    'Шинэ',
+    'Батлагдсан',
+    'Төлбөр төлөгдсөн',
+    'Хуваарилагдсан',
+  ];
 
   final Map<String, String> tabFilters = {
     'Нийт': 'ALL',
@@ -40,7 +50,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   bool isLoadingHistory = true;
   int page = 1;
   int limit = 10;
-
+  bool isLoading = false;
   listOfHistory(page, limit) async {
     final String selectedTab = tabs[selectedIndex];
     final String dateType = tabFilters[selectedTab] ?? 'ALL';
@@ -96,6 +106,22 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
     });
     await listOfHistory(page, limit);
     refreshController.loadComplete();
+  }
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  String get formattedDate {
+    if (startDate == null && endDate == null) {
+      final now = DateTime.now();
+      return "${now.year}/${now.month.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate == null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate != null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')} - "
+          "${endDate!.year}/${endDate!.month.toString().padLeft(2, '0')}/${endDate!.day.toString().padLeft(2, '0')}";
+    }
+    return "";
   }
 
   @override
@@ -156,45 +182,48 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
           preferredSize: Size.fromHeight(16 + 16),
           child: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(tabs.length, (index) {
-                  final bool isSelected = selectedIndex == index;
-                  return GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        selectedIndex = index;
-                        isLoadingHistory = true;
-                      });
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: List.generate(tabs.length, (index) {
+                    final bool isSelected = selectedIndex == index;
+                    return GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          selectedIndex = index;
+                          isLoadingHistory = true;
+                        });
 
-                      await listOfHistory(page, limit);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 6,
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: isSelected ? orange : Colors.white,
-                        border: Border.all(
-                          color: isSelected ? orange : white100,
+                        await listOfHistory(page, limit);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 6,
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: isSelected ? orange : Colors.white,
+                          border: Border.all(
+                            color: isSelected ? orange : white100,
+                          ),
+                        ),
+                        child: Text(
+                          tabs[index],
+                          style: TextStyle(
+                            color: isSelected ? white : black600,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                      child: Text(
-                        tabs[index],
-                        style: TextStyle(
-                          color: isSelected ? white : black600,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
             ),
           ),
@@ -214,29 +243,53 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: white,
-                          border: Border.all(color: white100),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/svg/calendar.svg'),
-                            SizedBox(width: 12),
-                            Text(
-                              '2025/08',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(8),
                               ),
                             ),
-                          ],
+                            builder: (context) {
+                              return CustomTableCalendar(
+                                onDateSelected: (start, end) {
+                                  setState(() {
+                                    startDate = start;
+                                    endDate = end;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                            border: Border.all(color: white100),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/svg/calendar.svg'),
+                              SizedBox(width: 12),
+                              Text(
+                                formattedDate,
+                                style: TextStyle(
+                                  color: black950,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+
                       SizedBox(height: 16),
                       Text(
                         'Татан авалтын түүх',

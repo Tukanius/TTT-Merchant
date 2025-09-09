@@ -89,11 +89,18 @@ class _QrReadScreenState extends State<QrReadScreen> {
                     for (final barcode in barcodes) {
                       if (barcode.rawValue == null) continue;
                       if (!isNavigated && !isErrorShown) {
+                        print('========barcode====');
+                        // print(barcode.displayValue);R
+                        print(barcode.rawValue);
+
+                        print('========barcode====');
                         try {
                           final data = jsonDecode(barcode.rawValue!);
                           final String cardNo = data['card']['cardNo'];
-                          CheckCard card = CheckCard()..cardNumber = cardNo;
-
+                          final String appUserJson = data['appUser'];
+                          CheckCard card = CheckCard()
+                            ..cardNumber = cardNo
+                            ..appUserId = appUserJson;
                           card = await ProductApi().getCardBalance(card);
 
                           isNavigated = true;

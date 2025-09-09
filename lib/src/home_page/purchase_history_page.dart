@@ -226,148 +226,148 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
                         ),
                       ),
                       SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: orange,
-                              ),
-                              padding: EdgeInsets.all(12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Үлдэгдэл',
-                                    style: TextStyle(
-                                      color: white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    '120 Ширхэг шуудай',
-                                    style: TextStyle(
-                                      color: white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(12),
+                      //           color: orange,
+                      //         ),
+                      //         padding: EdgeInsets.all(12),
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             Text(
+                      //               'Үлдэгдэл',
+                      //               style: TextStyle(
+                      //                 color: white,
+                      //                 fontSize: 12,
+                      //                 fontWeight: FontWeight.w400,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: 4),
+                      //             Text(
+                      //               '120 Ширхэг шуудай',
+                      //               style: TextStyle(
+                      //                 color: white,
+                      //                 fontSize: 24,
+                      //                 fontWeight: FontWeight.w700,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: 4),
 
-                                  Text(
-                                    'Үлдэгдэл',
-                                    style: TextStyle(
-                                      color: white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: white,
-                                ),
-                                padding: EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Орлого',
-                                      style: TextStyle(
-                                        color: black400,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          '120 Ш',
-                                          style: TextStyle(
-                                            color: orange,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
+                      //             Text(
+                      //               'Үлдэгдэл',
+                      //               style: TextStyle(
+                      //                 color: white,
+                      //                 fontSize: 14,
+                      //                 fontWeight: FontWeight.w400,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 16),
+                      //     Column(
+                      //       children: [
+                      //         Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //             color: white,
+                      //           ),
+                      //           padding: EdgeInsets.all(8),
+                      //           child: Column(
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             children: [
+                      //               Text(
+                      //                 'Орлого',
+                      //                 style: TextStyle(
+                      //                   color: black400,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w400,
+                      //                 ),
+                      //               ),
+                      //               SizedBox(height: 4),
+                      //               Row(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.end,
+                      //                 children: [
+                      //                   Text(
+                      //                     '120 Ш',
+                      //                     style: TextStyle(
+                      //                       color: orange,
+                      //                       fontSize: 18,
+                      //                       fontWeight: FontWeight.w700,
+                      //                     ),
+                      //                   ),
+                      //                   SizedBox(width: 8),
 
-                                        Text(
-                                          '750 КГ',
-                                          style: TextStyle(
-                                            color: black600,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 12),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: white,
-                                ),
-                                padding: EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Орлого',
-                                      style: TextStyle(
-                                        color: black400,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          '120 Ш',
-                                          style: TextStyle(
-                                            color: orange,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
+                      //                   Text(
+                      //                     '750 КГ',
+                      //                     style: TextStyle(
+                      //                       color: black600,
+                      //                       fontSize: 14,
+                      //                       fontWeight: FontWeight.w400,
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //         SizedBox(height: 12),
+                      //         Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //             color: white,
+                      //           ),
+                      //           padding: EdgeInsets.all(8),
+                      //           child: Column(
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             children: [
+                      //               Text(
+                      //                 'Орлого',
+                      //                 style: TextStyle(
+                      //                   color: black400,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w400,
+                      //                 ),
+                      //               ),
+                      //               SizedBox(height: 4),
+                      //               Row(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.end,
+                      //                 children: [
+                      //                   Text(
+                      //                     '120 Ш',
+                      //                     style: TextStyle(
+                      //                       color: orange,
+                      //                       fontSize: 18,
+                      //                       fontWeight: FontWeight.w700,
+                      //                     ),
+                      //                   ),
+                      //                   SizedBox(width: 8),
 
-                                        Text(
-                                          '750 КГ',
-                                          style: TextStyle(
-                                            color: black600,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
+                      //                   Text(
+                      //                     '750 КГ',
+                      //                     style: TextStyle(
+                      //                       color: black600,
+                      //                       fontSize: 14,
+                      //                       fontWeight: FontWeight.w400,
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(height: 16),
                       Text(
                         'Борлуулалтын түүх',
                         style: TextStyle(

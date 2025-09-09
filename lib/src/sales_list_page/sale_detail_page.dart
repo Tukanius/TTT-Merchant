@@ -1,14 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
+// import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SaleDetailPageArguments {
@@ -142,8 +142,8 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
                                       // ),
                                       // SizedBox(width: 4),
                                       Text(
-                                        // '${widget.data.quantity ?? '-'} ш',
-                                        '123',
+                                        '${widget.data.totalCount ?? '-'} ш',
+                                        // '123',
                                         style: TextStyle(
                                           color: black950,
                                           fontSize: 12,
@@ -554,7 +554,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                '${item.product}',
+                                                '${item.product?.name}',
                                                 style: TextStyle(
                                                   color: black800,
                                                   fontSize: 14,
@@ -609,103 +609,103 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
               ),
             ),
           ),
-          Align(
-            alignment: AlignmentDirectional.bottomCenter,
-            child: Container(
-              color: white,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 16,
-                  right: 16,
-                  left: 16,
-                  bottom: Platform.isIOS
-                      ? MediaQuery.of(context).padding.bottom
-                      : MediaQuery.of(context).padding.bottom + 16,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Нийт дүн:',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
-                      style: TextStyle(
-                        color: orange,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              // onSubmit();
-                              // Navigator.of(context).pushNamed(
-                              //   IncomeConfirmPage.routeName,
-                              //   arguments: IncomeConfirmPageArguments(
-                              //     data: widget.data,
-                              //   ),
-                              // );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: orange,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  isLoading == true
-                                      ? Container(
-                                          // margin: EdgeInsets.only(right: 15),
-                                          width: 17,
-                                          height: 17,
-                                          child: Platform.isAndroid
-                                              ? Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                        color: white,
-                                                        strokeWidth: 2.5,
-                                                      ),
-                                                )
-                                              : Center(
-                                                  child:
-                                                      CupertinoActivityIndicator(
-                                                        color: white,
-                                                      ),
-                                                ),
-                                        )
-                                      : Text(
-                                          'Баталгаажуулах',
-                                          style: TextStyle(
-                                            color: white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: AlignmentDirectional.bottomCenter,
+          //   child: Container(
+          //     color: white,
+          //     child: Padding(
+          //       padding: EdgeInsets.only(
+          //         top: 16,
+          //         right: 16,
+          //         left: 16,
+          //         bottom: Platform.isIOS
+          //             ? MediaQuery.of(context).padding.bottom
+          //             : MediaQuery.of(context).padding.bottom + 16,
+          //       ),
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Нийт дүн:',
+          //             style: TextStyle(
+          //               color: black950,
+          //               fontSize: 16,
+          //               fontWeight: FontWeight.w500,
+          //             ),
+          //           ),
+          //           SizedBox(height: 4),
+          //           Text(
+          //             '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
+          //             style: TextStyle(
+          //               color: orange,
+          //               fontSize: 26,
+          //               fontWeight: FontWeight.w700,
+          //             ),
+          //           ),
+          //           SizedBox(height: 16),
+          //           Row(
+          //             children: [
+          //               Expanded(
+          //                 child: GestureDetector(
+          //                   onTap: () {
+          //                     // onSubmit();
+          //                     // Navigator.of(context).pushNamed(
+          //                     //   IncomeConfirmPage.routeName,
+          //                     //   arguments: IncomeConfirmPageArguments(
+          //                     //     data: widget.data,
+          //                     //   ),
+          //                     // );
+          //                   },
+          //                   child: Container(
+          //                     padding: EdgeInsets.symmetric(vertical: 10),
+          //                     decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(12),
+          //                       color: orange,
+          //                     ),
+          //                     child: Row(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       children: [
+          //                         isLoading == true
+          //                             ? Container(
+          //                                 // margin: EdgeInsets.only(right: 15),
+          //                                 width: 17,
+          //                                 height: 17,
+          //                                 child: Platform.isAndroid
+          //                                     ? Center(
+          //                                         child:
+          //                                             CircularProgressIndicator(
+          //                                               color: white,
+          //                                               strokeWidth: 2.5,
+          //                                             ),
+          //                                       )
+          //                                     : Center(
+          //                                         child:
+          //                                             CupertinoActivityIndicator(
+          //                                               color: white,
+          //                                             ),
+          //                                       ),
+          //                               )
+          //                             : Text(
+          //                                 'Баталгаажуулах',
+          //                                 style: TextStyle(
+          //                                   color: white,
+          //                                   fontSize: 14,
+          //                                   fontWeight: FontWeight.w600,
+          //                                 ),
+          //                               ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

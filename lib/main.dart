@@ -29,7 +29,7 @@ import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/order_accept_page.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
+// import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_history_page.dart';
@@ -87,7 +87,9 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
     await FirebaseMessaging.instance.requestPermission();
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     String? token = await _firebaseMessaging.getToken();
+    String? APNStoken = await _firebaseMessaging.getAPNSToken();
     print('TOKEN==== $token');
+    print('APNSTOKEN==== $APNStoken');
     if (token != null) {
       userProvider.setDeviceToken(token);
     }
@@ -193,9 +195,11 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                 },
               );
             case ProfileDetailPage.routeName:
+              ProfileDetailPageArguments arguments =
+                  settings.arguments as ProfileDetailPageArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return const ProfileDetailPage();
+                  return ProfileDetailPage(data: arguments.data);
                 },
               );
             case OrderAcceptPage.routeName:

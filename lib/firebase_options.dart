@@ -50,20 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDcsg7vjBu-4huTGIsD-EXomm7cpqwfrkE',
-    appId: '1:992368117474:android:de02ccafde4c969852c0bb',
-    messagingSenderId: '992368117474',
-    projectId: 'ttt-hotula',
-    storageBucket: 'ttt-hotula.firebasestorage.app',
+    apiKey: 'AIzaSyAu-FwXa3tpwH6pzhlxq8GKIbURvs8Wwh8',
+    appId: '1:528796142835:android:58408930ed97140b3b7b86',
+    messagingSenderId: '528796142835',
+    projectId: 'ttt-merchant',
+    storageBucket: 'ttt-merchant.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCxd6DrfGv345YSV2LnEtM84JfEeXHR0tM',
-    appId: '1:992368117474:ios:da4f252c7883c15352c0bb',
-    messagingSenderId: '992368117474',
-    projectId: 'ttt-hotula',
-    storageBucket: 'ttt-hotula.firebasestorage.app',
-    iosBundleId: 'ttt.merchant.flutter',
+    apiKey: 'AIzaSyB3LJMPCy7QOwcTK_53umqvifUqxM8i-TY',
+    appId: '1:528796142835:ios:180e3bdc222dd1903b7b86',
+    messagingSenderId: '528796142835',
+    projectId: 'ttt-merchant',
+    storageBucket: 'ttt-merchant.firebasestorage.app',
+    iosBundleId: 'ttt.merchant.app',
   );
-
 }

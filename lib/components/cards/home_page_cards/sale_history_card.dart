@@ -169,7 +169,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '${widget.data.confirmedUser != null ? widget.data.confirmedUser?.firstName : '-'}',
+                          '${widget.data.appUser != null ? widget.data.appUser?.firstName : '${widget.data.cardNo ?? '-'}'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,

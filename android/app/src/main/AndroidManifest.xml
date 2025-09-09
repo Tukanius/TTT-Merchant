@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ttt.merchant.flutter">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ttt.merchant.app">
     <application
-        android:label="TTT Merchant"
+        android:label="ТТТ Борлуулалт"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

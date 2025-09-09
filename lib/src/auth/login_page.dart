@@ -11,7 +11,7 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
-import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
+// import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -214,7 +214,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             SizedBox(height: 28),
-
                             Row(
                               children: [
                                 Expanded(
@@ -270,44 +269,44 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamed(ForgetPasswordPage.routeName);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: white100),
-                                        color: white,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Нууц үг мартсан?',
-                                            style: TextStyle(
-                                              color: black800,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // SizedBox(height: 16),
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: GestureDetector(
+                            //         onTap: () {
+                            //           Navigator.of(
+                            //             context,
+                            //           ).pushNamed(ForgetPasswordPage.routeName);
+                            //         },
+                            //         child: Container(
+                            //           padding: EdgeInsets.symmetric(
+                            //             vertical: 10,
+                            //           ),
+                            //           decoration: BoxDecoration(
+                            //             borderRadius: BorderRadius.circular(12),
+                            //             border: Border.all(color: white100),
+                            //             color: white,
+                            //           ),
+                            //           child: Row(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.center,
+                            //             children: [
+                            //               Text(
+                            //                 'Нууц үг мартсан?',
+                            //                 style: TextStyle(
+                            //                   color: black800,
+                            //                   fontSize: 14,
+                            //                   fontWeight: FontWeight.w600,
+                            //                 ),
+                            //               ),
+                            //             ],
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),

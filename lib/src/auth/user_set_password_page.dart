@@ -11,6 +11,7 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
+import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
 class UserSetPasswordPage extends StatefulWidget {
@@ -54,7 +55,8 @@ class _UserSetPasswordPageState extends State<UserSetPasswordPage> {
         ).setPassword(save);
         // await Provider.of<UserProvider>(context, listen: false).me(false);
 
-        await Navigator.of(context).pushNamed(SplashPage.routeName);
+        // await Navigator.of(context).pushNamed(SplashPage.routeName);
+        showSuccess(context);
         setState(() {
           isLoading = false;
         });
@@ -74,6 +76,115 @@ class _UserSetPasswordPageState extends State<UserSetPasswordPage> {
     } catch (e) {
       print(e);
     }
+  }
+
+  showSuccess(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: white100),
+            ),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SvgPicture.asset('assets/svg/success.svg'),
+                SizedBox(height: 12),
+                Text(
+                  'Амжилттай',
+                  style: TextStyle(
+                    color: successColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Таны нууц үг амжилттай шинэчлэгдлээ.',
+                  style: const TextStyle(
+                    color: black500,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(LoginPage.routeName);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: orange,
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Болсон',
+                          style: TextStyle(
+                            color: white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // SizedBox(height: 16),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.of(context).pop();
+                //     Navigator.of(context).pop();
+                //     Navigator.of(context).pop();
+                //     // Navigator.of(
+                //     //   context,
+                //     // ).pushNamed(PurchaseHistoryPage.routeName);
+                //   },
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(12),
+                //       color: white,
+                //       border: Border.all(color: white100),
+                //     ),
+                //     padding: EdgeInsets.symmetric(vertical: 10),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Text(
+                //           'Листээс харах',
+                //           style: TextStyle(
+                //             color: black800,
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w600,
+                //             decoration: TextDecoration.none,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override

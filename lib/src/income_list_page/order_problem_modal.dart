@@ -11,11 +11,13 @@ class OrderProblemModal extends StatefulWidget {
   final Function(bool) chechIssue;
   final List<String> images;
   final Function(String) note;
+  final TextEditingController controller;
   const OrderProblemModal({
     super.key,
     required this.chechIssue,
     required this.images,
     required this.note,
+    required this.controller,
   });
 
   @override
@@ -24,7 +26,7 @@ class OrderProblemModal extends StatefulWidget {
 
 class _OrderProblemModalState extends State<OrderProblemModal>
     with AfterLayoutMixin {
-  TextEditingController textController = TextEditingController();
+  // TextEditingController textController = TextEditingController();
 
   bool isLoading = false;
 
@@ -91,7 +93,7 @@ class _OrderProblemModalState extends State<OrderProblemModal>
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
-                        controller: textController,
+                        controller: widget.controller,
                         hintText: 'Тайлбар оруулна уу.',
                         labelText: 'Тайлбар',
                         labelColor: black600,
@@ -162,9 +164,9 @@ class _OrderProblemModalState extends State<OrderProblemModal>
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        if (textController.text != '') {
+                        if (widget.controller != '') {
                           setState(() {
-                            widget.note(textController.text);
+                            widget.note(widget.controller.text);
                             widget.chechIssue(true);
                             FocusScope.of(context).unfocus();
                             Navigator.of(context).pop();

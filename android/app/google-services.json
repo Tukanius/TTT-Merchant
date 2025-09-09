@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "992368117474",
-    "project_id": "ttt-hotula",
-    "storage_bucket": "ttt-hotula.firebasestorage.app"
+    "project_number": "528796142835",
+    "project_id": "ttt-merchant",
+    "storage_bucket": "ttt-merchant.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:992368117474:android:de02ccafde4c969852c0bb",
+        "mobilesdk_app_id": "1:528796142835:android:58408930ed97140b3b7b86",
         "android_client_info": {
-          "package_name": "ttt.merchant.flutter"
+          "package_name": "ttt.merchant.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDcsg7vjBu-4huTGIsD-EXomm7cpqwfrkE"
+          "current_key": "AIzaSyAu-FwXa3tpwH6pzhlxq8GKIbURvs8Wwh8"
         }
       ],
       "services": {

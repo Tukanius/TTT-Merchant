@@ -11,6 +11,7 @@ import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_h
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_saleman_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 
@@ -28,9 +29,9 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   int? selectedIndexTile;
   final List<String> tabs = [
     'Бүгд',
-    'Хүлээгдэж байгаа',
-    'Баталгаажсан',
     'Тээвэрлэж буй',
+    'Агуулахаас гарсан',
+    'Хүлээн авсан',
   ];
 
   // final Map<String, String> tabFilters = {
@@ -49,7 +50,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   int limit = 10;
   int filterIndex = 0;
   bool isLoadingHistoryIncome = true;
-
+  int selectedIndexFilter = 0;
   listOfHistory(page, limit) async {
     incomeHistory = await ProductApi().getIncomeHistory(
       ResultArguments(
@@ -108,8 +109,12 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
-    await listOfInOut(page, limit, index: filterIndex);
-    await listOfHistory(page, limit);
+    widget.userType == "STORE_MAN"
+        ? await listOfInOut(page, limit, index: filterIndex)
+        : await listOfHistory(page, limit);
+    // widget.data
+    // await listOfInOut(page, limit, index: filterIndex);
+    // await listOfHistory(page, limit);
     refreshController.refreshCompleted();
   }
 
@@ -118,9 +123,26 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
-    await listOfInOut(page, limit, index: filterIndex);
-    await listOfHistory(page, limit);
+    widget.userType == "STORE_MAN"
+        ? await listOfInOut(page, limit, index: filterIndex)
+        : await listOfHistory(page, limit);
     refreshController.loadComplete();
+  }
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  String get formattedDate {
+    if (startDate == null && endDate == null) {
+      final now = DateTime.now();
+      return "${now.year}/${now.month.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate == null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate != null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')} - "
+          "${endDate!.year}/${endDate!.month.toString().padLeft(2, '0')}/${endDate!.day.toString().padLeft(2, '0')}";
+    }
+    return "";
   }
 
   @override
@@ -140,92 +162,146 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
             fontWeight: FontWeight.w600,
           ),
         ),
-        bottom: widget.userType == "STORE_MAN"
-            ? PreferredSize(
-                preferredSize: Size.fromHeight(25),
-                child: Container(
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(
+            25 + (widget.userType == "STORE_MAN" ? 30 : 0),
+          ),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              children: [
+                Container(
                   alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              filterIndex = 0;
-                            });
-                            await listOfInOut(page, limit, index: 0);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: filterIndex == 0 ? black950 : white,
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: List.generate(tabs.length, (index) {
+                          final bool isSelected = selectedIndexFilter == index;
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedIndexFilter = index;
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 6,
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: isSelected ? orange : Colors.white,
+                                border: Border.all(
+                                  color: isSelected ? orange : white100,
+                                ),
+                              ),
+                              child: Text(
+                                tabs[index],
+                                style: TextStyle(
+                                  color: isSelected ? white : black600,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Орлого',
-                                  style: TextStyle(
-                                    color: filterIndex == 0
-                                        ? black950
-                                        : black800,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                          );
+                        }),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              filterIndex = 1;
-                            });
-                            await listOfInOut(page, limit, index: 1);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: filterIndex == 1 ? black950 : white,
-                                ),
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Зарлага',
-                                  style: TextStyle(
-                                    color: filterIndex == 1
-                                        ? black950
-                                        : black800,
-
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              )
-            : null,
+                widget.userType == "STORE_MAN"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  filterIndex = 0;
+                                });
+                                await listOfInOut(page, limit, index: 0);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 2,
+                                      color: filterIndex == 0
+                                          ? black950
+                                          : white,
+                                    ),
+                                  ),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Орлого',
+                                      style: TextStyle(
+                                        color: filterIndex == 0
+                                            ? black950
+                                            : black800,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  filterIndex = 1;
+                                });
+                                await listOfInOut(page, limit, index: 1);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 2,
+                                      color: filterIndex == 1
+                                          ? black950
+                                          : white,
+                                    ),
+                                  ),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Зарлага',
+                                      style: TextStyle(
+                                        color: filterIndex == 1
+                                            ? black950
+                                            : black800,
+
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
+              ],
+            ),
+          ),
+        ),
         // bottom: PreferredSize(
         //   preferredSize: Size.fromHeight(8 + 16),
         //   child: Container(
@@ -284,27 +360,50 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                   padding: EdgeInsetsGeometry.all(16),
                   child: Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: white,
-                          border: Border.all(color: white100),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/svg/calendar.svg'),
-                            SizedBox(width: 12),
-                            Text(
-                              '2025/08',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(8),
                               ),
                             ),
-                          ],
+                            builder: (context) {
+                              return CustomTableCalendar(
+                                onDateSelected: (start, end) {
+                                  setState(() {
+                                    startDate = start;
+                                    endDate = end;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                            border: Border.all(color: white100),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/svg/calendar.svg'),
+                              SizedBox(width: 12),
+                              Text(
+                                formattedDate,
+                                style: TextStyle(
+                                  color: black950,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 16),

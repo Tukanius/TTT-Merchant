@@ -3,17 +3,26 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
+class ProfileDetailPageArguments {
+  final GeneralInit data;
+
+  ProfileDetailPageArguments({required this.data});
+}
+
 class ProfileDetailPage extends StatefulWidget {
+  final GeneralInit data;
   static const routeName = 'ProfileDetailPage';
-  const ProfileDetailPage({super.key});
+  const ProfileDetailPage({super.key, required this.data});
 
   @override
   State<ProfileDetailPage> createState() => _ProfileDetailPageState();
@@ -38,7 +47,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
     }
   }
 
-  bool isClose = false;
+  bool isClose = true;
   toExit() {
     showDialog(
       context: context,
@@ -121,7 +130,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Салбар #13',
+              '${widget.data.inventory?.name ?? '-'}',
               style: TextStyle(
                 color: black950,
                 fontSize: 18,
@@ -136,7 +145,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
               ),
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               child: Text(
-                'Салбар #13',
+                '${widget.data.inventory?.name ?? '-'}',
                 style: TextStyle(
                   color: green,
                   fontSize: 12,
@@ -192,7 +201,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Салбар #13',
+                                '${widget.data.inventory?.name ?? '-'}',
                                 style: TextStyle(
                                   color: black800,
                                   fontSize: 14,
@@ -268,7 +277,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                     // ),
                     // SizedBox(height: 16),
                     Text(
-                      'Борлуулагчийн мэдээлэл',
+                      'Ажилтны мэдээлэл',
                       style: TextStyle(
                         color: black600,
                         fontSize: 14,
@@ -340,7 +349,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                                 ),
                               ),
                               Text(
-                                '-',
+                                '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(user.createdAt!).toLocal())}',
                                 style: TextStyle(
                                   color: black950,
                                   fontSize: 14,
@@ -429,7 +438,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                               ),
                               Expanded(
                                 child: Text(
-                                  '-',
+                                  '${widget.data.inventory?.address?.additionalInformation ?? '-'}',
                                   style: TextStyle(
                                     color: black950,
                                     fontSize: 14,
@@ -455,27 +464,27 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/svg/edit.svg',
-                                height: 16,
-                                width: 16,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                'Өөрчлөх',
-                                style: TextStyle(
-                                  color: black800,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Row(
+                        //     children: [
+                        //       SvgPicture.asset(
+                        //         'assets/svg/edit.svg',
+                        //         height: 16,
+                        //         width: 16,
+                        //       ),
+                        //       SizedBox(width: 4),
+                        //       Text(
+                        //         'Өөрчлөх',
+                        //         style: TextStyle(
+                        //           color: black800,
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w400,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                     SizedBox(height: 8),

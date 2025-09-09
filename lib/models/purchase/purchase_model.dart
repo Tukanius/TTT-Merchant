@@ -22,6 +22,8 @@ class Purchase {
   String? updatedAt;
   List<Products>? products;
   StaffUser? confirmedUser;
+  StaffUser? appUser;
+  String? cardNo;
 
   Purchase({
     this.salesType,
@@ -41,6 +43,8 @@ class Purchase {
     this.updatedAt,
     this.products,
     this.confirmedUser,
+    this.appUser,
+    this.cardNo,
   });
   static $fromJson(Map<String, dynamic> json) => _$PurchaseFromJson(json);
 
