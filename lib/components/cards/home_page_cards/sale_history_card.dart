@@ -76,7 +76,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                   ],
                 ),
                 Text(
-                  '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
+                  '${(widget.data.quantity ?? 0)} ш',
                   style: TextStyle(
                     color: orange,
                     fontSize: 16,

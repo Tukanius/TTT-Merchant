@@ -29,9 +29,9 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   int? selectedIndexTile;
   final List<String> tabs = [
     'Бүгд',
-    'Тээвэрлэж буй',
-    'Агуулахаас гарсан',
-    'Хүлээн авсан',
+    'Хүргэлтэд гарсан',
+    'Хуваарилагдсан',
+    'Хүргэгдсэн',
   ];
 
   // final Map<String, String> tabFilters = {
@@ -155,7 +155,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'ХҮЛЭЭН АВАХ ЗАХИАЛГА',
+          'ТҮЛШ ТЭЭВЭРЛЭЛТ',
           style: TextStyle(
             color: black950,
             fontSize: 18,

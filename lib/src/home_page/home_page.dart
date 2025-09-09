@@ -21,7 +21,7 @@ import 'package:ttt_merchant_flutter/models/general/residual.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/services/notification.dart';
+// import 'package:ttt_merchant_flutter/services/notification.dart';
 // import 'package:ttt_merchant_flutter/services/notification.dart';
 // import 'package:ttt_merchant_flutter/services/notification.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
@@ -152,10 +152,10 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
         automaticallyImplyLeading: false,
         title: GestureDetector(
           onTap: () {
-            NotifyService().showNotification(
-              title: "TTTETET HAHA",
-              body: "TEST BODY AHHAHAH",
-            );
+            // NotifyService().showNotification(
+            //   title: "TTTETET HAHA",
+            //   body: "TEST BODY AHHAHAH",
+            // );
           },
           child: SvgPicture.asset('assets/svg/TTT.svg'),
         ),
