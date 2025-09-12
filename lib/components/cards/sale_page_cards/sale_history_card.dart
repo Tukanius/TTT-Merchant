@@ -78,10 +78,10 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                             ? 'Тооцоо хийгдсэн'
                             : widget.data.requestStatus == "REJECTED"
                             ? 'Татгалзсан'
-                            : widget.data.requestStatus == "APPROVED"
+                            : widget.data.requestStatus == "FINANCE_APPROVED"
                             ? 'Зөвшөөрсөн'
                             : widget.data.requestStatus == "SALES_APPROVED"
-                            ? 'Баталгаажсан'
+                            ? 'Төлбөр хүлээгдэж байна'
                             : '-'}',
                         style: TextStyle(
                           color: green,
@@ -285,6 +285,24 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                       ],
                     ),
                     SizedBox(height: 14),
+                    Text(
+                      'Нийт дүн:',
+                      style: TextStyle(
+                        color: black950,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
+                      style: TextStyle(
+                        color: orange,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 14),
                     Row(
                       children: [
                         Expanded(
@@ -341,24 +359,6 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(height: 14),
-                    Text(
-                      'Нийт дүн:',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
-                      style: TextStyle(
-                        color: orange,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w700,
-                      ),
                     ),
                   ],
                 ),

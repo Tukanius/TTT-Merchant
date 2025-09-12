@@ -7,24 +7,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/check_card.dart';
+import 'package:ttt_merchant_flutter/models/card_balance.dart';
+// import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
+import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/create_payment.dart';
 
 class PurchaseRequestPageArguments {
-  final CheckCard data;
+  final CardBalance data;
   final String payType;
   PurchaseRequestPageArguments({required this.data, required this.payType});
 }
 
 class PurchaseRequestPage extends StatefulWidget {
-  final CheckCard data;
+  final CardBalance data;
   final String payType;
 
   static const routeName = "PurchaseRequestPage";
@@ -51,10 +54,11 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    print('======test=====');
-    print(widget.data.availableLimit);
-    print(widget.data.cardNumber);
-    print('======test=====');
+    print('======TestCARD=====');
+    print(widget.data.card?.availableLimit);
+    print(widget.data.card?.cardNo);
+    print(widget.data.appUserId);
+    print('======TestCARD=====');
 
     try {
       general = await Provider.of<GeneralProvider>(
@@ -88,10 +92,20 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
           isLoading = true;
         });
         List<Products> products = [];
+        List<Products> productsShow = [];
 
         for (int i = 0; i < general.residual!.length; i++) {
           if (quantities[i] > 0) {
             products.add(
+              Products(
+                product: general.residual![i].id,
+                quantity: quantities[i],
+                // name: general.residual![i].name,
+                // price: general.productTypes![i].price,
+                // residual: general.residual![i].residual,
+              ),
+            );
+            productsShow.add(
               Products(
                 product: general.residual![i].id,
                 quantity: quantities[i],
@@ -102,16 +116,31 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
             );
           }
         }
+
         PurchaseRequest request = PurchaseRequest();
-        request.cardNumber = widget.data.cardNo;
+        request.cardNumber = widget.data.card?.cardNo;
         request.products = products;
+        request.salesType = widget.payType;
+        if (widget.payType == "QR") {
+          request.appUserId = widget.data.appUserId;
+        }
+
+        // await Navigator.of(context).pushNamed(
+        //   ConfirmPurchaseRequest.routeName,
+        //   arguments: ConfirmPurchaseRequestArguments(data: request),
+        // );
+        QpayPayment qpayPayment = QpayPayment();
+        qpayPayment = await ProductApi().postPurchaseRequest(request);
         await Navigator.of(context).pushNamed(
-          ConfirmPurchaseRequest.routeName,
-          arguments: ConfirmPurchaseRequestArguments(
-            data: request,
-            payType: widget.payType,
+          CreatePayment.routeName,
+          arguments: CreatePaymentArguments(
+            id: qpayPayment.id!,
+            data: productsShow,
+            totalAmount: qpayPayment.amount!,
           ),
         );
+        // widget.data.appUserId != null ?
+
         // await ProductApi().postPurchaseRequest(request);
         setState(() {
           isLoading = false;
@@ -263,20 +292,24 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                   //     }
                                                   //   });
                                                   // },
-                                                  onTap: () {
-                                                    if (resData.residual! > 0) {
-                                                      setState(() {
-                                                        if (quantities[index] >
-                                                            0) {
-                                                          quantities[index]--;
-                                                          controllers[index]
-                                                                  .text =
-                                                              quantities[index]
-                                                                  .toString();
-                                                        }
-                                                      });
-                                                    }
-                                                  },
+                                                  onTap: isLoading == true
+                                                      ? () {}
+                                                      : () {
+                                                          if (resData
+                                                                  .residual! >
+                                                              0) {
+                                                            setState(() {
+                                                              if (quantities[index] >
+                                                                  0) {
+                                                                quantities[index]--;
+                                                                controllers[index]
+                                                                        .text =
+                                                                    quantities[index]
+                                                                        .toString();
+                                                              }
+                                                            });
+                                                          }
+                                                        },
                                                   // onTap: () {
                                                   //   setState(() {
                                                   //     if (quantities[index] >
@@ -331,6 +364,10 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                           vertical: 6,
                                                         ),
                                                     child: TextField(
+                                                      readOnly:
+                                                          isLoading == true
+                                                          ? true
+                                                          : false,
                                                       controller:
                                                           controllers[index],
                                                       keyboardType:
@@ -401,20 +438,25 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                   //     quantities[index]++;
                                                   //   });
                                                   // },
-                                                  onTap: () {
-                                                    if (resData.residual! > 0) {
-                                                      setState(() {
-                                                        if (quantities[index] <
-                                                            resData.residual!) {
-                                                          quantities[index]++;
-                                                          controllers[index]
-                                                                  .text =
-                                                              quantities[index]
-                                                                  .toString();
-                                                        }
-                                                      });
-                                                    }
-                                                  },
+                                                  onTap: isLoading == true
+                                                      ? () {}
+                                                      : () {
+                                                          if (resData
+                                                                  .residual! >
+                                                              0) {
+                                                            setState(() {
+                                                              if (quantities[index] <
+                                                                  resData
+                                                                      .residual!) {
+                                                                quantities[index]++;
+                                                                controllers[index]
+                                                                        .text =
+                                                                    quantities[index]
+                                                                        .toString();
+                                                              }
+                                                            });
+                                                          }
+                                                        },
                                                   // onTap: () {
                                                   //   setState(() {
                                                   //     quantities[index]++;
@@ -494,7 +536,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                             ),
                                             SizedBox(height: 4),
                                             Text(
-                                              '${widget.data.availableLimit} шуудай эрх',
+                                              '${widget.data.card?.availableLimit ?? 0} шуудай эрх',
                                               style: TextStyle(
                                                 color: orange,
                                                 fontSize: 20,
@@ -534,9 +576,11 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () {
-                                            onSubmit();
-                                          },
+                                          onTap: isLoading == true
+                                              ? () {}
+                                              : () {
+                                                  onSubmit();
+                                                },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 10,

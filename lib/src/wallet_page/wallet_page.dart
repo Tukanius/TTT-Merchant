@@ -1,0 +1,361 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
+import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/components/wallet_card/wallet_history_card.dart';
+import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
+// import 'package:ttt_merchant_flutter/models/general/general_init.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/provider/general_provider.dart';
+import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
+
+class WalletPage extends StatefulWidget {
+  static const routeName = "WalletPage";
+  const WalletPage({super.key});
+
+  @override
+  State<WalletPage> createState() => _WalletPageState();
+}
+
+class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
+  bool isLoadingPage = true;
+  int selectFilter = 0;
+  Result walletList = Result();
+  bool isLoadingHistory = true;
+  int page = 1;
+  int limit = 10;
+  GeneralBalance generalBalance = GeneralBalance();
+  @override
+  afterFirstLayout(BuildContext context) async {
+    try {
+      generalBalance = await Provider.of<GeneralProvider>(
+        context,
+        listen: false,
+      ).initBalance();
+      await listOfHistory(page, limit);
+      print('=========loadhistory=========');
+      print(isLoadingHistory);
+      print('=========loadhistory=========');
+      setState(() {
+        isLoadingPage = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoadingPage = false;
+      });
+    }
+  }
+
+  listOfHistory(page, limit) async {
+    walletList = await ProductApi().getWalletHistory(
+      ResultArguments(
+        offset: Offset(page: page, limit: limit),
+        filter: Filter(type: 'ALL'),
+      ),
+    );
+    setState(() {
+      isLoadingHistory = false;
+    });
+  }
+
+  final RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (!mounted) return;
+    setState(() {
+      isLoadingHistory = true;
+    });
+    generalBalance = await Provider.of<GeneralProvider>(
+      context,
+      listen: false,
+    ).initBalance();
+    await listOfHistory(page, limit);
+    refreshController.refreshCompleted();
+  }
+
+  onLoading() async {
+    if (!mounted) return;
+    setState(() {
+      limit += 10;
+    });
+    await listOfHistory(page, limit);
+    refreshController.loadComplete();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(),
+      ),
+      backgroundColor: white50,
+      body: isLoadingPage == true
+          ? CustomLoader()
+          : Refresher(
+              color: orange,
+              refreshController: refreshController,
+              onLoading: onLoading,
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              right: 0,
+                              child: SvgPicture.asset(
+                                'assets/svg/wallet_bg.svg',
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Үлдэгдэл',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '${Utils().formatCurrencyDouble(generalBalance.lastBalance?.toDouble() ?? 0)}₮',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(height: 36),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                              WalletRecharge.routeName,
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: orange,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Данс цэнэглэх',
+                                                  style: TextStyle(
+                                                    color: white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Гүйлгээний түүх',
+                        style: TextStyle(
+                          color: black950,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: white,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 2,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectFilter = 0;
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Өчигдөр',
+                                        style: TextStyle(
+                                          color: selectFilter == 0
+                                              ? orange
+                                              : black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 1,
+                              height: 16,
+                              color: black.withOpacity(0.1),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectFilter = 1;
+                                  });
+                                },
+
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '7 хоног',
+                                        style: TextStyle(
+                                          color: selectFilter == 1
+                                              ? orange
+                                              : black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 1,
+                              height: 16,
+                              color: black.withOpacity(0.1),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectFilter = 2;
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Сар',
+                                        style: TextStyle(
+                                          color: selectFilter == 2
+                                              ? orange
+                                              : black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      isLoadingHistory == true
+                          ? CustomLoader()
+                          : walletList.rows != null &&
+                                walletList.rows?.isEmpty == false
+                          ? Column(
+                              children: [
+                                Column(
+                                  children: walletList.rows!
+                                      .map(
+                                        (data) => Column(
+                                          children: [
+                                            WalletHistoryCard(data: data),
+                                            SizedBox(height: 12),
+                                          ],
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).padding.bottom +
+                                      150,
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                SizedBox(height: 12),
+                                Center(
+                                  child: const Text(
+                                    'Түүх алга байна',
+                                    style: TextStyle(
+                                      color: black600,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+}

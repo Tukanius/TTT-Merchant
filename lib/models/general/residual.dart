@@ -1,3 +1,4 @@
+import 'package:ttt_merchant_flutter/models/general/main_image.dart';
 import 'package:ttt_merchant_flutter/models/general/unit_model.dart';
 
 part '../../parts/general/residual.dart';
@@ -8,8 +9,16 @@ class Residual {
   int? residual;
   Unit? unit;
   String? weight;
+  MainImage? mainImage;
 
-  Residual({this.id, this.name, this.residual, this.unit, this.weight});
+  Residual({
+    this.id,
+    this.name,
+    this.residual,
+    this.unit,
+    this.weight,
+    this.mainImage,
+  });
   static $fromJson(Map<String, dynamic> json) => _$ResidualFromJson(json);
 
   factory Residual.fromJson(Map<String, dynamic> json) =>

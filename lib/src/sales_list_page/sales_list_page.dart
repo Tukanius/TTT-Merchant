@@ -136,7 +136,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'ТАТАН АВАЛТ',
+          'Татан авалт',
           style: TextStyle(
             color: black950,
             fontSize: 18,
@@ -302,7 +302,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                       SizedBox(height: 16),
                       isLoadingHistory == true
                           ? CustomLoader()
-                          : salesHistory.rows != null ||
+                          : salesHistory.rows != null &&
                                 salesHistory.rows?.isEmpty == false
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
@@ -332,7 +332,21 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                                 ),
                               ),
                             )
-                          : Text('No data'),
+                          : Column(
+                              children: [
+                                SizedBox(height: 12),
+                                Center(
+                                  child: const Text(
+                                    'Түүх алга байна',
+                                    style: TextStyle(
+                                      color: black600,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
 
                       SizedBox(height: mediaQuery.padding.bottom + 50),
                     ],

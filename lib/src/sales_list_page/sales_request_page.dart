@@ -159,7 +159,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Болсон',
+                          'Төлбөр төлөх',
                           style: TextStyle(
                             color: white,
                             fontSize: 14,
@@ -171,38 +171,38 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(
-                      MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 1),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: white,
-                      border: Border.all(color: white100),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Листээс харах',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(height: 16),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.of(context).pop();
+                //     Navigator.of(context).pushNamed(
+                //       MainPage.routeName,
+                //       arguments: MainPageArguments(changeIndex: 1),
+                //     );
+                //   },
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(12),
+                //       color: white,
+                //       border: Border.all(color: white100),
+                //     ),
+                //     padding: EdgeInsets.symmetric(vertical: 10),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Text(
+                //           'Листээс харах',
+                //           style: TextStyle(
+                //             color: black800,
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w600,
+                //             decoration: TextDecoration.none,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -230,7 +230,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
           automaticallyImplyLeading: false,
           titleSpacing: 12,
           title: Text(
-            'ТАТАН АВАХ ХҮСЭЛТ',
+            'Татан авах хүсэлт',
             style: TextStyle(
               color: black950,
               fontSize: 18,

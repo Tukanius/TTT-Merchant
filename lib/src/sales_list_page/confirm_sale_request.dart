@@ -420,6 +420,10 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                         .data
                                         .requestProducts![index]
                                         .residual;
+                                    final priceInfo = widget
+                                        .data
+                                        .requestProducts![index]
+                                        .price;
                                     return Column(
                                       children: [
                                         ClipRRect(
@@ -534,6 +538,33 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                             ),
                                                             Text(
                                                               '${residual} ш',
+                                                              style: TextStyle(
+                                                                color: black950,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 4,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'Үнэ: ',
+                                                              style: TextStyle(
+                                                                color: black600,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '${Utils().formatCurrencyDouble(priceInfo?.toDouble() ?? 0)} ₮',
                                                               style: TextStyle(
                                                                 color: black950,
                                                                 fontSize: 12,

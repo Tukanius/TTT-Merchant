@@ -9,7 +9,7 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) {
     id: json['_id'] != null ? json['_id'] as String : null,
     type: json['type'] != null ? json['type'] as String : null,
     user: json['user'] != null ? User.fromJson(json['user']) : null,
-
+    invoice: json['invoice'] != null ? Invoice.fromJson(json['invoice']) : null,
     distributor: json['distributor'] != null
         ? StaffUser.fromJson(json['distributor'])
         : null,
@@ -63,6 +63,7 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) {
     json['confirmedUser'] = instance.confirmedUser;
   if (instance.appUser != null) json['appUser'] = instance.appUser;
   if (instance.cardNo != null) json['cardNo'] = instance.cardNo;
+  if (instance.invoice != null) json['invoice'] = instance.invoice;
 
   return json;
 }

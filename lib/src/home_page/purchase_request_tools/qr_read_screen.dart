@@ -9,6 +9,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
@@ -79,7 +80,8 @@ class _QrReadScreenState extends State<QrReadScreen> {
                         CheckCard card = CheckCard()
                           ..cardNumber = cardNo
                           ..appUserId = appUserJson;
-                        card = await ProductApi().getCardBalance(card);
+                        CardBalance cardData = CardBalance();
+                        cardData = await ProductApi().getCardBalance(card);
 
                         isNavigated = true;
                         await controller.stop();
@@ -88,13 +90,13 @@ class _QrReadScreenState extends State<QrReadScreen> {
                             .pushReplacementNamed(
                               PurchaseRequestPage.routeName,
                               arguments: PurchaseRequestPageArguments(
-                                data: card,
+                                data: cardData,
                                 payType: "QR",
                               ),
                             )
                             .then((_) async {
                               isNavigated = false;
-                              await controller.start();
+                              // await controller.start();
                             });
                       } catch (e) {
                         if (!isErrorShown) {

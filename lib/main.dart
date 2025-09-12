@@ -17,8 +17,11 @@ import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/create_payment.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
@@ -34,6 +37,8 @@ import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_history_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
+import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
+import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -261,6 +266,51 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return SaleDetailPage(data: arguments.data);
+                },
+              );
+            case QpayPaymentPage.routeName:
+              QpayPaymentPageArguments arguments =
+                  settings.arguments as QpayPaymentPageArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return QpayPaymentPage(id: arguments.id);
+                },
+              );
+            case WalletRecharge.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const WalletRecharge();
+                },
+              );
+            case WalletQpayCharge.routeName:
+              WalletQpayChargeArguments arguments =
+                  settings.arguments as WalletQpayChargeArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return WalletQpayCharge(data: arguments.data);
+                },
+              );
+            case CreatePayment.routeName:
+              CreatePaymentArguments arguments =
+                  settings.arguments as CreatePaymentArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return CreatePayment(
+                    id: arguments.id,
+                    data: arguments.data,
+                    totalAmount: arguments.totalAmount,
+                  );
+                },
+              );
+            case SalePayment.routeName:
+              SalePaymentArguments arguments =
+                  settings.arguments as SalePaymentArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return SalePayment(
+                    payAmount: arguments.payAmount,
+                    id: arguments.id,
+                  );
                 },
               );
             default:

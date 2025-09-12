@@ -3,11 +3,15 @@
 // import 'dart:io';
 
 // import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
+import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
 // import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
@@ -51,6 +55,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
       time: '2025/08/20 16:30',
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +66,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'ДЭЛГЭРЭНГҮЙ',
+          'Татан авалт дэлгэрэнгүй',
           style: TextStyle(
             color: black950,
             fontSize: 18,
@@ -121,170 +126,481 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      // // Text(
-                                      // //   '750 КГ',
-                                      // //   style: TextStyle(
-                                      // //     color: black600,
-                                      // //     fontSize: 12,
-                                      // //     fontWeight: FontWeight.w400,
-                                      // //   ),
-                                      // // ),
-                                      // // SizedBox(width: 4),
-                                      // Container(
-                                      //   width: 2,
-                                      //   height: 2,
-                                      //   decoration: BoxDecoration(
-                                      //     borderRadius: BorderRadius.circular(12),
-                                      //     color: black600,
-                                      //   ),
-                                      // ),
-                                      // SizedBox(width: 4),
-                                      Text(
-                                        '${widget.data.totalCount ?? '-'} ш',
-                                        // '123',
-                                        style: TextStyle(
-                                          color: black950,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     // // Text(
+                                  //     // //   '750 КГ',
+                                  //     // //   style: TextStyle(
+                                  //     // //     color: black600,
+                                  //     // //     fontSize: 12,
+                                  //     // //     fontWeight: FontWeight.w400,
+                                  //     // //   ),
+                                  //     // // ),
+                                  //     // // SizedBox(width: 4),
+                                  //     // Container(
+                                  //     //   width: 2,
+                                  //     //   height: 2,
+                                  //     //   decoration: BoxDecoration(
+                                  //     //     borderRadius: BorderRadius.circular(12),
+                                  //     //     color: black600,
+                                  //     //   ),
+                                  //     // ),
+                                  //     // SizedBox(width: 4),
+                                  //     Text(
+                                  //       '${widget.data.totalCount ?? '-'} ш',
+                                  //       // '123',
+                                  //       style: TextStyle(
+                                  //         color: black950,
+                                  //         fontSize: 12,
+                                  //         fontWeight: FontWeight.w700,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
+                              // SizedBox(height: 16),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Row(
+                              //       children: [
+                              //         SvgPicture.asset('assets/svg/car.svg'),
+                              //         SizedBox(width: 8),
+                              //         Column(
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.start,
+                              //           children: [
+                              //             //                           Container(
+                              //             //   decoration: BoxDecoration(
+                              //             //     borderRadius: BorderRadius.circular(100),
+                              //             //     color: green.withOpacity(0.1),
+                              //             //   ),
+                              //             //   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                              //             //   child: Text(
+                              //             //     '${widget.data.transportStatus}',
+                              //             //     style: TextStyle(
+                              //             //       color: green,
+                              //             //       fontSize: 10,
+                              //             //       fontWeight: FontWeight.w500,
+                              //             //     ),
+                              //             //   ),
+                              //             // ),
+                              //             // Container(
+                              //             //   decoration: BoxDecoration(
+                              //             //     borderRadius:
+                              //             //         BorderRadius.circular(100),
+                              //             //     color:
+                              //             //         widget.data.inOutType == "IN"
+                              //             //         ? green.withOpacity(0.1)
+                              //             //         : widget.data.inOutType ==
+                              //             //               "OUT"
+                              //             //         ? redColor.withOpacity(0.1)
+                              //             //         : green.withOpacity(0.1),
+                              //             //   ),
+                              //             //   padding: EdgeInsets.symmetric(
+                              //             //     horizontal: 9,
+                              //             //     vertical: 4,
+                              //             //   ),
+                              //             //   child: Text(
+                              //             //     '${widget.data.inOutType == "IN"
+                              //             //         ? "Орлого"
+                              //             //         : widget.data.inOutType == "OUT"
+                              //             //         ? "Зарлага"
+                              //             //         : '${widget.data.transportStatus}'}',
+                              //             //     style: TextStyle(
+                              //             //       color:
+                              //             //           widget.data.inOutType ==
+                              //             //               "IN"
+                              //             //           ? green
+                              //             //           : widget.data.inOutType ==
+                              //             //                 "OUT"
+                              //             //           ? redColor
+                              //             //           : green,
+                              //             //       fontSize: 10,
+                              //             //       fontWeight: FontWeight.w500,
+                              //             //     ),
+                              //             //   ),
+                              //             // ),
+                              //             // Container(
+                              //             //   decoration: BoxDecoration(
+                              //             //     borderRadius:
+                              //             //         BorderRadius.circular(100),
+                              //             //     color: orange.withOpacity(0.1),
+                              //             //   ),
+                              //             //   padding: EdgeInsets.symmetric(
+                              //             //     horizontal: 8,
+                              //             //     vertical: 4,
+                              //             //   ),
+                              //             //   child: Text(
+                              //             //     '${widget.data.transportStatus}',
+                              //             //     style: TextStyle(
+                              //             //       color: orange,
+                              //             //       fontSize: 12,
+                              //             //       fontWeight: FontWeight.w400,
+                              //             //     ),
+                              //             //   ),
+                              //             // ),
+                              //             SizedBox(height: 4),
+                              //             Text(
+                              //               // '${widget.data.quantity ?? '-'} ш',
+                              //               '123',
+                              //               style: TextStyle(
+                              //                 color: black950,
+                              //                 fontSize: 14,
+                              //                 fontWeight: FontWeight.w600,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     Expanded(
+                              //       child: Column(
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.end,
+                              //         children: [
+                              //           Text(
+                              //             'Агуулхаас гарсан огноо',
+                              //             style: TextStyle(
+                              //               color: black600,
+                              //               fontSize: 12,
+                              //               fontWeight: FontWeight.w400,
+                              //             ),
+                              //             textAlign: TextAlign.end,
+                              //           ),
+                              //           SizedBox(height: 2),
+                              //           Text(
+                              //             textAlign: TextAlign.end,
+
+                              //             // '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutStatusDate!).toLocal())}',
+                              //             '123',
+                              //             style: TextStyle(
+                              //               color: black950,
+                              //               fontSize: 12,
+                              //               fontWeight: FontWeight.w500,
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                               SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset('assets/svg/car.svg'),
-                                      SizedBox(width: 8),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          //                           Container(
-                                          //   decoration: BoxDecoration(
-                                          //     borderRadius: BorderRadius.circular(100),
-                                          //     color: green.withOpacity(0.1),
-                                          //   ),
-                                          //   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                                          //   child: Text(
-                                          //     '${widget.data.transportStatus}',
-                                          //     style: TextStyle(
-                                          //       color: green,
-                                          //       fontSize: 10,
-                                          //       fontWeight: FontWeight.w500,
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          // Container(
-                                          //   decoration: BoxDecoration(
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(100),
-                                          //     color:
-                                          //         widget.data.inOutType == "IN"
-                                          //         ? green.withOpacity(0.1)
-                                          //         : widget.data.inOutType ==
-                                          //               "OUT"
-                                          //         ? redColor.withOpacity(0.1)
-                                          //         : green.withOpacity(0.1),
-                                          //   ),
-                                          //   padding: EdgeInsets.symmetric(
-                                          //     horizontal: 9,
-                                          //     vertical: 4,
-                                          //   ),
-                                          //   child: Text(
-                                          //     '${widget.data.inOutType == "IN"
-                                          //         ? "Орлого"
-                                          //         : widget.data.inOutType == "OUT"
-                                          //         ? "Зарлага"
-                                          //         : '${widget.data.transportStatus}'}',
-                                          //     style: TextStyle(
-                                          //       color:
-                                          //           widget.data.inOutType ==
-                                          //               "IN"
-                                          //           ? green
-                                          //           : widget.data.inOutType ==
-                                          //                 "OUT"
-                                          //           ? redColor
-                                          //           : green,
-                                          //       fontSize: 10,
-                                          //       fontWeight: FontWeight.w500,
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          // Container(
-                                          //   decoration: BoxDecoration(
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(100),
-                                          //     color: orange.withOpacity(0.1),
-                                          //   ),
-                                          //   padding: EdgeInsets.symmetric(
-                                          //     horizontal: 8,
-                                          //     vertical: 4,
-                                          //   ),
-                                          //   child: Text(
-                                          //     '${widget.data.transportStatus}',
-                                          //     style: TextStyle(
-                                          //       color: orange,
-                                          //       fontSize: 12,
-                                          //       fontWeight: FontWeight.w400,
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          SizedBox(height: 4),
-                                          Text(
-                                            // '${widget.data.quantity ?? '-'} ш',
-                                            '123',
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: white,
+                                ),
+
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Захиалгын мэдээлэл',
+                                      style: TextStyle(
+                                        color: black400,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
                                       ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Агуулхаас гарсан огноо',
+                                          'Захиалга үүссэн огноо:',
                                           style: TextStyle(
-                                            color: black600,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
+                                            color: black800,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                          textAlign: TextAlign.end,
                                         ),
-                                        SizedBox(height: 2),
                                         Text(
-                                          textAlign: TextAlign.end,
-
-                                          // '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutStatusDate!).toLocal())}',
-                                          '123',
+                                          '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                                           style: TextStyle(
                                             color: black950,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(height: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Захиалгын дугаар:',
+                                          style: TextStyle(
+                                            color: black800,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${widget.data.code ?? '#'}',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Захиалсан тоо :',
+                                          style: TextStyle(
+                                            color: black800,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          // '${widget.data.quantity ?? '-'} ш',
+                                          // '123',
+                                          '${widget.data.totalCount ?? '-'} ш',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Захиалга баталсан:',
+                                          style: TextStyle(
+                                            color: black800,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          // 'Б.Эрдэнэ',
+                                          '-',
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // SizedBox(height: 4),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       'Баталгаажсан тоо:',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       '1,500 ш',
+                                    //       style: TextStyle(
+                                    //         color: black950,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w600,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(height: 14),
+                                    // Container(
+                                    //   width: MediaQuery.of(context).size.width,
+                                    //   height: 1,
+                                    //   color: white200,
+                                    // ),
+                                    // SizedBox(height: 14),
+                                    // Text(
+                                    //   'Тээврийн мэдээлэл',
+                                    //   style: TextStyle(
+                                    //     color: black400,
+                                    //     fontSize: 12,
+                                    //     fontWeight: FontWeight.w400,
+                                    //   ),
+                                    // ),
+                                    // SizedBox(height: 8),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       'Илгээх агуулах:',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       // '${widget.data.transportCompany ?? '-'}',
+                                    //       '123',
+                                    //       style: TextStyle(
+                                    //         color: black950,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w600,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(height: 4),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       'Хүлээн авах цэг:',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       // '${widget.data.vehiclePlateNo ?? '-'}',
+                                    //       '123',
+                                    //       style: TextStyle(
+                                    //         color: black950,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w600,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(height: 4),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       'Нярав:',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       '${widget.data}',
+                                    //       style: TextStyle(
+                                    //         color: black950,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w600,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    SizedBox(height: 14),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 1,
+                                      color: white200,
+                                    ),
+                                    SizedBox(height: 14),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Захиалсан бараа',
+                                          style: TextStyle(
+                                            color: black400,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        // Text(
+                                        //   '20,000.00₮',
+                                        //   style: TextStyle(
+                                        //     color: black950,
+                                        //     fontSize: 16,
+                                        //     fontWeight: FontWeight.w600,
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Column(
+                                      children: widget.data.requestProduct!
+                                          .map(
+                                            (item) => Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      '${item.product?.name}',
+                                                      style: TextStyle(
+                                                        color: black800,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${item.totalCount} x ${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
+                                                      style: TextStyle(
+                                                        color: black950,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 2),
+                                              ],
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       '1ш: 5,000₮',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w400,
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       '400x5,000₮',
+                                    //       style: TextStyle(
+                                    //         color: black800,
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w400,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
+
                         // OrderTimeline(
                         //   steps: steps,
                         //   stepIndex: 0,
@@ -295,312 +611,6 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
                         //   black600: black600,
                         //   black400: black400,
                         // ),
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: white,
-                          ),
-
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Захиалгын мэдээлэл',
-                                style: TextStyle(
-                                  color: black400,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Захиалга үүссэн огноо:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Захиалгын дугаар:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${widget.data.code ?? '#'}',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Захиалсан тоо :',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    // '${widget.data.quantity ?? '-'} ш',
-                                    '123',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Захиалга баталсан:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    // 'Б.Эрдэнэ',
-                                    '-',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // SizedBox(height: 4),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       'Баталгаажсан тоо:',
-                              //       style: TextStyle(
-                              //         color: black800,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w500,
-                              //       ),
-                              //     ),
-                              //     Text(
-                              //       '1,500 ш',
-                              //       style: TextStyle(
-                              //         color: black950,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w600,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              SizedBox(height: 14),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: white200,
-                              ),
-                              SizedBox(height: 14),
-                              Text(
-                                'Тээврийн мэдээлэл',
-                                style: TextStyle(
-                                  color: black400,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Илгээх агуулах:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    // '${widget.data.transportCompany ?? '-'}',
-                                    '123',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Хүлээн авах цэг:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    // '${widget.data.vehiclePlateNo ?? '-'}',
-                                    '123',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // SizedBox(height: 4),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       'Нярав:',
-                              //       style: TextStyle(
-                              //         color: black800,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w500,
-                              //       ),
-                              //     ),
-                              //     Text(
-                              //       '${widget.data}',
-                              //       style: TextStyle(
-                              //         color: black950,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w600,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              SizedBox(height: 14),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: white200,
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Захиалсан бараа',
-                                    style: TextStyle(
-                                      color: black400,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  // Text(
-                                  //   '20,000.00₮',
-                                  //   style: TextStyle(
-                                  //     color: black950,
-                                  //     fontSize: 16,
-                                  //     fontWeight: FontWeight.w600,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Column(
-                                children: widget.data.requestProduct!
-                                    .map(
-                                      (item) => Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '${item.product?.name}',
-                                                style: TextStyle(
-                                                  color: black800,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              Text(
-                                                '${item.totalCount} x ${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
-                                                style: TextStyle(
-                                                  color: black950,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 2),
-                                        ],
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       '1ш: 5,000₮',
-                              //       style: TextStyle(
-                              //         color: black800,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w400,
-                              //       ),
-                              //     ),
-                              //     Text(
-                              //       '400x5,000₮',
-                              //       style: TextStyle(
-                              //         color: black800,
-                              //         fontSize: 14,
-                              //         fontWeight: FontWeight.w400,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -609,103 +619,106 @@ class _SaleDetailPageState extends State<SaleDetailPage> {
               ),
             ),
           ),
-          // Align(
-          //   alignment: AlignmentDirectional.bottomCenter,
-          //   child: Container(
-          //     color: white,
-          //     child: Padding(
-          //       padding: EdgeInsets.only(
-          //         top: 16,
-          //         right: 16,
-          //         left: 16,
-          //         bottom: Platform.isIOS
-          //             ? MediaQuery.of(context).padding.bottom
-          //             : MediaQuery.of(context).padding.bottom + 16,
-          //       ),
-          //       child: Column(
-          //         mainAxisSize: MainAxisSize.min,
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             'Нийт дүн:',
-          //             style: TextStyle(
-          //               color: black950,
-          //               fontSize: 16,
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //           SizedBox(height: 4),
-          //           Text(
-          //             '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
-          //             style: TextStyle(
-          //               color: orange,
-          //               fontSize: 26,
-          //               fontWeight: FontWeight.w700,
-          //             ),
-          //           ),
-          //           SizedBox(height: 16),
-          //           Row(
-          //             children: [
-          //               Expanded(
-          //                 child: GestureDetector(
-          //                   onTap: () {
-          //                     // onSubmit();
-          //                     // Navigator.of(context).pushNamed(
-          //                     //   IncomeConfirmPage.routeName,
-          //                     //   arguments: IncomeConfirmPageArguments(
-          //                     //     data: widget.data,
-          //                     //   ),
-          //                     // );
-          //                   },
-          //                   child: Container(
-          //                     padding: EdgeInsets.symmetric(vertical: 10),
-          //                     decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(12),
-          //                       color: orange,
-          //                     ),
-          //                     child: Row(
-          //                       mainAxisAlignment: MainAxisAlignment.center,
-          //                       children: [
-          //                         isLoading == true
-          //                             ? Container(
-          //                                 // margin: EdgeInsets.only(right: 15),
-          //                                 width: 17,
-          //                                 height: 17,
-          //                                 child: Platform.isAndroid
-          //                                     ? Center(
-          //                                         child:
-          //                                             CircularProgressIndicator(
-          //                                               color: white,
-          //                                               strokeWidth: 2.5,
-          //                                             ),
-          //                                       )
-          //                                     : Center(
-          //                                         child:
-          //                                             CupertinoActivityIndicator(
-          //                                               color: white,
-          //                                             ),
-          //                                       ),
-          //                               )
-          //                             : Text(
-          //                                 'Баталгаажуулах',
-          //                                 style: TextStyle(
-          //                                   color: white,
-          //                                   fontSize: 14,
-          //                                   fontWeight: FontWeight.w600,
-          //                                 ),
-          //                               ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          widget.data.requestStatus == "SALES_APPROVED"
+              ? Align(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  child: Container(
+                    color: white,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 16,
+                        right: 16,
+                        left: 16,
+                        bottom: Platform.isIOS
+                            ? MediaQuery.of(context).padding.bottom
+                            : MediaQuery.of(context).padding.bottom + 16,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Нийт дүн:',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
+                            style: TextStyle(
+                              color: orange,
+                              fontSize: 26,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      SalePayment.routeName,
+                                      arguments: SalePaymentArguments(
+                                        payAmount: widget.data.totalAmount!,
+                                        id: widget.data.id!,
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: orange,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        isLoading == true
+                                            ? Container(
+                                                // margin: EdgeInsets.only(right: 15),
+                                                width: 17,
+                                                height: 17,
+                                                child: Platform.isAndroid
+                                                    ? Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                              color: white,
+                                                              strokeWidth: 2.5,
+                                                            ),
+                                                      )
+                                                    : Center(
+                                                        child:
+                                                            CupertinoActivityIndicator(
+                                                              color: white,
+                                                            ),
+                                                      ),
+                                              )
+                                            : Text(
+                                                'Төлбөр төлөх',
+                                                style: TextStyle(
+                                                  color: white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
     );

@@ -5,7 +5,7 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 // import 'package:ttt_merchant_flutter/src/auth/first_user_login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
-import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
+// import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -23,15 +23,19 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin {
   afterFirstLayout(BuildContext context) async {
     try {
       user = await AuthApi().me(false);
-      user.userStatus == "NEW"
-          ? await Navigator.of(context).pushNamed(UserSetPasswordPage.routeName)
-          : await Navigator.of(context).pushNamed(
-              MainPage.routeName,
-              arguments: MainPageArguments(
-                changeIndex: 0,
-                userType: user.userType!,
-              ),
-            );
+      await Navigator.of(context).pushNamed(
+        MainPage.routeName,
+        arguments: MainPageArguments(changeIndex: 0, userType: user.userType!),
+      );
+      // user.userStatus == "NEW"
+      //     ? await Navigator.of(context).pushNamed(UserSetPasswordPage.routeName)
+      //     : await Navigator.of(context).pushNamed(
+      //         MainPage.routeName,
+      //         arguments: MainPageArguments(
+      //           changeIndex: 0,
+      //           userType: user.userType!,
+      //         ),
+      //       );
     } catch (e) {
       // Navigator.of(context).pushNamed(LoginPhonePage.routeName);
       Navigator.of(context).pushNamed(LoginPage.routeName);

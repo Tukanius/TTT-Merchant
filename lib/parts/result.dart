@@ -48,7 +48,7 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
       }
     }
     if (instance.filter != null) {
-      params['filter'] ??= {}; // хоосон map оноож өгнө
+      params['filter'] ??= {};
       if (instance.filter!.type != null && instance.filter!.type != '') {
         params['filter']['type'] = instance.filter!.type;
       } else {

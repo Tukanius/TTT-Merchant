@@ -10,7 +10,7 @@ Widget buildCustomKeyboard(
   return GridView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
-    // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+    padding: EdgeInsets.all(0),
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 3,
       childAspectRatio: 2,
@@ -21,7 +21,24 @@ Widget buildCustomKeyboard(
     itemBuilder: (context, index) {
       if (index == 9) {
         return _buildKey(
+          Text(
+            '000',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: black950,
+            ),
+          ),
+          onTap: () {
+            if (pinController.text.length + 3 <= keyNumber) {
+              pinController.text += "000";
+            }
+          },
+        );
+      } else if (index == 11) {
+        return _buildKey(
           SvgPicture.asset('assets/svg/back_space.svg'),
+          // SvgPicture.asset('assets/svg/check.svg'),
           onTap: () {
             if (pinController.text.isNotEmpty) {
               pinController.text = pinController.text.substring(
@@ -31,20 +48,15 @@ Widget buildCustomKeyboard(
             }
           },
         );
-      } else if (index == 11) {
-        return _buildKey(
-          SvgPicture.asset('assets/svg/check.svg'),
-          onTap: onTap,
-        );
       }
       String number = (index == 10) ? '0' : '${index + 1}';
       return _buildKey(
         Text(
           number,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: gray900,
+            color: black950,
           ),
         ),
         onTap: () {

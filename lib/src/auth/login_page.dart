@@ -218,9 +218,11 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 Expanded(
                                   child: GestureDetector(
-                                    onTap: () {
-                                      onSubmit();
-                                    },
+                                    onTap: isLoading == true
+                                        ? () {}
+                                        : () {
+                                            onSubmit();
+                                          },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 10,
@@ -342,13 +344,26 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              '© 2025 Таван толгой түлш ХХК',
-                              style: TextStyle(
-                                color: black400,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '© 2025 Таван толгой түлш ХХК ',
+                                  style: TextStyle(
+                                    color: black400,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                // Text(
+                                //   '/1.0.2/',
+                                //   style: TextStyle(
+                                //     color: black400,
+                                //     fontSize: 14,
+                                //     fontWeight: FontWeight.w400,
+                                //   ),
+                                // ),
+                              ],
                             ),
                           ],
                         ),

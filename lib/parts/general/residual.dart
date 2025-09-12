@@ -7,6 +7,9 @@ Residual _$ResidualFromJson(Map<String, dynamic> json) {
     residual: json['residual'] != null ? json['residual'] as int : null,
     unit: json['unit'] != null ? Unit.fromJson(json['unit']) : null,
     weight: json['weight'] != null ? json['weight'] as String : null,
+    mainImage: json['mainImage'] != null
+        ? MainImage.fromJson(json['mainImage'])
+        : null,
   );
 }
 
@@ -17,5 +20,6 @@ Map<String, dynamic> _$ResidualToJson(Residual instance) {
   if (instance.residual != null) json['residual'] = instance.residual;
   if (instance.unit != null) json['unit'] = instance.unit;
   if (instance.weight != null) json['weight'] = instance.weight;
+  if (instance.mainImage != null) json['mainImage'] = instance.mainImage;
   return json;
 }

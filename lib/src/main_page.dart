@@ -7,12 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/src/home_page/home_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/home_page_distributor.dart';
+import 'package:ttt_merchant_flutter/src/home_page/home_page_storeman.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/check_card_modal.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/income_list_distributor.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/income_list_storeman.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
+import 'package:ttt_merchant_flutter/src/wallet_page/wallet_page.dart';
 
 class MainPageArguments {
   final int? changeIndex;
@@ -43,15 +46,16 @@ class _MainPageState extends State<MainPage> {
   List<Widget> get widgetOptions {
     if (widget.userType == "STORE_MAN") {
       return [
-        HomePage(onChangePage: (index) => onItemTapped(index)),
-        IncomeListPage(userType: widget.userType ?? ''),
+        HomePageStoreman(onChangePage: (index) => onItemTapped(index)),
+        IncomeListStoreman(),
         ProfilePage(onChangePage: (index) => onItemTapped(index)),
       ];
     } else {
       return [
-        HomePage(onChangePage: (index) => onItemTapped(index)),
+        HomePageDistributor(onChangePage: (index) => onItemTapped(index)),
         SalesListPage(),
-        IncomeListPage(userType: widget.userType ?? ''),
+        WalletPage(),
+        IncomeListPage(),
         ProfilePage(onChangePage: (index) => onItemTapped(index)),
       ];
     }
@@ -144,19 +148,48 @@ class _MainPageState extends State<MainPage> {
                   right: 12,
                   left: 12,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildNavItem(
-                      selectedIconPath: 'assets/svg/home_selected.svg',
-                      unselectedIconPath: 'assets/svg/home_unselected.svg',
-                      index: 0,
-                      selectedIndex: _selectedIndex,
-                      onTap: onItemTapped,
-                    ),
-                    widget.userType == "STORE_MAN"
-                        ? SizedBox()
-                        : _buildNavItem(
+                child: widget.userType == "STORE_MAN"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/home_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/home_unselected.svg',
+                            index: 0,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/truck_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/truck_unselected.svg',
+                            index: 1,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/menu_unselected.svg',
+                            index: 2,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/home_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/home_unselected.svg',
+                            index: 0,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
                             selectedIconPath: 'assets/svg/shop_selected.svg',
                             unselectedIconPath:
                                 'assets/svg/shop_unselected.svg',
@@ -164,22 +197,32 @@ class _MainPageState extends State<MainPage> {
                             selectedIndex: _selectedIndex,
                             onTap: onItemTapped,
                           ),
-                    _buildNavItem(
-                      selectedIconPath: 'assets/svg/truck_selected.svg',
-                      unselectedIconPath: 'assets/svg/truck_unselected.svg',
-                      index: widget.userType == "STORE_MAN" ? 1 : 2,
-                      selectedIndex: _selectedIndex,
-                      onTap: onItemTapped,
-                    ),
-                    _buildNavItem(
-                      selectedIconPath: 'assets/svg/menu_selected.svg',
-                      unselectedIconPath: 'assets/svg/menu_unselected.svg',
-                      index: widget.userType == "STORE_MAN" ? 2 : 3,
-                      selectedIndex: _selectedIndex,
-                      onTap: onItemTapped,
-                    ),
-                  ],
-                ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/wallet_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/wallet_unselected.svg',
+                            index: 2,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/truck_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/truck_unselected.svg',
+                            index: 3,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/menu_unselected.svg',
+                            index: 4,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                        ],
+                      ),
               )
             : null,
       ),

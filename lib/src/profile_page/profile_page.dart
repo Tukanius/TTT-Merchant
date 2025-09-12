@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
+import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
-import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -47,48 +47,9 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: white,
-        centerTitle: false,
-        elevation: 1,
-        automaticallyImplyLeading: false,
-        title: SvgPicture.asset('assets/svg/TTT.svg'),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(NotifyPage.routeName);
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      child: Center(
-                        child: SvgPicture.asset('assets/svg/notify.svg'),
-                      ),
-                    ),
-                    // Positioned(
-                    //   right: 7,
-                    //   top: 4,
-                    //   child: Container(
-                    //     height: 12,
-                    //     width: 12,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(100),
-                    //       color: rednotify,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-                SizedBox(width: 16),
-              ],
-            ),
-          ),
-        ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(),
       ),
       backgroundColor: white50,
       body: isLoadingPage == true
@@ -119,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${user.firstName} ${user.lastName}',
+                                  '${user.lastName} ${user.firstName}',
                                   style: TextStyle(
                                     color: black950,
                                     fontSize: 16,

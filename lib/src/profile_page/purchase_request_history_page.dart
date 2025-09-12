@@ -27,7 +27,7 @@ class _PurchaseRequestHistoryPageState
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Text(
-          'ТАТАН АВАХ ХҮСЭЛТ',
+          'Татан авах хүсэлт',
           style: TextStyle(
             color: black950,
             fontSize: 18,

@@ -21,7 +21,7 @@ class _NotifyPageState extends State<NotifyPage> {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'ТАТАХ АВАХ ХҮСЭЛТ',
+          'Татан авах хүсэлт',
           style: TextStyle(
             color: black950,
             fontSize: 18,

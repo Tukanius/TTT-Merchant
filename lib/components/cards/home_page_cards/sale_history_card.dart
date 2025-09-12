@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/purchase/purchase_model.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/create_payment.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SaleHistoryCard extends StatefulWidget {
@@ -285,6 +286,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         ),
                       ],
                     ),
+
                     SizedBox(height: 14),
                     Text(
                       'Нийт дүн:',
@@ -304,6 +306,65 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                    widget.data.orderStatus == "NEW" &&
+                            widget.data.invoice != null
+                        ? Column(
+                            children: [
+                              SizedBox(height: 14),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        // onSubmit();
+                                        // Navigator.of(context).pushNamed(
+                                        //   QpayPaymentPage.routeName,
+                                        //   arguments: QpayPaymentPageArguments(
+                                        //     id: widget.data.invoice!.id!,
+                                        //   ),
+                                        // );
+                                        await Navigator.of(context).pushNamed(
+                                          CreatePayment.routeName,
+                                          arguments: CreatePaymentArguments(
+                                            id: widget.data.invoice!.id!,
+                                            data: widget.data.products!,
+                                            totalAmount:
+                                                widget.data.totalAmount!,
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          color: orange,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Төлбөр төлөх',
+                                              style: TextStyle(
+                                                color: white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
                   ],
                 ),
               ),

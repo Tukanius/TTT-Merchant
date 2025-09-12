@@ -8,6 +8,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
+import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 
@@ -29,11 +30,15 @@ class _CheckCardModalState extends State<CheckCardModal> {
         setState(() {
           isLoading = true;
         });
+        CardBalance cardData = CardBalance();
         card.cardNumber = controller.text;
-        card = await ProductApi().getCardBalance(card);
+        cardData = await ProductApi().getCardBalance(card);
         Navigator.of(context).popAndPushNamed(
           PurchaseRequestPage.routeName,
-          arguments: PurchaseRequestPageArguments(data: card, payType: "CARD"),
+          arguments: PurchaseRequestPageArguments(
+            data: cardData,
+            payType: "CARD",
+          ),
         );
         setState(() {
           isLoading = false;

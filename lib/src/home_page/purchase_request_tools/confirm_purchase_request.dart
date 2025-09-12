@@ -13,9 +13,9 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 // import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
+import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 // import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
-import 'package:ttt_merchant_flutter/src/main_page.dart';
+import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
 
@@ -102,134 +102,30 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
         ..cardNumber = widget.data.cardNumber
         ..products = products
         ..salesType = widget.payType;
+      if (widget.payType == "QR") {
+        request.appUserId = widget.data.appUserId;
+      }
 
       // await Navigator.of(context).pushNamed(
       //   ConfirmPurchaseRequest.routeName,
       //   arguments: ConfirmPurchaseRequestArguments(data: request),
       // );
-      await ProductApi().postPurchaseRequest(request);
+      QpayPayment qpayPayment = QpayPayment();
+      qpayPayment = await ProductApi().postPurchaseRequest(request);
+      await Navigator.of(context).pushNamed(
+        QpayPaymentPage.routeName,
+        arguments: QpayPaymentPageArguments(id: qpayPayment.id!),
+      );
       setState(() {
         isLoading = false;
       });
-      await saleSuccess(context);
+      // await saleSuccess(context);
     } catch (e) {
       print(e);
       setState(() {
         isLoading = false;
       });
     }
-  }
-
-  saleSuccess(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: white100),
-            ),
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SvgPicture.asset('assets/svg/success.svg'),
-                SizedBox(height: 12),
-                Text(
-                  'Амжилттай',
-                  style: TextStyle(
-                    color: successColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Таны хүсэлт амжилттай илгээгдлээ.',
-                  style: const TextStyle(
-                    color: black500,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.none,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(
-                      MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 0),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: orange,
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Болсон',
-                          style: TextStyle(
-                            color: white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(
-                      context,
-                    ).pushNamed(PurchaseHistoryPage.routeName);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: white,
-                      border: Border.all(color: white100),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Листээс харах',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   // final List<Product> items = List.generate(
@@ -295,6 +191,8 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                   final resData = widget.data.products![index];
                                   final residual =
                                       widget.data.products![index].residual;
+                                  final priceInfo =
+                                      widget.data.products![index].price;
                                   return Column(
                                     children: [
                                       ClipRRect(
@@ -399,6 +297,31 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                                           ),
                                                           Text(
                                                             '${residual} ш',
+                                                            style: TextStyle(
+                                                              color: black950,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Үнэ: ',
+                                                            style: TextStyle(
+                                                              color: black600,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '${Utils().formatCurrencyDouble(priceInfo?.toDouble() ?? 0)} ₮',
                                                             style: TextStyle(
                                                               color: black950,
                                                               fontSize: 12,
@@ -596,7 +519,7 @@ class _ConfirmPurchaseRequestState extends State<ConfirmPurchaseRequest>
                                                             ),
                                                     )
                                                   : Text(
-                                                      'Баталгаажуулах',
+                                                      'Төлбөр төлөх',
                                                       style: TextStyle(
                                                         color: white,
                                                         fontSize: 14,

@@ -1,4 +1,5 @@
 import 'package:ttt_merchant_flutter/models/income_models/staff_user.dart';
+import 'package:ttt_merchant_flutter/models/purchase/invoice.dart';
 import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 
@@ -16,6 +17,7 @@ class Purchase {
   int? totalAmount;
   int? payAmount;
   int? paidAmount;
+  Invoice? invoice;
   String? orderStatusDate;
   String? deletedAt;
   String? createdAt;
@@ -45,6 +47,7 @@ class Purchase {
     this.confirmedUser,
     this.appUser,
     this.cardNo,
+    this.invoice,
   });
   static $fromJson(Map<String, dynamic> json) => _$PurchaseFromJson(json);
 

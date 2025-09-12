@@ -30,8 +30,8 @@ const Color zero = Color(0xFF000000);
 const Color warning = Color(0xFFFEF0C7);
 const Color redFilter = Color(0xFFFF0000);
 const Color redColor = Color(0xFFFF0000);
+const Color redWallet = Color(0xFFF23535);
 const Color pocketColor = Color(0xffE6123F);
-
 const Color warning100 = Color(0xFFFEF0C7);
 const Color warning200 = Color(0xFFFEEE95);
 const Color warning300 = Color(0xFFFDE272);
@@ -41,6 +41,7 @@ const Color warning300 = Color(0xFFFDE272);
 const Color error100 = Color(0xFFFEE4E2);
 const Color error700 = Color(0xFFB42318);
 const Color green = Color(0xFF008000);
+const Color greenWallet = Color(0xFF69D648);
 const Color greenSuccess = Color(0xFF039855);
 const Color success50 = Color(0xFFECFDF3);
 

@@ -61,7 +61,7 @@ class _IncomeDetailPageState extends State<IncomeDetailPage> {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'ДЭЛГЭРЭНГҮЙ',
+          'Дэлгэрэнгүй',
           style: TextStyle(
             color: black950,
             fontSize: 18,
