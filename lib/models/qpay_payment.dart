@@ -5,7 +5,6 @@ part '../parts/qpay_payment.dart';
 class QpayPayment {
   String? id;
   String? order;
-  String? distributor;
   int? amount;
   String? paymentMethod;
   String? qpayInvoiceId;
@@ -19,7 +18,6 @@ class QpayPayment {
   QpayPayment({
     this.id,
     this.order,
-    this.distributor,
     this.amount,
     this.paymentMethod,
     this.qpayInvoiceId,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+// import 'package:ttt_merchant_flutter/services/notification.dart';
+// import 'package:ttt_merchant_flutter/src/not_found_user.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -42,6 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           //   title: "TTTETET HAHA",
           //   body: "TEST BODY AHHAHAH",
           // );
+          // Navigator.of(context).pushNamed(NotFoundUser.routeName);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,

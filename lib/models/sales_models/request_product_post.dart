@@ -1,3 +1,5 @@
+import 'package:ttt_merchant_flutter/models/general/main_image.dart';
+
 part '../../parts/sales_models/request_product_post.dart';
 
 class RequestProductPost {
@@ -6,6 +8,7 @@ class RequestProductPost {
   String? name;
   int? price;
   int? residual;
+  MainImage? mainImage;
 
   RequestProductPost({
     this.product,
@@ -13,6 +16,7 @@ class RequestProductPost {
     this.name,
     this.price,
     this.residual,
+    this.mainImage,
   });
   static $fromJson(Map<String, dynamic> json) =>
       _$RequestProductPostFromJson(json);

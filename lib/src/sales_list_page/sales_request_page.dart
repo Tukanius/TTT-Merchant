@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
+import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
@@ -33,10 +35,11 @@ class _SalesRequestPageState extends State<SalesRequestPage>
   bool isLoadingPage = true;
   List<int> quantities = [];
   List<TextEditingController> controllers = [];
-
+  User user = User();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
+      user = await AuthApi().me(false);
       general = await Provider.of<GeneralProvider>(
         context,
         listen: false,
@@ -77,6 +80,9 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                 name: general.residual![i].name,
                 price: general.productTypes![i].price,
                 residual: general.residual![i].residual,
+                mainImage: general.residual![i].mainImage != null
+                    ? general.residual![i].mainImage
+                    : null,
               ),
             );
           }
@@ -146,7 +152,10 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 0),
+                      arguments: MainPageArguments(
+                        changeIndex: 0,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(
@@ -288,12 +297,19 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                             borderRadius: BorderRadius.circular(
                                               6,
                                             ),
-                                            child: Image.asset(
-                                              'assets/images/default.jpg',
-                                              height: 168,
-                                              width: 168,
-                                              fit: BoxFit.cover,
-                                            ),
+                                            child: resData.mainImage != null
+                                                ? Image.network(
+                                                    '${resData.mainImage!.url}',
+                                                    height: 168,
+                                                    width: 168,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.asset(
+                                                    'assets/images/default.jpg',
+                                                    height: 168,
+                                                    width: 168,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                           ),
                                           const SizedBox(height: 12),
                                           Text(

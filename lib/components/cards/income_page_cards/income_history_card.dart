@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_detail_page.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_list.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
 
 class IncomeHistoryCard extends StatefulWidget {
-  final Income data;
+  final DistIncomeList data;
   const IncomeHistoryCard({super.key, required this.data});
 
   @override
@@ -55,13 +55,27 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: green.withOpacity(0.1),
+                    color:
+                        widget.data.transportStatus == "NEW" ||
+                            widget.data.transportStatus == "PENDING"
+                        ? orange.withOpacity(0.1)
+                        : green.withOpacity(0.1),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.transportStatus}',
+                    '${widget.data.transportStatus == "NEW"
+                        ? 'Хуваарилагдсан'
+                        : widget.data.transportStatus == "PENDING"
+                        ? 'Агуулахаас гарсан'
+                        : widget.data.transportStatus == "DONE"
+                        ? 'Хүлээн авсан'
+                        : "-"}',
                     style: TextStyle(
-                      color: green,
+                      color:
+                          widget.data.transportStatus == "NEW" ||
+                              widget.data.transportStatus == "PENDING"
+                          ? orange
+                          : green,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
@@ -217,7 +231,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.fromInventory}',
+                      '${widget.data.toInventory}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
@@ -240,7 +254,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.toInventory}',
+                      '${widget.data.fromInventory}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
@@ -264,8 +278,10 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
-                IncomeDetailPage.routeName,
-                arguments: IncomeDetailPageArguments(data: widget.data),
+                IncomeDistributorDetail.routeName,
+                arguments: IncomeDistributorDetailArguments(
+                  id: widget.data.id!,
+                ),
               );
             },
             child: Container(

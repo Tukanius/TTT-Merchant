@@ -169,7 +169,7 @@ class HttpRequest {
       ).handle(ex.response);
       if (handler == true && error!.message != null) {
         BuildContext? context = NavigationService.navigatorKey.currentContext;
-        ErrorDialog(context: context).show(error.message.toString());
+        ErrorDialog(context: context!).show(error.message.toString());
       }
       throw error!;
     }

@@ -4,9 +4,7 @@ QpayPayment _$QpayPaymentFromJson(Map<String, dynamic> json) {
   return QpayPayment(
     id: json['_id'] != null ? json['_id'] as String : null,
     order: json['order'] != null ? json['order'] as String : null,
-    distributor: json['distributor'] != null
-        ? json['distributor'] as String
-        : null,
+
     amount: json['amount'] != null ? json['amount'] as int : null,
     paymentMethod: json['paymentMethod'] != null
         ? json['paymentMethod'] as String
@@ -32,7 +30,6 @@ Map<String, dynamic> _$QpayPaymentToJson(QpayPayment instance) {
   if (instance.id != null) json['_id'] = instance.id;
 
   if (instance.order != null) json['order'] = instance.order;
-  if (instance.distributor != null) json['distributor'] = instance.distributor;
   if (instance.amount != null) json['amount'] = instance.amount;
   if (instance.paymentMethod != null)
     json['paymentMethod'] = instance.paymentMethod;

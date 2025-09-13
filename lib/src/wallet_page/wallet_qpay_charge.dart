@@ -3,15 +3,19 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/auth_api.dart';
+import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/models/urls.dart';
+import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,19 +36,47 @@ class WalletQpayCharge extends StatefulWidget {
   State<WalletQpayCharge> createState() => _WalletQpayChargeState();
 }
 
-class _WalletQpayChargeState extends State<WalletQpayCharge> {
-  bool isLoadingPage = false;
+class _WalletQpayChargeState extends State<WalletQpayCharge>
+    with AfterLayoutMixin {
+  bool isLoadingPage = true;
   bool isLoading = false;
+  User user = User();
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    try {
+      user = await AuthApi().me(false);
+      setState(() {
+        isLoadingPage = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoadingPage = false;
+      });
+    }
+  }
+
   onSubmit() async {
     try {
       setState(() {
         isLoading = true;
       });
-      await ProductApi().checkPayment(widget.data.id!);
-      setState(() {
-        isLoading = true;
-      });
-      saleSuccess(context);
+      QpayPayment qpayPayment = QpayPayment();
+      qpayPayment = await BalanceApi().checkPayment(widget.data.id!);
+      print('=====res======');
+      print(qpayPayment.status);
+      print('=====res======');
+      if (qpayPayment.status != "PAID") {
+        ErrorDialog(context: context).show('Төлбөр хүлээгдэж байна');
+        setState(() {
+          isLoading = false;
+        });
+      }
+      if (qpayPayment.status == "PAID") {
+        setState(() {
+          isLoading = false;
+        });
+        saleSuccess(context);
+      }
     } catch (e) {
       print(e);
       setState(() {
@@ -99,7 +131,10 @@ class _WalletQpayChargeState extends State<WalletQpayCharge> {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 0),
+                      arguments: MainPageArguments(
+                        changeIndex: 0,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(

@@ -5,10 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:ttt_merchant_flutter/api/auth_api.dart';
+import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
+import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
@@ -36,10 +40,11 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
   bool isLoading = false;
   bool isLoadingPage = true;
   GeneralBalance generalBalance = GeneralBalance();
-
+  User user = User();
   @override
   afterFirstLayout(BuildContext context) async {
     try {
+      user = await AuthApi().me(false);
       generalBalance = await Provider.of<GeneralProvider>(
         context,
         listen: false,
@@ -62,7 +67,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
       if (generalBalance.lastBalance! < widget.payAmount) {
         await Navigator.of(context).pushNamed(WalletRecharge.routeName);
       } else {
-        await ProductApi().paySales(widget.id);
+        await BalanceApi().paySales(widget.id);
         saleSuccess(context);
       }
       setState(() {
@@ -122,7 +127,10 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 1),
+                      arguments: MainPageArguments(
+                        changeIndex: 1,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(
@@ -153,7 +161,10 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 1),
+                      arguments: MainPageArguments(
+                        changeIndex: 1,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(
@@ -185,6 +196,26 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
         );
       },
     );
+  }
+
+  final RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (!mounted) return;
+    setState(() {
+      isLoadingPage = true;
+    });
+    generalBalance = await Provider.of<GeneralProvider>(
+      context,
+      listen: false,
+    ).initBalance();
+    setState(() {
+      isLoadingPage = false;
+    });
+    refreshController.refreshCompleted();
   }
 
   @override
@@ -222,79 +253,85 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
           ? CustomLoader()
           : Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Таны хэтэвчний үлдэгдэл',
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                Refresher(
+                  color: orange,
+                  refreshController: refreshController,
+                  onRefresh: onRefresh,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Таны хэтэвчний үлдэгдэл',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 12),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: white,
-                          border: Border.all(color: orange),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: 0,
-                              child: SvgPicture.asset(
-                                'assets/svg/wallet_bg.svg',
-                                width: 70,
-                                height: 95,
+                        SizedBox(height: 12),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                            border: Border.all(color: orange),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                right: 0,
+                                child: SvgPicture.asset(
+                                  'assets/svg/wallet_bg.svg',
+                                  width: 70,
+                                  height: 95,
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(width: 16),
-                                Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: orange,
+                              Row(
+                                children: [
+                                  SizedBox(width: 16),
+                                  Container(
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: orange,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 12),
+                                  SizedBox(width: 12),
 
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 12),
-                                    Text(
-                                      'Үлдэгдэл',
-                                      style: TextStyle(
-                                        color: black950,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 12),
+                                      Text(
+                                        'Үлдэгдэл',
+                                        style: TextStyle(
+                                          color: black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      '${Utils().formatCurrencyDouble(generalBalance.lastBalance?.toDouble() ?? 0)}₮',
-                                      style: TextStyle(
-                                        color: black950,
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w700,
+                                      SizedBox(height: 4),
+                                      Text(
+                                        '${Utils().formatCurrencyDouble(generalBalance.lastBalance?.toDouble() ?? 0)}₮',
+                                        style: TextStyle(
+                                          color: black950,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 12),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                      SizedBox(height: 12),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Align(

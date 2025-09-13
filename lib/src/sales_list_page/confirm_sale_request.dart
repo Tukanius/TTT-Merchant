@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ttt_merchant_flutter/api/auth_api.dart';
 // import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
@@ -13,6 +14,7 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 // import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
+import 'package:ttt_merchant_flutter/models/user.dart';
 // import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
@@ -62,9 +64,11 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     super.initState();
   }
 
+  User user = User();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
+      user = await AuthApi().me(false);
       // general = await Provider.of<GeneralProvider>(
       //   context,
       //   listen: false,
@@ -276,7 +280,10 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 0),
+                      arguments: MainPageArguments(
+                        changeIndex: 0,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(
@@ -307,7 +314,10 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
-                      arguments: MainPageArguments(changeIndex: 1),
+                      arguments: MainPageArguments(
+                        changeIndex: 1,
+                        userType: user.userType!,
+                      ),
                     );
                   },
                   child: Container(
@@ -495,12 +505,21 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                         BorderRadius.circular(
                                                           6,
                                                         ),
-                                                    child: Image.asset(
-                                                      'assets/images/default.jpg',
-                                                      height: 62,
-                                                      width: 62,
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                                    child:
+                                                        resData.mainImage !=
+                                                            null
+                                                        ? Image.network(
+                                                            '${resData.mainImage!.url}',
+                                                            height: 62,
+                                                            width: 62,
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/images/default.jpg',
+                                                            height: 62,
+                                                            width: 62,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                   ),
                                                   const SizedBox(width: 12),
                                                   Expanded(

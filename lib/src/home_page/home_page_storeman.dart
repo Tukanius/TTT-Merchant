@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 // import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
@@ -13,7 +12,7 @@ import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_done_history_card.dart';
 // import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
-import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/general/residual.dart';
@@ -44,19 +43,6 @@ class _HomePageStoremanState extends State<HomePageStoreman>
   int page = 1;
   int limit = 10;
   Residual? selectedResidual;
-
-  listOfHistory(page, limit) async {
-    salesHistory = await ProductApi().getPurchaseHistory(
-      ResultArguments(
-        offset: Offset(page: page, limit: limit),
-        filter: Filter(dateType: 'ALL'),
-      ),
-    );
-    selectedResidual = general.residual?.first;
-    setState(() {
-      isLoadingHistory = false;
-    });
-  }
 
   Result incomeHistory = Result();
   bool isLoadingHistoryIncome = true;
@@ -152,6 +138,15 @@ class _HomePageStoremanState extends State<HomePageStoreman>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        '${general.inventory?.name ?? '-'}',
+                        style: TextStyle(
+                          color: black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 16),
                       Container(
                         // padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -400,25 +395,25 @@ class _HomePageStoremanState extends State<HomePageStoreman>
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              widget.onChangePage(1);
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Бүгд',
-                                  style: TextStyle(
-                                    color: black800,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 6),
-                                SvgPicture.asset('assets/svg/arrow_right.svg'),
-                              ],
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     widget.onChangePage(1);
+                          //   },
+                          //   child: Row(
+                          //     children: [
+                          //       Text(
+                          //         'Бүгд',
+                          //         style: TextStyle(
+                          //           color: black800,
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w500,
+                          //         ),
+                          //       ),
+                          //       SizedBox(width: 6),
+                          //       SvgPicture.asset('assets/svg/arrow_right.svg'),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                       SizedBox(height: 12),

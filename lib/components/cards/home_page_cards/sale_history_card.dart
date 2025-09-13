@@ -3,13 +3,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/purchase/purchase_model.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/create_payment.dart';
+import 'package:ttt_merchant_flutter/models/purchase_models/purchase_model.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/create_payment.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SaleHistoryCard extends StatefulWidget {
   final bool isExtended;
-  final Purchase data;
+  final PurchaseModel data;
   const SaleHistoryCard({
     super.key,
     required this.isExtended,

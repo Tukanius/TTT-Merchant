@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_list.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class IncomeDoneHistoryCard extends StatefulWidget {
-  final Income data;
+  final StoremanIncomeList data;
   final bool isExtended;
 
   const IncomeDoneHistoryCard({
@@ -85,6 +85,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                   ],
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
@@ -96,7 +97,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}',
+                      '${Utils().formatCurrencyDouble(widget.data.totalAmount?.toDouble() ?? 0)}₮',
                       style: TextStyle(
                         color: orange,
                         fontSize: 16,
@@ -200,7 +201,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Захиалга баталсан:',
+                        'Баталгаажсан тоо:',
                         style: TextStyle(
                           color: black800,
                           fontSize: 14,
@@ -268,7 +269,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.transportCompany ?? '-'}',
+                        '${widget.data.fromInventory ?? '-'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -290,7 +291,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.vehiclePlateNo}',
+                        '${widget.data.toInventory}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -360,7 +361,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${item.product}',
+                                    '${item.name}:',
                                     style: TextStyle(
                                       color: black800,
                                       fontSize: 14,
@@ -383,27 +384,6 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         )
                         .toList(),
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Text(
-                  //       '1ш: 5,000₮',
-                  //       style: TextStyle(
-                  //         color: black800,
-                  //         fontSize: 14,
-                  //         fontWeight: FontWeight.w400,
-                  //       ),
-                  //     ),
-                  //     Text(
-                  //       '400x5,000₮',
-                  //       style: TextStyle(
-                  //         color: black800,
-                  //         fontSize: 14,
-                  //         fontWeight: FontWeight.w400,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ),

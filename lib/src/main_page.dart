@@ -9,26 +9,30 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/src/home_page/home_page_distributor.dart';
 import 'package:ttt_merchant_flutter/src/home_page/home_page_storeman.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/check_card_modal.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_list_distributor.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_list_storeman.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/check_card_modal.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_list_distributor.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_list_storeman.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/toologch/income_list_toologch.dart';
+import 'package:ttt_merchant_flutter/src/not_found_user.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/profile_page_distributor.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/profile_page_toologch.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/profile_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/profile_page_storeman.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qr_read_screen.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_page.dart';
 
 class MainPageArguments {
   final int? changeIndex;
-  final String? userType;
-  MainPageArguments({this.userType, this.changeIndex});
+  final String userType;
+  MainPageArguments({required this.userType, this.changeIndex});
 }
 
 class MainPage extends StatefulWidget {
   final int? changeIndex;
-  final String? userType;
+  final String userType;
 
   static const routeName = "MainPage";
-  const MainPage({super.key, this.changeIndex, this.userType});
+  const MainPage({super.key, this.changeIndex, required this.userType});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -48,16 +52,23 @@ class _MainPageState extends State<MainPage> {
       return [
         HomePageStoreman(onChangePage: (index) => onItemTapped(index)),
         IncomeListStoreman(),
-        ProfilePage(onChangePage: (index) => onItemTapped(index)),
+        ProfilePageStoreman(onChangePage: (index) => onItemTapped(index)),
       ];
-    } else {
+    } else if (widget.userType == "DISTRIBUTOR") {
       return [
         HomePageDistributor(onChangePage: (index) => onItemTapped(index)),
         SalesListPage(),
         WalletPage(),
         IncomeListPage(),
-        ProfilePage(onChangePage: (index) => onItemTapped(index)),
+        ProfilePageDistributor(onChangePage: (index) => onItemTapped(index)),
       ];
+    } else if (widget.userType == "TOOLOGCH") {
+      return [
+        IncomeListToologch(),
+        ProfilePageToologch(onChangePage: (index) => onItemTapped(index)),
+      ];
+    } else {
+      return [NotFoundUser()];
     }
   }
 
@@ -85,7 +96,8 @@ class _MainPageState extends State<MainPage> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        floatingActionButton: widget.userType == "STORE_MAN"
+        floatingActionButton:
+            widget.userType == "STORE_MAN" || widget.userType == "TOOLOGCH"
             ? null
             : _selectedIndex == 0
             ? Column(
@@ -178,7 +190,8 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ],
                       )
-                    : Row(
+                    : widget.userType == "DISTRIBUTOR"
+                    ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _buildNavItem(
@@ -222,7 +235,30 @@ class _MainPageState extends State<MainPage> {
                             onTap: onItemTapped,
                           ),
                         ],
-                      ),
+                      )
+                    : widget.userType == "TOOLOGCH"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/truck_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/truck_unselected.svg',
+                            index: 0,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                          _buildNavItem(
+                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            unselectedIconPath:
+                                'assets/svg/menu_unselected.svg',
+                            index: 1,
+                            selectedIndex: _selectedIndex,
+                            onTap: onItemTapped,
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
               )
             : null,
       ),

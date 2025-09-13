@@ -6,7 +6,9 @@ PurchaseRequest _$PurchaseRequestFromJson(Map<String, dynamic> json) {
         ? json['cardNumber'] as String
         : null,
     products: json['products'] != null
-        ? (json['products'] as List).map((e) => Products.fromJson(e)).toList()
+        ? (json['products'] as List)
+              .map((e) => ProductPurchaseModel.fromJson(e))
+              .toList()
         : null,
     salesType: json['salesType'] != null ? json['salesType'] as String : null,
     appUserId: json['appUserId'] != null ? json['appUserId'] as String : null,

@@ -69,22 +69,26 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: green.withOpacity(0.1),
+                        color: widget.data.requestStatus == "DONE"
+                            ? green.withOpacity(0.1)
+                            : orange.withOpacity(0.1),
                       ),
                       child: Text(
                         '${widget.data.requestStatus == "NEW"
-                            ? 'Шинэ'
+                            ? 'Хүсэлт илгээсэн'
                             : widget.data.requestStatus == "DONE"
-                            ? 'Тооцоо хийгдсэн'
+                            ? 'Хүлээн авах'
                             : widget.data.requestStatus == "REJECTED"
                             ? 'Татгалзсан'
                             : widget.data.requestStatus == "FINANCE_APPROVED"
-                            ? 'Зөвшөөрсөн'
+                            ? 'Төлбөр төлөгдсөн'
                             : widget.data.requestStatus == "SALES_APPROVED"
                             ? 'Төлбөр хүлээгдэж байна'
                             : '-'}',
                         style: TextStyle(
-                          color: green,
+                          color: widget.data.requestStatus == "DONE"
+                              ? green
+                              : orange,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
@@ -312,7 +316,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                               Navigator.of(context).pushNamed(
                                 SaleDetailPage.routeName,
                                 arguments: SaleDetailPageArguments(
-                                  data: widget.data,
+                                  id: widget.data.id!,
                                 ),
                               );
                             },

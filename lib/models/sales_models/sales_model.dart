@@ -1,6 +1,7 @@
 import 'package:ttt_merchant_flutter/models/sales_models/distributor_model.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/from_inventory.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product.dart';
+import 'package:ttt_merchant_flutter/models/sales_models/request_statuses.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/to_inventory.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 
@@ -30,6 +31,7 @@ class Sales {
   String? sendDate;
   int? totalAmount;
   String? requestStatus;
+  List<RequestStatuses>? requestStatuses;
 
   Sales({
     this.id,
@@ -55,6 +57,7 @@ class Sales {
     this.sendDate,
     this.totalAmount,
     this.requestStatus,
+    this.requestStatuses,
   });
   static $fromJson(Map<String, dynamic> json) => _$SalesFromJson(json);
 

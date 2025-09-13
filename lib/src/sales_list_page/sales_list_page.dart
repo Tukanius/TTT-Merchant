@@ -12,7 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/sale_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
-import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
@@ -31,19 +31,12 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int? selectedIndexTile;
   final List<String> tabs = [
     'Бүгд',
-    'Шинэ',
-    'Батлагдсан',
+    'Хүсэлт илгээсэн',
+    'Зөвшөөрөгдсөн',
     'Төлбөр төлөгдсөн',
-    'Хуваарилагдсан',
+    'Хүлээн авсан',
   ];
 
-  final Map<String, String> tabFilters = {
-    'Нийт': 'ALL',
-    'Өнөөдөр': 'TODAY',
-    '7 Хоног': 'WEEK',
-    '1 Сар': 'MONTH',
-    '1 Жил': 'YEAR',
-  };
   bool isLoadingPage = true;
   String? selectedValue;
   Result salesHistory = Result();
@@ -52,12 +45,10 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int limit = 10;
   bool isLoading = false;
   listOfHistory(page, limit) async {
-    final String selectedTab = tabs[selectedIndex];
-    final String dateType = tabFilters[selectedTab] ?? 'ALL';
     salesHistory = await ProductApi().getSalesHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
-        filter: Filter(date: dateType),
+        filter: Filter(date: 'ALL'),
       ),
     );
     setState(() {

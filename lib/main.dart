@@ -17,25 +17,24 @@ import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/create_payment.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/create_payment.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/src/not_found_user.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/confirm_purchase_request.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_confirm_page.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_detail_page.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/confirm_purchase_request.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_page.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/notify_page/notify_page.dart';
-import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/qr_read_screen.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/order_accept_page.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qr_read_screen.dart';
 // import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_detail_page.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_history_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
@@ -169,18 +168,18 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return QrReadScreen();
                 },
               );
-            case PurchaseHistoryPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const PurchaseHistoryPage();
-                },
-              );
-            case PurchaseRequestHistoryPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const PurchaseRequestHistoryPage();
-                },
-              );
+            // case PurchaseHistoryPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const PurchaseHistoryPage();
+            //     },
+            //   );
+            // case PurchaseRequestHistoryPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const PurchaseRequestHistoryPage();
+            //     },
+            //   );
             case PurchaseRequestPage.routeName:
               PurchaseRequestPageArguments arguments =
                   settings.arguments as PurchaseRequestPageArguments;
@@ -193,12 +192,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                 },
               );
 
-            case PurchaseRequestDetailPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const PurchaseRequestDetailPage();
-                },
-              );
+            // case PurchaseRequestDetailPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const PurchaseRequestDetailPage();
+            //     },
+            //   );
             case ProfileDetailPage.routeName:
               ProfileDetailPageArguments arguments =
                   settings.arguments as ProfileDetailPageArguments;
@@ -207,12 +206,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return ProfileDetailPage(data: arguments.data);
                 },
               );
-            case OrderAcceptPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const OrderAcceptPage();
-                },
-              );
+            // case OrderAcceptPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const OrderAcceptPage();
+            //     },
+            //   );
             case SetPasswordPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
@@ -230,14 +229,14 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   );
                 },
               );
-            case IncomeDetailPage.routeName:
-              IncomeDetailPageArguments arguments =
-                  settings.arguments as IncomeDetailPageArguments;
-              return MaterialPageRoute(
-                builder: (context) {
-                  return IncomeDetailPage(data: arguments.data);
-                },
-              );
+            // case IncomeDetailPage.routeName:
+            //   IncomeDetailPageArguments arguments =
+            //       settings.arguments as IncomeDetailPageArguments;
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return IncomeDetailPage(data: arguments.data);
+            //     },
+            //   );
             case IncomeConfirmPage.routeName:
               IncomeConfirmPageArguments arguments =
                   settings.arguments as IncomeConfirmPageArguments;
@@ -265,7 +264,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   settings.arguments as SaleDetailPageArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return SaleDetailPage(data: arguments.data);
+                  return SaleDetailPage(id: arguments.id);
                 },
               );
             case QpayPaymentPage.routeName:
@@ -311,6 +310,36 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                     payAmount: arguments.payAmount,
                     id: arguments.id,
                   );
+                },
+              );
+            case NotFoundUser.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const NotFoundUser();
+                },
+              );
+            case IncomeDistributorDetail.routeName:
+              IncomeDistributorDetailArguments arguments =
+                  settings.arguments as IncomeDistributorDetailArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return IncomeDistributorDetail(id: arguments.id);
+                },
+              );
+            case IncomeStoremanDetail.routeName:
+              IncomeStoremanDetailArguments arguments =
+                  settings.arguments as IncomeStoremanDetailArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return IncomeStoremanDetail(id: arguments.id);
+                },
+              );
+            case IncomeStoremanConfirmPage.routeName:
+              IncomeStoremanConfirmPageArguments arguments =
+                  settings.arguments as IncomeStoremanConfirmPageArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return IncomeStoremanConfirmPage(data: arguments.data);
                 },
               );
             default:

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
-import 'package:ttt_merchant_flutter/components/refresher/refresher.dart';
+import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/wallet_card/wallet_history_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
@@ -56,7 +56,7 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
   }
 
   listOfHistory(page, limit) async {
-    walletList = await ProductApi().getWalletHistory(
+    walletList = await BalanceApi().getWalletHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(type: 'ALL'),

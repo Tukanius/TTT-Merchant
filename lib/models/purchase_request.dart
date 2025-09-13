@@ -1,11 +1,11 @@
-import 'package:ttt_merchant_flutter/models/purchase/products_model.dart';
+import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
 
 part '../parts/purchase_request.dart';
 
 class PurchaseRequest {
   String? cardNumber;
   String? salesType;
-  List<Products>? products;
+  List<ProductPurchaseModel>? products;
   String? appUserId;
 
   PurchaseRequest({

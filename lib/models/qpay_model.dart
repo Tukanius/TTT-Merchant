@@ -6,14 +6,14 @@ class Qpay {
   String? invoiceId;
   String? qr_text;
   String? qr_image;
-  String? qPayShortUrl;
+  String? qPay_shortUrl;
   List<Urls>? urls;
 
   Qpay({
     this.invoiceId,
     this.qr_text,
     this.qr_image,
-    this.qPayShortUrl,
+    this.qPay_shortUrl,
     this.urls,
   });
   static $fromJson(Map<String, dynamic> json) => _$QpayFromJson(json);

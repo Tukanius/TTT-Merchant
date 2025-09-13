@@ -31,6 +31,9 @@ Widget buildCustomKeyboard(
           ),
           onTap: () {
             if (pinController.text.length + 3 <= keyNumber) {
+              if (pinController.text.isEmpty) {
+                return;
+              }
               pinController.text += "000";
             }
           },
@@ -61,6 +64,9 @@ Widget buildCustomKeyboard(
         ),
         onTap: () {
           if (pinController.text.length < keyNumber) {
+            if (pinController.text.isEmpty && number == "0") {
+              return;
+            }
             pinController.text += number;
           }
         },

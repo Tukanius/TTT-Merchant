@@ -1,5 +1,5 @@
 import 'package:ttt_merchant_flutter/models/general/address.dart';
-import 'package:ttt_merchant_flutter/models/income_models/staff_user.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/staff_user.dart';
 
 part '../../parts/general/inventory_user.dart';
 

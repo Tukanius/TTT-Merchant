@@ -7,6 +7,9 @@ RequestProductPost _$RequestProductPostFromJson(Map<String, dynamic> json) {
     name: json['name'] != null ? json['name'] as String : null,
     price: json['price'] != null ? json['price'] as int : null,
     residual: json['residual'] != null ? json['residual'] as int : null,
+    mainImage: json['mainImage'] != null
+        ? MainImage.fromJson(json['mainImage'])
+        : null,
   );
 }
 
@@ -18,5 +21,6 @@ Map<String, dynamic> _$RequestProductPostToJson(RequestProductPost instance) {
   if (instance.name != null) json['name'] = instance.name;
   if (instance.price != null) json['price'] = instance.price;
   if (instance.residual != null) json['residual'] = instance.residual;
+  if (instance.mainImage != null) json['mainImage'] = instance.mainImage;
   return json;
 }

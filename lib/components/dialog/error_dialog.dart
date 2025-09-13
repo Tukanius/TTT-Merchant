@@ -6,17 +6,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 
 class ErrorDialog {
-  final BuildContext? context;
+  final BuildContext context;
   final Duration duration = const Duration(seconds: 30);
 
-  ErrorDialog({this.context});
+  ErrorDialog({required this.context});
 
   show(String message, {VoidCallback? onPress}) {
     // final local = Provider.of<LocalizationProvider>(context!, listen: false);
 
     final currentContext = context;
     showDialog(
-      context: currentContext!,
+      context: currentContext,
       barrierDismissible: true,
       builder: (context) {
         // Future.delayed(duration, () {

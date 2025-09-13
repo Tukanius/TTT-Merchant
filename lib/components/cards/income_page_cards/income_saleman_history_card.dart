@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_detail_page.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/income_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_list.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
 
 class IncomeSalemanHistoryCard extends StatefulWidget {
-  final Income data;
+  final StoremanIncomeList data;
   const IncomeSalemanHistoryCard({super.key, required this.data});
 
   @override
@@ -17,6 +17,15 @@ class IncomeSalemanHistoryCard extends StatefulWidget {
 }
 
 class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
+  @override
+  void initState() {
+    print('=====123====');
+    print(widget.data.inOutType);
+    print('=====123====');
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,23 +65,23 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: widget.data.inOutType == "IN"
+                    color: widget.data.type == "IN"
                         ? green.withOpacity(0.1)
-                        : widget.data.inOutType == "OUT"
+                        : widget.data.type == "OUT"
                         ? redColor.withOpacity(0.1)
                         : black950,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.inOutType == "IN"
+                    '${widget.data.type == "IN"
                         ? "Орлого"
-                        : widget.data.inOutType == "OUT"
+                        : widget.data.type == "OUT"
                         ? "Зарлага"
                         : '-'}',
                     style: TextStyle(
-                      color: widget.data.inOutType == "IN"
+                      color: widget.data.type == "IN"
                           ? green
-                          : widget.data.inOutType == "OUT"
+                          : widget.data.type == "OUT"
                           ? redColor
                           : black950,
                       fontSize: 10,
@@ -230,6 +239,30 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      '${widget.data.toInventory}',
+                      style: TextStyle(
+                        color: black950,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      '${widget.data.receiverUser?.firstName ?? '-'}',
+                      style: TextStyle(
+                        color: black950,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SvgPicture.asset('assets/svg/arrow_right.svg'),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       '${widget.data.fromInventory}',
                       style: TextStyle(
                         color: black950,
@@ -248,37 +281,14 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                     ),
                   ],
                 ),
-                SvgPicture.asset('assets/svg/arrow_right.svg'),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.data.toInventory}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '${widget.data.receiverUser?.firstName ?? ''}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
-                IncomeDetailPage.routeName,
-                arguments: IncomeDetailPageArguments(data: widget.data),
+                IncomeStoremanDetail.routeName,
+                arguments: IncomeStoremanDetailArguments(id: widget.data.id!),
               );
             },
             child: Container(
