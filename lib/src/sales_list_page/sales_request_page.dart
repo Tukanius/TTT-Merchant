@@ -387,8 +387,8 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                         ),
                                                     child: SvgPicture.asset(
                                                       'assets/svg/minus.svg',
-                                                      height: 24,
-                                                      width: 24,
+                                                      height: 20,
+                                                      width: 20,
                                                     ),
                                                   ),
                                                 ),
@@ -488,8 +488,8 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                         ),
                                                     child: SvgPicture.asset(
                                                       'assets/svg/plus.svg',
-                                                      height: 24,
-                                                      width: 24,
+                                                      height: 20,
+                                                      width: 20,
                                                     ),
                                                   ),
                                                 ),

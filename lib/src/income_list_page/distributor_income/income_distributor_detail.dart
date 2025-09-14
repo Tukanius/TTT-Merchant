@@ -46,10 +46,9 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
     try {
       data = await ProductApi().getDistributorIncome(widget.id);
       print('====inoiuttype=====');
-
-      print(data.inOutTypes?.length);
+      print(data.inOutType?.length);
       print('====inoiuttype=====');
-      stepIndex = _getStepIndex(data.verifiedStatus);
+      stepIndex = _getStepIndex(data.inOutType);
       setState(() {
         isLoadingPage = false;
       });
