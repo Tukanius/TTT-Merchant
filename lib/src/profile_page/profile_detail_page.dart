@@ -42,7 +42,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -130,30 +130,31 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.data.inventory?.name ?? '-'}',
+              // '${widget.data.inventory?.name ?? '-'}',
+              'Хэрэглэгчийн мэдээлэл',
               style: TextStyle(
                 color: black950,
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 6),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: green.withOpacity(0.13),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              child: Text(
-                '${widget.data.inventory?.name ?? '-'}',
-                style: TextStyle(
-                  color: green,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            SizedBox(height: 16),
+            // SizedBox(height: 6),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(12),
+            //     color: green.withOpacity(0.13),
+            //   ),
+            //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            //   child: Text(
+            //     '${widget.data.inventory?.name ?? '-'}',
+            //     style: TextStyle(
+            //       color: green,
+            //       fontSize: 12,
+            //       fontWeight: FontWeight.w400,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 16),
           ],
         ),
         actions: [
@@ -177,515 +178,554 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
       backgroundColor: white50,
       body: isLoadingPage == true
           ? CustomLoader()
-          : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+          : Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset('assets/svg/profile.svg'),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${user.firstName} ${user.lastName}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        Row(
+                          children: [
+                            SvgPicture.asset('assets/svg/profile.svg'),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${user.firstName} ${user.lastName}',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '${widget.data.inventory?.name ?? '-'}',
+                                    style: TextStyle(
+                                      color: black800,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                '${widget.data.inventory?.name ?? '-'}',
-                                style: TextStyle(
-                                  color: black800,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(12),
-                    //     color: orange,
-                    //   ),
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 12,
-                    //     vertical: 10,
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //       SvgPicture.asset(
-                    //         'assets/svg/edit.svg',
-                    //         color: white,
-                    //         height: 18,
-                    //         width: 18,
-                    //       ),
-                    //       SizedBox(width: 8),
-                    //       Text(
-                    //         'Утасны дугаар солих',
-                    //         style: TextStyle(
-                    //           color: white,
-                    //           fontSize: 14,
-                    //           fontWeight: FontWeight.w600,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 16),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(12),
-                    //     color: orange,
-                    //   ),
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 12,
-                    //     vertical: 10,
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //       SvgPicture.asset(
-                    //         'assets/svg/edit.svg',
-                    //         color: white,
-                    //         height: 18,
-                    //         width: 18,
-                    //       ),
-                    //       SizedBox(width: 8),
-                    //       Text(
-                    //         'Нууц үг солих',
-                    //         style: TextStyle(
-                    //           color: white,
-                    //           fontSize: 14,
-                    //           fontWeight: FontWeight.w600,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 16),
-                    Text(
-                      'Ажилтны мэдээлэл',
-                      style: TextStyle(
-                        color: black600,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: white,
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Овог нэр:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '${user.firstName} ${user.lastName}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Утасны дугаар:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '${user.phone ?? '-'}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Борлуулагч болсон огноо:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(user.createdAt!).toLocal())}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Салбарын мэдээлэл',
-                      style: TextStyle(
-                        color: black600,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: white,
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Салбарын дугаар:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '-',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Салбарын утасны дугаар:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '-',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Салбарын хаяг:',
-                                  style: TextStyle(
-                                    color: black950,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${widget.data.inventory?.address?.additionalInformation ?? '-'}',
-                                  style: TextStyle(
-                                    color: black950,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.end,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                        SizedBox(height: 16),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     color: orange,
+                        //   ),
+                        //   padding: EdgeInsets.symmetric(
+                        //     horizontal: 12,
+                        //     vertical: 10,
+                        //   ),
+                        //   child: Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: [
+                        //       SvgPicture.asset(
+                        //         'assets/svg/edit.svg',
+                        //         color: white,
+                        //         height: 18,
+                        //         width: 18,
+                        //       ),
+                        //       SizedBox(width: 8),
+                        //       Text(
+                        //         'Утасны дугаар солих',
+                        //         style: TextStyle(
+                        //           color: white,
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w600,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: 16),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     color: orange,
+                        //   ),
+                        //   padding: EdgeInsets.symmetric(
+                        //     horizontal: 12,
+                        //     vertical: 10,
+                        //   ),
+                        //   child: Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: [
+                        //       SvgPicture.asset(
+                        //         'assets/svg/edit.svg',
+                        //         color: white,
+                        //         height: 18,
+                        //         width: 18,
+                        //       ),
+                        //       SizedBox(width: 8),
+                        //       Text(
+                        //         'Нууц үг солих',
+                        //         style: TextStyle(
+                        //           color: white,
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w600,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: 16),
                         Text(
-                          'Цагийн хуваарь',
+                          'Ажилтны мэдээлэл',
                           style: TextStyle(
                             color: black600,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        // GestureDetector(
-                        //   onTap: () {},
-                        //   child: Row(
-                        //     children: [
-                        //       SvgPicture.asset(
-                        //         'assets/svg/edit.svg',
-                        //         height: 16,
-                        //         width: 16,
-                        //       ),
-                        //       SizedBox(width: 4),
-                        //       Text(
-                        //         'Өөрчлөх',
-                        //         style: TextStyle(
-                        //           color: black800,
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.w400,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: white,
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                          ),
+                          padding: EdgeInsets.all(12),
+                          child: Column(
                             children: [
-                              Text(
-                                'Даваа:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       'Овог нэр:',
+                              //       style: TextStyle(
+                              //         color: black950,
+                              //         fontSize: 12,
+                              //         fontWeight: FontWeight.w500,
+                              //       ),
+                              //     ),
+                              //     Text(
+                              //       '${user.firstName} ${user.lastName}',
+                              //       style: TextStyle(
+                              //         color: black950,
+                              //         fontSize: 14,
+                              //         fontWeight: FontWeight.w600,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Утасны дугаар:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${user.phone ?? '-'}',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Борлуулагч болсон огноо:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(user.createdAt!).toLocal())}',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Мягмар:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Лхагва:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Пүрэв:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Баасан:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Бямба:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '09:00 - 21:00',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Ням:',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'Амарна',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: () {
-                        toExit();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: redColor,
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        SizedBox(height: 16),
+                        Text(
+                          'Цэгийн мэдээлэл',
+                          style: TextStyle(
+                            color: black600,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                          ),
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Гэрээний дугаар:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '-',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       'Нэмэлт утасны дугаар:',
+                              //       style: TextStyle(
+                              //         color: black950,
+                              //         fontSize: 12,
+                              //         fontWeight: FontWeight.w500,
+                              //       ),
+                              //     ),
+                              //     Text(
+                              //       '-',
+                              //       style: TextStyle(
+                              //         color: black950,
+                              //         fontSize: 14,
+                              //         fontWeight: FontWeight.w600,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Салбарын хаяг:',
+                                      style: TextStyle(
+                                        color: black950,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${widget.data.inventory?.address?.additionalInformation ?? '-'}',
+                                      style: TextStyle(
+                                        color: black950,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SvgPicture.asset('assets/svg/log_out.svg'),
-                            SizedBox(width: 8),
                             Text(
-                              'Системээс гарах',
+                              'Цагийн хуваарь',
                               style: TextStyle(
-                                color: white,
+                                color: black600,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
+                            // GestureDetector(
+                            //   onTap: () {},
+                            //   child: Row(
+                            //     children: [
+                            //       SvgPicture.asset(
+                            //         'assets/svg/edit.svg',
+                            //         height: 16,
+                            //         width: 16,
+                            //       ),
+                            //       SizedBox(width: 4),
+                            //       Text(
+                            //         'Өөрчлөх',
+                            //         style: TextStyle(
+                            //           color: black800,
+                            //           fontSize: 14,
+                            //           fontWeight: FontWeight.w400,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
-                      ),
+                        SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                          ),
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Даваа:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Мягмар:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Лхагва:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Пүрэв:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Баасан:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Бямба:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '09:00 - 21:00',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Ням:',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Амарна',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.bottom + 50,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom + 16,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                // Align(
+                //   alignment: AlignmentDirectional.bottomCenter,
+                //   child: Container(
+                //     color: white,
+                //     child: Padding(
+                //       padding: EdgeInsets.only(
+                //         top: 16,
+                //         right: 16,
+                //         left: 16,
+                //         bottom: Platform.isIOS
+                //             ? MediaQuery.of(context).padding.bottom
+                //             : MediaQuery.of(context).padding.bottom + 16,
+                //       ),
+                //       child: Column(
+                //         mainAxisSize: MainAxisSize.min,
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           GestureDetector(
+                //             onTap: () {
+                //               toExit();
+                //             },
+                //             child: Container(
+                //               decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(12),
+                //                 color: redColor,
+                //               ),
+                //               padding: EdgeInsets.symmetric(vertical: 10),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   SvgPicture.asset('assets/svg/log_out.svg'),
+                //                   SizedBox(width: 8),
+                //                   Text(
+                //                     'Системээс гарах',
+                //                     style: TextStyle(
+                //                       color: white,
+                //                       fontSize: 14,
+                //                       fontWeight: FontWeight.w600,
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
     );
   }

@@ -24,10 +24,10 @@ class IncomeListPage extends StatefulWidget {
 
 class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   final List<String> tabs = [
-    'Бүгд',
-    'Хуваарилагдсан',
     'Агуулахаас гарсан',
+    'Хуваарилагдсан',
     'Хүлээн авсан',
+    'Бүгд',
   ];
 
   bool isLoadingPage = true;
@@ -60,7 +60,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -197,53 +197,62 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                   padding: EdgeInsetsGeometry.all(16),
                   child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(8),
-                              ),
-                            ),
-                            builder: (context) {
-                              return CustomTableCalendar(
-                                onDateSelected: (start, end) {
-                                  setState(() {
-                                    startDate = start;
-                                    endDate = end;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              );
-                            },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: white,
-                            border: Border.all(color: white100),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/svg/calendar.svg'),
-                              SizedBox(width: 12),
-                              Text(
-                                formattedDate,
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                      selectedIndexFilter == 0 || selectedIndexFilter == 1
+                          ? SizedBox()
+                          : Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(8),
+                                        ),
+                                      ),
+                                      builder: (context) {
+                                        return CustomTableCalendar(
+                                          onDateSelected: (start, end) {
+                                            setState(() {
+                                              startDate = start;
+                                              endDate = end;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: white,
+                                      border: Border.all(color: white100),
+                                    ),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/svg/calendar.svg',
+                                        ),
+                                        SizedBox(width: 12),
+                                        Text(
+                                          formattedDate,
+                                          style: TextStyle(
+                                            color: black950,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16),
+                                SizedBox(height: 16),
+                              ],
+                            ),
                       isLoadingHistory
                           ? CustomLoader()
                           : incomeHistory.rows != null &&

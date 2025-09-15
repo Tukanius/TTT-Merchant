@@ -10,9 +10,7 @@ PurchaseModel _$PurchaseModelFromJson(Map<String, dynamic> json) {
     type: json['type'] != null ? json['type'] as String : null,
     user: json['user'] != null ? User.fromJson(json['user']) : null,
     invoice: json['invoice'] != null ? Invoice.fromJson(json['invoice']) : null,
-    distributor: json['distributor'] != null
-        ? StaffUser.fromJson(json['distributor'])
-        : null,
+
     code: json['code'] != null ? json['code'] as String : null,
     quantity: json['quantity'] != null ? json['quantity'] as int : null,
     totalAmount: json['totalAmount'] != null
@@ -31,12 +29,12 @@ PurchaseModel _$PurchaseModelFromJson(Map<String, dynamic> json) {
               .map((e) => ProductPurchaseModel.fromJson(e))
               .toList()
         : null,
-    confirmedUser: json['confirmedUser'] != null
-        ? StaffUser.fromJson(json['confirmedUser'])
-        : null,
-    appUser: json['appUser'] != null
-        ? StaffUser.fromJson(json['appUser'])
-        : null,
+    // confirmedUser: json['confirmedUser'] != null
+    //     ? StaffUser.fromJson(json['confirmedUser'])
+    //     : null,
+    // appUser: json['appUser'] != null
+    //     ? StaffUser.fromJson(json['appUser'])
+    //     : null,
     cardNo: json['cardNo'] != null ? json['cardNo'] as String : null,
   );
 }
@@ -48,7 +46,6 @@ Map<String, dynamic> _$PurchaseModelToJson(PurchaseModel instance) {
   if (instance.id != null) json['_id'] = instance.id;
   if (instance.type != null) json['type'] = instance.type;
   if (instance.user != null) json['user'] = instance.user;
-  if (instance.distributor != null) json['distributor'] = instance.distributor;
   if (instance.code != null) json['code'] = instance.code;
   if (instance.quantity != null) json['quantity'] = instance.quantity;
   if (instance.totalAmount != null) json['totalAmount'] = instance.totalAmount;
@@ -60,9 +57,9 @@ Map<String, dynamic> _$PurchaseModelToJson(PurchaseModel instance) {
   if (instance.createdAt != null) json['createdAt'] = instance.createdAt;
   if (instance.updatedAt != null) json['updatedAt'] = instance.updatedAt;
   if (instance.products != null) json['products'] = instance.products;
-  if (instance.confirmedUser != null)
-    json['confirmedUser'] = instance.confirmedUser;
-  if (instance.appUser != null) json['appUser'] = instance.appUser;
+  // if (instance.confirmedUser != null)
+  //   json['confirmedUser'] = instance.confirmedUser;
+  // if (instance.appUser != null) json['appUser'] = instance.appUser;
   if (instance.cardNo != null) json['cardNo'] = instance.cardNo;
   if (instance.invoice != null) json['invoice'] = instance.invoice;
 

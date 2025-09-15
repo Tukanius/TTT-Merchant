@@ -50,9 +50,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             SvgPicture.asset('assets/svg/TTT.svg'),
-            SizedBox(width: 6),
+            SizedBox(width: 12),
             Text(
-              'V $_version',
+              'v $_version',
               style: TextStyle(
                 color: black950,
                 fontSize: 12,

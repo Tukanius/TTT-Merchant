@@ -9,6 +9,7 @@ import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
+import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/wallet_card/wallet_history_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
@@ -34,6 +35,7 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
   int page = 1;
   int limit = 10;
   GeneralBalance generalBalance = GeneralBalance();
+  TextEditingController controller = TextEditingController();
   @override
   afterFirstLayout(BuildContext context) async {
     try {
@@ -50,7 +52,7 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -75,12 +77,16 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
     await Future.delayed(const Duration(milliseconds: 1000));
     if (!mounted) return;
     setState(() {
+      isLoadingPage = true;
       isLoadingHistory = true;
     });
     generalBalance = await Provider.of<GeneralProvider>(
       context,
       listen: false,
     ).initBalance();
+    setState(() {
+      isLoadingPage = false;
+    });
     await listOfHistory(page, limit);
     refreshController.refreshCompleted();
   }
@@ -92,6 +98,22 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
     });
     await listOfHistory(page, limit);
     refreshController.loadComplete();
+  }
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  String get formattedDate {
+    if (startDate == null && endDate == null) {
+      final now = DateTime.now();
+      return "${now.year}/${now.month.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate == null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate != null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')} - "
+          "${endDate!.year}/${endDate!.month.toString().padLeft(2, '0')}/${endDate!.day.toString().padLeft(2, '0')}";
+    }
+    return "";
   }
 
   @override
@@ -155,10 +177,22 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(
-                                              WalletRecharge.routeName,
-                                            );
+                                          onTap: () async {
+                                            controller.text = '0';
+                                            final result =
+                                                await Navigator.of(
+                                                  context,
+                                                ).pushNamed(
+                                                  WalletRecharge.routeName,
+                                                  arguments:
+                                                      WalletRechargeArguments(
+                                                        textController:
+                                                            controller,
+                                                      ),
+                                                );
+                                            if (result == true) {
+                                              onRefresh();
+                                            }
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
@@ -203,113 +237,160 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: white,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 2,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectFilter = 0;
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Өчигдөр',
-                                        style: TextStyle(
-                                          color: selectFilter == 0
-                                              ? orange
-                                              : black950,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                      SizedBox(height: 12),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(8),
                               ),
                             ),
-                            Container(
-                              width: 1,
-                              height: 16,
-                              color: black.withOpacity(0.1),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
+                            builder: (context) {
+                              return CustomTableCalendar(
+                                onDateSelected: (start, end) {
                                   setState(() {
-                                    selectFilter = 1;
+                                    startDate = start;
+                                    endDate = end;
                                   });
+                                  Navigator.pop(context);
                                 },
-
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '7 хоног',
-                                        style: TextStyle(
-                                          color: selectFilter == 1
-                                              ? orange
-                                              : black950,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: white,
+                            border: Border.all(color: white100),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/svg/calendar.svg'),
+                              SizedBox(width: 12),
+                              Text(
+                                formattedDate,
+                                style: TextStyle(
+                                  color: black950,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            ),
-                            Container(
-                              width: 1,
-                              height: 16,
-                              color: black.withOpacity(0.1),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectFilter = 2;
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Сар',
-                                        style: TextStyle(
-                                          color: selectFilter == 2
-                                              ? orange
-                                              : black950,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
+                      // SizedBox(height: 16),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(12),
+                      //     color: white,
+                      //   ),
+                      //   padding: EdgeInsets.symmetric(
+                      //     horizontal: 2,
+                      //     vertical: 8,
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               selectFilter = 0;
+                      //             });
+                      //           },
+                      //           child: Container(
+                      //             padding: EdgeInsets.symmetric(vertical: 5),
+                      //             child: Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   'Өчигдөр',
+                      //                   style: TextStyle(
+                      //                     color: selectFilter == 0
+                      //                         ? orange
+                      //                         : black950,
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w500,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Container(
+                      //         width: 1,
+                      //         height: 16,
+                      //         color: black.withOpacity(0.1),
+                      //       ),
+                      //       Expanded(
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               selectFilter = 1;
+                      //             });
+                      //           },
+
+                      //           child: Container(
+                      //             padding: EdgeInsets.symmetric(vertical: 5),
+                      //             child: Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   '7 хоног',
+                      //                   style: TextStyle(
+                      //                     color: selectFilter == 1
+                      //                         ? orange
+                      //                         : black950,
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w500,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Container(
+                      //         width: 1,
+                      //         height: 16,
+                      //         color: black.withOpacity(0.1),
+                      //       ),
+                      //       Expanded(
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               selectFilter = 2;
+                      //             });
+                      //           },
+                      //           child: Container(
+                      //             padding: EdgeInsets.symmetric(vertical: 5),
+                      //             child: Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   'Сар',
+                      //                   style: TextStyle(
+                      //                     color: selectFilter == 2
+                      //                         ? orange
+                      //                         : black950,
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w500,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(height: 12),
                       isLoadingHistory == true
                           ? CustomLoader()

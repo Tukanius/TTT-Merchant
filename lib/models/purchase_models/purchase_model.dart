@@ -23,8 +23,8 @@ class PurchaseModel {
   String? createdAt;
   String? updatedAt;
   List<ProductPurchaseModel>? products;
-  StaffUser? confirmedUser;
-  StaffUser? appUser;
+  // StaffUser? confirmedUser;
+  // StaffUser? appUser;
   String? cardNo;
 
   PurchaseModel({
@@ -44,8 +44,8 @@ class PurchaseModel {
     this.createdAt,
     this.updatedAt,
     this.products,
-    this.confirmedUser,
-    this.appUser,
+    // this.confirmedUser,
+    // this.appUser,
     this.cardNo,
     this.invoice,
   });

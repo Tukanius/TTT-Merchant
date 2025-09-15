@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/purchase_model.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/create_payment.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SaleHistoryCard extends StatefulWidget {
@@ -170,7 +170,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                           ),
                         ),
                         Text(
-                          '${widget.data.appUser != null ? widget.data.appUser?.firstName : '${widget.data.cardNo ?? '-'}'}',
+                          '${widget.data.user != null ? widget.data.user?.firstName : '${widget.data.cardNo ?? '-'}'}',
                           style: TextStyle(
                             color: black950,
                             fontSize: 14,
@@ -214,7 +214,7 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     ),
                     SizedBox(height: 14),
                     Text(
-                      'Үнийн мэдээлэл',
+                      'Барааны мэдээлэл',
                       style: TextStyle(
                         color: black400,
                         fontSize: 12,

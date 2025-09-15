@@ -200,7 +200,7 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.data.vehiclePlateNo}',
+                              '${widget.data.vehiclePlateNo?.toUpperCase()}',
                               style: TextStyle(
                                 color: black950,
                                 fontSize: 16,
@@ -352,11 +352,11 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isIssueNumber = !isIssueNumber;
-                                    });
-                                  },
+                                  // onTap: () {
+                                  //   setState(() {
+                                  //     isIssueNumber = !isIssueNumber;
+                                  //   });
+                                  // },
                                   child: isIssueNumber == true
                                       ? SvgPicture.asset(
                                           'assets/svg/check_complain.svg',

@@ -201,7 +201,7 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.data.vehiclePlateNo}',
+                              '${widget.data.vehiclePlateNo?.toUpperCase()}',
                               style: TextStyle(
                                 color: black950,
                                 fontSize: 16,

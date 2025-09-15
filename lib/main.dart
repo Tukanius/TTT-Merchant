@@ -20,14 +20,14 @@ import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/create_payment.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
+// import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/src/not_found_user.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/confirm_purchase_request.dart';
+// import 'package:ttt_merchant_flutter/src/purchase_request_page/confirm_purchase_request.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
@@ -115,7 +115,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
         //         DialogManager(child: loading(context, widget)),
         //   ),
         // ),
-        title: 'TTT Merchant',
+        title: 'TTT Борлуулагч',
         theme: ThemeData(useMaterial3: false),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashPage.routeName,
@@ -218,17 +218,17 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return const SetPasswordPage();
                 },
               );
-            case ConfirmPurchaseRequest.routeName:
-              ConfirmPurchaseRequestArguments arguments =
-                  settings.arguments as ConfirmPurchaseRequestArguments;
-              return MaterialPageRoute(
-                builder: (context) {
-                  return ConfirmPurchaseRequest(
-                    data: arguments.data,
-                    payType: arguments.payType,
-                  );
-                },
-              );
+            // case ConfirmPurchaseRequest.routeName:
+            //   ConfirmPurchaseRequestArguments arguments =
+            //       settings.arguments as ConfirmPurchaseRequestArguments;
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return ConfirmPurchaseRequest(
+            //         data: arguments.data,
+            //         payType: arguments.payType,
+            //       );
+            //     },
+            //   );
             // case IncomeDetailPage.routeName:
             //   IncomeDetailPageArguments arguments =
             //       settings.arguments as IncomeDetailPageArguments;
@@ -267,18 +267,22 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return SaleDetailPage(id: arguments.id);
                 },
               );
-            case QpayPaymentPage.routeName:
-              QpayPaymentPageArguments arguments =
-                  settings.arguments as QpayPaymentPageArguments;
-              return MaterialPageRoute(
-                builder: (context) {
-                  return QpayPaymentPage(id: arguments.id);
-                },
-              );
+            // case QpayPaymentPage.routeName:
+            //   QpayPaymentPageArguments arguments =
+            //       settings.arguments as QpayPaymentPageArguments;
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return QpayPaymentPage(id: arguments.id);
+            //     },
+            //   );
             case WalletRecharge.routeName:
+              WalletRechargeArguments arguments =
+                  settings.arguments as WalletRechargeArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return const WalletRecharge();
+                  return WalletRecharge(
+                    textController: arguments.textController,
+                  );
                 },
               );
             case WalletQpayCharge.routeName:

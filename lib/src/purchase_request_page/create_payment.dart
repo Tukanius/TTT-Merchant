@@ -64,7 +64,7 @@ class _CreatePaymentState extends State<CreatePayment> with AfterLayoutMixin {
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }

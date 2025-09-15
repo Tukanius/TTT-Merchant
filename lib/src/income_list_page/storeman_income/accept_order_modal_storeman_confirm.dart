@@ -52,7 +52,7 @@ class _AcceptOrderModalStoremanConfirmState
       borderRadius: BorderRadius.circular(8),
     ),
   );
-  bool isLoadingPage = false;
+  bool isLoadingPage = true;
   User user = User();
   @override
   afterFirstLayout(BuildContext context) async {
@@ -63,7 +63,7 @@ class _AcceptOrderModalStoremanConfirmState
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }

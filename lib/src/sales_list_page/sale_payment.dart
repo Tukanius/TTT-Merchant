@@ -41,6 +41,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
   bool isLoadingPage = true;
   GeneralBalance generalBalance = GeneralBalance();
   User user = User();
+  TextEditingController controller = TextEditingController();
   @override
   afterFirstLayout(BuildContext context) async {
     try {
@@ -54,7 +55,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -65,7 +66,16 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
         isLoading = true;
       });
       if (generalBalance.lastBalance! < widget.payAmount) {
-        await Navigator.of(context).pushNamed(WalletRecharge.routeName);
+        controller.text = (widget.payAmount - generalBalance.lastBalance!)
+            .toString();
+        final result = await Navigator.of(context).pushNamed(
+          WalletRecharge.routeName,
+          arguments: WalletRechargeArguments(textController: controller),
+        );
+
+        if (result == true) {
+          onRefresh();
+        }
       } else {
         await BalanceApi().paySales(widget.id);
         saleSuccess(context);
@@ -128,7 +138,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
                     Navigator.of(context).pushNamed(
                       MainPage.routeName,
                       arguments: MainPageArguments(
-                        changeIndex: 1,
+                        changeIndex: 0,
                         userType: user.userType!,
                       ),
                     );
@@ -378,9 +388,11 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
                             children: [
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: () {
-                                    onSubmit();
-                                  },
+                                  onTap: isLoading == true
+                                      ? () {}
+                                      : () {
+                                          onSubmit();
+                                        },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     decoration: BoxDecoration(

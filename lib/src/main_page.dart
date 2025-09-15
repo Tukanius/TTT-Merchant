@@ -44,7 +44,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     print(widget.userType);
-    print('====USERTYPE======');
   }
 
   List<Widget> get widgetOptions {
@@ -62,7 +61,7 @@ class _MainPageState extends State<MainPage> {
         IncomeListPage(),
         ProfilePageDistributor(onChangePage: (index) => onItemTapped(index)),
       ];
-    } else if (widget.userType == "TOOLOGCH") {
+    } else if (widget.userType == "FACTORY_INSPECTOR") {
       return [
         IncomeListToologch(),
         ProfilePageToologch(onChangePage: (index) => onItemTapped(index)),
@@ -94,7 +93,7 @@ class _MainPageState extends State<MainPage> {
     );
     final mediaQuery = MediaQuery.of(context);
     return PopScope(
-      canPop: false,
+      canPop: true,
       child: Scaffold(
         floatingActionButton:
             widget.userType == "STORE_MAN" || widget.userType == "TOOLOGCH"

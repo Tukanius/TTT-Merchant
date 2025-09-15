@@ -69,7 +69,9 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: widget.data.requestStatus == "DONE"
+                        color: widget.data.requestStatus == "REJECTED"
+                            ? redColor.withOpacity(0.1)
+                            : widget.data.requestStatus == "DONE"
                             ? green.withOpacity(0.1)
                             : orange.withOpacity(0.1),
                       ),
@@ -86,7 +88,9 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                             ? 'Төлбөр хүлээгдэж байна'
                             : '-'}',
                         style: TextStyle(
-                          color: widget.data.requestStatus == "DONE"
+                          color: widget.data.requestStatus == "REJECTED"
+                              ? redColor
+                              : widget.data.requestStatus == "DONE"
                               ? green
                               : orange,
                           fontSize: 10,

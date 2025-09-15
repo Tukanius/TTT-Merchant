@@ -26,12 +26,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
     with AfterLayoutMixin {
   // int selectedIndex = 0;
   int? selectedIndexTile;
-  final List<String> tabs = [
-    'Бүгд',
-    'Хүргэлтэд гарсан',
-    'Хуваарилагдсан',
-    'Хүргэгдсэн',
-  ];
+  final List<String> tabs = ['Агуулахаас гарсан', 'Хуваарилагдсан', 'Бүгд'];
 
   // final Map<String, String> tabFilters = {
   //   'Нийт': 'ALL',
@@ -44,7 +39,6 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
   Result incomeHistory = Result();
   Result incomeSaleMan = Result();
 
-  bool isLoadingHistory = true;
   int page = 1;
   int limit = 10;
   int filterIndex = 0;
@@ -61,7 +55,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -88,7 +82,6 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
     await Future.delayed(const Duration(milliseconds: 1000));
     if (!mounted) return;
     setState(() {
-      isLoadingHistory = true;
       isLoadingPage = true;
       limit = 10;
     });
@@ -145,55 +138,55 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(25 + 30),
+          preferredSize: Size.fromHeight(30),
           child: Container(
             alignment: Alignment.centerLeft,
             child: Column(
               children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: List.generate(tabs.length, (index) {
-                          final bool isSelected = selectedIndexFilter == index;
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndexFilter = index;
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 6,
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: isSelected ? orange : Colors.white,
-                                border: Border.all(
-                                  color: isSelected ? orange : white100,
-                                ),
-                              ),
-                              child: Text(
-                                tabs[index],
-                                style: TextStyle(
-                                  color: isSelected ? white : black600,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.centerLeft,
+                //   padding: EdgeInsets.symmetric(vertical: 8),
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     child: Container(
+                //       padding: EdgeInsets.symmetric(horizontal: 16),
+                //       child: Row(
+                //         children: List.generate(tabs.length, (index) {
+                //           final bool isSelected = selectedIndexFilter == index;
+                //           return GestureDetector(
+                //             onTap: () {
+                //               setState(() {
+                //                 selectedIndexFilter = index;
+                //               });
+                //             },
+                //             child: Container(
+                //               margin: EdgeInsets.only(right: 10),
+                //               padding: EdgeInsets.symmetric(
+                //                 vertical: 6,
+                //                 horizontal: 10,
+                //               ),
+                //               decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(100),
+                //                 color: isSelected ? orange : Colors.white,
+                //                 border: Border.all(
+                //                   color: isSelected ? orange : white100,
+                //                 ),
+                //               ),
+                //               child: Text(
+                //                 tabs[index],
+                //                 style: TextStyle(
+                //                   color: isSelected ? white : black600,
+                //                   fontSize: 12,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             ),
+                //           );
+                //         }),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

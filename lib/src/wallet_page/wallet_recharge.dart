@@ -15,19 +15,33 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/charge_wallet.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
-import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
+class WalletRechargeArguments {
+  final TextEditingController textController;
+  WalletRechargeArguments({required this.textController});
+}
+
 class WalletRecharge extends StatefulWidget {
+  final TextEditingController textController;
   static const routeName = "WalletRecharge";
-  const WalletRecharge({super.key});
+  const WalletRecharge({super.key, required this.textController});
 
   @override
   State<WalletRecharge> createState() => _WalletRechargeState();
 }
 
 class _WalletRechargeState extends State<WalletRecharge> with AfterLayoutMixin {
+  @override
+  void initState() {
+    controller = widget.textController;
+    controller.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   User user = User();
@@ -41,18 +55,12 @@ class _WalletRechargeState extends State<WalletRecharge> with AfterLayoutMixin {
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
 
   final List<String> tabs = ['10,000₮', '20,000₮', '30,000₮', '50,000₮'];
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {});
-    });
-  }
 
   onSubmit() async {
     QpayPayment qpayPayment = QpayPayment();
@@ -65,10 +73,17 @@ class _WalletRechargeState extends State<WalletRecharge> with AfterLayoutMixin {
       });
       data.amount = int.parse(controller.text);
       qpayPayment = await BalanceApi().rechargeWallet(data);
-      Navigator.of(context).pushNamed(
+      final result = await Navigator.of(context).pushNamed(
         WalletQpayCharge.routeName,
         arguments: WalletQpayChargeArguments(data: qpayPayment),
       );
+      print('======result prom keyboard page =====');
+      if (result == true) {
+        Navigator.of(context).pop(true);
+      }
+      print(result);
+      print('======result prom keyboard page =====');
+
       setState(() {
         isLoading = false;
       });
@@ -102,13 +117,6 @@ class _WalletRechargeState extends State<WalletRecharge> with AfterLayoutMixin {
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(
-                MainPage.routeName,
-                arguments: MainPageArguments(
-                  changeIndex: 0,
-                  userType: user.userType!,
-                ),
-              );
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

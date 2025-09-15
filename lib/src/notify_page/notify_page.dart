@@ -21,7 +21,7 @@ class _NotifyPageState extends State<NotifyPage> {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'Татан авах хүсэлт',
+          'Мэдэгдэл',
           style: TextStyle(
             color: black950,
             fontSize: 18,
@@ -66,7 +66,7 @@ class _NotifyPageState extends State<NotifyPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Түлшний үлдэгдэл дуусаж байна',
+                                'Түлшний үлдэгдэл дуусаж байна.',
                                 style: TextStyle(
                                   color: zero,
                                   fontSize: 16,
@@ -75,7 +75,7 @@ class _NotifyPageState extends State<NotifyPage> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Үлдэгдэл: 1 шуудай',
+                                'Үлдэгдэл: 0 ш',
                                 style: TextStyle(
                                   color: black600,
                                   fontSize: 14,

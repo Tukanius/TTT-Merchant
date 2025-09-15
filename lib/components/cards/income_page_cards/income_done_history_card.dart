@@ -269,7 +269,10 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.fromInventory ?? '-'}',
+                        widget.data.type == "IN"
+                            ? '${widget.data.toInventory ?? '-'}'
+                            : '${widget.data.fromInventory ?? '-'}',
+
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -291,7 +294,9 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.toInventory}',
+                        widget.data.type == "OUT"
+                            ? '${widget.data.toInventory ?? '-'}'
+                            : '${widget.data.fromInventory ?? '-'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -361,7 +366,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${item.name}:',
+                                    '${item.name ?? '-'}:',
                                     style: TextStyle(
                                       color: black800,
                                       fontSize: 14,

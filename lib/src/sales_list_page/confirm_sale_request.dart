@@ -79,7 +79,7 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -611,7 +611,7 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                       ),
                                                       child: Row(
                                                         children: [
-                                                          GestureDetector(
+                                                          InkWell(
                                                             // onTap: () {
                                                             //   setState(() {
                                                             //     if ((resData.totalCount ??
@@ -624,31 +624,51 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                             //     }
                                                             //   });
                                                             // },
-                                                            onTap: () {
-                                                              setState(() {
-                                                                if ((resData.totalCount ??
-                                                                        0) >
-                                                                    0) {
-                                                                  resData.totalCount =
-                                                                      (resData.totalCount ??
-                                                                          0) -
-                                                                      1;
-                                                                  controllers[index]
-                                                                      .text = resData
-                                                                      .totalCount
-                                                                      .toString(); // 🔥 энд шинэчилж өгнө
-                                                                }
-                                                              });
-                                                            },
+                                                            onTap:
+                                                                isLoading ==
+                                                                    true
+                                                                ? () {}
+                                                                : () {
+                                                                    setState(() {
+                                                                      if ((resData.totalCount ??
+                                                                              0) >
+                                                                          0) {
+                                                                        resData.totalCount =
+                                                                            (resData.totalCount ??
+                                                                                0) -
+                                                                            1;
+                                                                        controllers[index]
+                                                                            .text = resData
+                                                                            .totalCount
+                                                                            .toString(); // 🔥 энд шинэчилж өгнө
+                                                                      }
+                                                                    });
+                                                                  },
                                                             child: Container(
-                                                              color: white50,
+                                                              decoration: BoxDecoration(
+                                                                color: white50,
+                                                                borderRadius:
+                                                                    BorderRadius.only(
+                                                                      topLeft:
+                                                                          Radius.circular(
+                                                                            8,
+                                                                          ),
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                            8,
+                                                                          ),
+                                                                    ),
+                                                              ),
                                                               padding:
-                                                                  const EdgeInsets.all(
-                                                                    6,
+                                                                  const EdgeInsets.symmetric(
+                                                                    vertical: 6,
+                                                                    horizontal:
+                                                                        7,
                                                                   ),
-                                                              child: Icon(
-                                                                Icons.remove,
-                                                                size: 20,
+                                                              child: SvgPicture.asset(
+                                                                'assets/svg/minus.svg',
+                                                                height: 20,
+                                                                width: 20,
                                                               ),
                                                             ),
                                                           ),
@@ -727,7 +747,7 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                           //     ),
                                                           //   ),
                                                           // ),
-                                                          GestureDetector(
+                                                          InkWell(
                                                             // onTap: () {
                                                             //   setState(() {
                                                             //     resData.totalCount =
@@ -736,27 +756,46 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                                             //         1;
                                                             //   });
                                                             // },
-                                                            onTap: () {
-                                                              setState(() {
-                                                                resData.totalCount =
-                                                                    (resData.totalCount ??
-                                                                        0) +
-                                                                    1;
-                                                                controllers[index]
-                                                                    .text = resData
-                                                                    .totalCount
-                                                                    .toString(); // 🔥 энд бас
-                                                              });
-                                                            },
+                                                            onTap:
+                                                                isLoading ==
+                                                                    true
+                                                                ? () {}
+                                                                : () {
+                                                                    setState(() {
+                                                                      resData.totalCount =
+                                                                          (resData.totalCount ??
+                                                                              0) +
+                                                                          1;
+                                                                      controllers[index]
+                                                                          .text = resData
+                                                                          .totalCount
+                                                                          .toString(); // 🔥 энд бас
+                                                                    });
+                                                                  },
                                                             child: Container(
-                                                              color: white50,
+                                                              decoration: BoxDecoration(
+                                                                color: white50,
+                                                                borderRadius: BorderRadius.only(
+                                                                  topRight:
+                                                                      Radius.circular(
+                                                                        8,
+                                                                      ),
+                                                                  bottomRight:
+                                                                      Radius.circular(
+                                                                        8,
+                                                                      ),
+                                                                ),
+                                                              ),
                                                               padding:
-                                                                  const EdgeInsets.all(
-                                                                    6,
+                                                                  const EdgeInsets.symmetric(
+                                                                    vertical: 6,
+                                                                    horizontal:
+                                                                        7,
                                                                   ),
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                size: 20,
+                                                              child: SvgPicture.asset(
+                                                                'assets/svg/plus.svg',
+                                                                height: 20,
+                                                                width: 20,
                                                               ),
                                                             ),
                                                           ),
@@ -823,9 +862,11 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () async {
-                                            await onSubmit();
-                                          },
+                                          onTap: isLoading == true
+                                              ? () {}
+                                              : () async {
+                                                  await onSubmit();
+                                                },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 10,

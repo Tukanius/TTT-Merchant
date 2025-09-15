@@ -23,6 +23,7 @@ class DistIncomeList {
   int? quantity;
   List<ProductPurchaseModel>? products;
   int? totalAmount;
+  String? inOutType;
 
   DistIncomeList({
     this.id,
@@ -44,6 +45,7 @@ class DistIncomeList {
     this.quantity,
     this.products,
     this.totalAmount,
+    this.inOutType,
   });
   static $fromJson(Map<String, dynamic> json) => _$DistIncomeListFromJson(json);
 

@@ -120,51 +120,55 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
-                                '${widget.data.driverName ?? '-'}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
+                                  '${widget.data.vehiclePlateNo ?? '-'}',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                '${widget.data.vehiclePlateNo ?? '-'}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                                SizedBox(height: 2),
+                                Text(
+                                  '${widget.data.driverName ?? '-'}',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 4),
-                            ],
+                                SizedBox(width: 4),
+                              ],
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Тоо ширхэг',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Тоо ширхэг',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                '${widget.data.quantity ?? '-'} Ш',
-                                style: TextStyle(
-                                  color: orange,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
+                                SizedBox(height: 2),
+                                Text(
+                                  '${widget.data.quantity ?? '-'} Ш',
+                                  style: TextStyle(
+                                    color: orange,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -239,22 +243,24 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.toInventory}',
+                      widget.data.type == "IN"
+                          ? '${widget.data.toInventory}'
+                          : '${widget.data.fromInventory}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 2),
-                    Text(
-                      '${widget.data.receiverUser?.firstName ?? '-'}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // SizedBox(height: 2),
+                    // Text(
+                    //   '${widget.data.receiverUser?.firstName ?? '-'}',
+                    //   style: TextStyle(
+                    //     color: black950,
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   ],
                 ),
 
@@ -263,22 +269,25 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.fromInventory}',
+                      widget.data.type == "OUT"
+                          ? '${widget.data.toInventory}'
+                          : '${widget.data.fromInventory}',
+
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 2),
-                    Text(
-                      '${widget.data.senderUser?.firstName ?? ''}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // SizedBox(height: 2),
+                    // Text(
+                    //   '${widget.data.senderUser?.firstName ?? ''}',
+                    //   style: TextStyle(
+                    //     color: black950,
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

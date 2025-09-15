@@ -18,7 +18,7 @@ import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_mod
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/create_payment.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 
 class PurchaseRequestPageArguments {
   final CardBalance data;
@@ -78,7 +78,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -294,7 +294,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                             ),
                                             child: Row(
                                               children: [
-                                                GestureDetector(
+                                                InkWell(
                                                   // onTap: () {
                                                   //   setState(() {
                                                   //     if (quantities[index] > 0) {
@@ -333,7 +333,20 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                   //   });
                                                   // },
                                                   child: Container(
-                                                    color: white50,
+                                                    decoration: BoxDecoration(
+                                                      color: white50,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                          ),
+                                                    ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           vertical: 6,
@@ -442,7 +455,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                   ),
                                                 ),
 
-                                                GestureDetector(
+                                                InkWell(
                                                   // onTap: () {
                                                   //   setState(() {
                                                   //     quantities[index]++;
@@ -476,7 +489,20 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                   //   });
                                                   // },
                                                   child: Container(
-                                                    color: white50,
+                                                    decoration: BoxDecoration(
+                                                      color: white50,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                          ),
+                                                    ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           vertical: 6,

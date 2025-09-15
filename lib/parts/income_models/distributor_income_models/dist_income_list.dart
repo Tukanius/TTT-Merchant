@@ -51,6 +51,7 @@ DistIncomeList _$DistIncomeListFromJson(Map<String, dynamic> json) {
     totalAmount: json['totalAmount'] != null
         ? json['totalAmount'] as int
         : null,
+    inOutType: json['inOutType'] != null ? json['inOutType'] as String : null,
   );
 }
 
@@ -83,6 +84,7 @@ Map<String, dynamic> _$DistIncomeListToJson(DistIncomeList instance) {
   if (instance.quantity != null) json['quantity'] = instance.quantity;
   if (instance.products != null) json['products'] = instance.products;
   if (instance.totalAmount != null) json['totalAmount'] = instance.totalAmount;
+  if (instance.inOutType != null) json['inOutType'] = instance.inOutType;
 
   return json;
 }

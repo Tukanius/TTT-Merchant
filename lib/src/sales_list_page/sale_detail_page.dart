@@ -55,7 +55,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -70,6 +70,9 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
         return 2;
       case "DONE":
         return 3;
+      case "REJECTED":
+        return 4;
+
       default:
         return 0;
     }
@@ -283,7 +286,13 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                           ),
                                                       color:
                                                           data.requestStatus ==
-                                                              "DONE"
+                                                              "REJECTED"
+                                                          ? redColor
+                                                                .withOpacity(
+                                                                  0.1,
+                                                                )
+                                                          : data.requestStatus ==
+                                                                "DONE"
                                                           ? green.withOpacity(
                                                               0.1,
                                                             )
@@ -306,7 +315,10 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                       style: TextStyle(
                                                         color:
                                                             data.requestStatus ==
-                                                                "DONE"
+                                                                "REJECTED"
+                                                            ? redColor
+                                                            : data.requestStatus ==
+                                                                  "DONE"
                                                             ? green
                                                             : orange,
                                                         fontSize: 10,
@@ -360,17 +372,25 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 16),
-                                    OrderTimeline(
-                                      steps: buildSteps(data.requestStatuses!),
-                                      stepIndex: stepIndex,
-                                      orange: orange,
-                                      white50: white50,
-                                      white100: white100,
-                                      black950: black950,
-                                      black600: black600,
-                                      black400: black400,
-                                    ),
+                                    stepIndex != 4
+                                        ? Column(
+                                            children: [
+                                              SizedBox(height: 16),
+                                              OrderTimeline(
+                                                steps: buildSteps(
+                                                  data.requestStatuses!,
+                                                ),
+                                                stepIndex: stepIndex,
+                                                orange: orange,
+                                                white50: white50,
+                                                white100: white100,
+                                                black950: black950,
+                                                black600: black600,
+                                                black400: black400,
+                                              ),
+                                            ],
+                                          )
+                                        : SizedBox.shrink(),
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16),

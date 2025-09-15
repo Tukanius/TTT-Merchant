@@ -57,7 +57,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -357,7 +357,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                             ),
                                             child: Row(
                                               children: [
-                                                GestureDetector(
+                                                InkWell(
                                                   // onTap: () {
 
                                                   //   setState(() {
@@ -379,7 +379,20 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                     }
                                                   },
                                                   child: Container(
-                                                    color: white50,
+                                                    decoration: BoxDecoration(
+                                                      color: white50,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                          ),
+                                                    ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           vertical: 6,
@@ -461,7 +474,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                     ),
                                                   ),
                                                 ),
-                                                GestureDetector(
+                                                InkWell(
                                                   // onTap: () {
                                                   //   setState(() {
                                                   //     quantities[index]++;
@@ -480,7 +493,20 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                                     });
                                                   },
                                                   child: Container(
-                                                    color: white50,
+                                                    decoration: BoxDecoration(
+                                                      color: white50,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                  8,
+                                                                ),
+                                                          ),
+                                                    ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           vertical: 6,

@@ -27,6 +27,7 @@ class _CheckCardModalState extends State<CheckCardModal> {
   onSubmit() async {
     if (fbkey.currentState!.saveAndValidate()) {
       try {
+        // FocusScope.of(context).unfocus();
         setState(() {
           isLoading = true;
         });
@@ -165,9 +166,11 @@ class _CheckCardModalState extends State<CheckCardModal> {
                   SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        onSubmit();
-                      },
+                      onTap: isLoading == true
+                          ? () {}
+                          : () {
+                              onSubmit();
+                            },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(

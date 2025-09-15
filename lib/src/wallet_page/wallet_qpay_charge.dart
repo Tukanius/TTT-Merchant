@@ -16,7 +16,6 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/models/urls.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
-import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,7 +49,7 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -62,9 +61,7 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
       });
       QpayPayment qpayPayment = QpayPayment();
       qpayPayment = await BalanceApi().checkPayment(widget.data.id!);
-      print('=====res======');
-      print(qpayPayment.status);
-      print('=====res======');
+
       if (qpayPayment.status != "PAID") {
         ErrorDialog(context: context).show('Төлбөр хүлээгдэж байна');
         setState(() {
@@ -128,14 +125,8 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
                 const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(
-                      MainPage.routeName,
-                      arguments: MainPageArguments(
-                        changeIndex: 0,
-                        userType: user.userType!,
-                      ),
-                    );
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(true);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -221,11 +212,7 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
           ),
           leading: GestureDetector(
             onTap: () {
-              // Navigator.of(context).pushNamed(
-              //   MainPage.routeName,
-              //   arguments: MainPageArguments(changeIndex: 0),
-              // );
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(false);
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

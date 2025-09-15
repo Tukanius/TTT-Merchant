@@ -58,8 +58,6 @@ class _HomePageDistributorState extends State<HomePageDistributor>
     });
   }
 
-  Result incomeHistory = Result();
-  bool isLoadingHistoryIncome = true;
   // User user = User();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
@@ -75,30 +73,15 @@ class _HomePageDistributorState extends State<HomePageDistributor>
       });
 
       print('===loader===');
-      print(isLoadingHistoryIncome);
       print(isLoadingHistory);
       print('===loader===');
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
+        ;
       });
     }
-  }
-
-  listOfInOut(page, limit) async {
-    // final String selectedTab = tabs[selectedIndex];
-    // final String dateType = tabFilters[selectedTab] ?? 'ALL';
-    incomeHistory = await ProductApi().getIncomeSaleMan(
-      ResultArguments(
-        offset: Offset(page: page, limit: limit),
-        filter: Filter(status: "DONE", type: "ALL"),
-      ),
-    );
-    selectedResidual = general.residual?.first;
-    setState(() {
-      isLoadingHistoryIncome = false;
-    });
   }
 
   final RefreshController refreshController = RefreshController(
@@ -110,7 +93,6 @@ class _HomePageDistributorState extends State<HomePageDistributor>
     if (!mounted) return;
     setState(() {
       isLoadingHistory = true;
-      isLoadingHistoryIncome = true;
       isLoadingPage = true;
       limit = 10;
     });
@@ -191,7 +173,6 @@ class _HomePageDistributorState extends State<HomePageDistributor>
                                             (data) => Row(
                                               children: [
                                                 SizedBox(width: 12),
-
                                                 Container(
                                                   child: Column(
                                                     crossAxisAlignment:
@@ -232,17 +213,37 @@ class _HomePageDistributorState extends State<HomePageDistributor>
                                                         ),
                                                       ),
                                                       SizedBox(height: 2),
-                                                      Text(
-                                                        'Үлдэгдэл: ${data.residual} ш',
-                                                        style: TextStyle(
-                                                          color:
-                                                              data.residual == 0
-                                                              ? redColor
-                                                              : black600,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Үлдэгдэл: ',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  data.residual ==
+                                                                      0
+                                                                  ? redColor
+                                                                  : black600,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '${data.residual} ш',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  data.residual ==
+                                                                      0
+                                                                  ? redColor
+                                                                  : black950,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                       SizedBox(height: 2),
                                                       Text(

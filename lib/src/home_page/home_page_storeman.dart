@@ -38,12 +38,9 @@ class _HomePageStoremanState extends State<HomePageStoreman>
   bool isLoadingPage = true;
   String? selectedValue;
   GeneralInit general = GeneralInit();
-  Result salesHistory = Result();
-  bool isLoadingHistory = true;
   int page = 1;
   int limit = 10;
   Residual? selectedResidual;
-
   Result incomeHistory = Result();
   bool isLoadingHistoryIncome = true;
   // User user = User();
@@ -61,7 +58,6 @@ class _HomePageStoremanState extends State<HomePageStoreman>
 
       print('===loader===');
       print(isLoadingHistoryIncome);
-      print(isLoadingHistory);
       print('===loader===');
     } catch (e) {
       print(e);
@@ -94,7 +90,6 @@ class _HomePageStoremanState extends State<HomePageStoreman>
     await Future.delayed(const Duration(milliseconds: 1000));
     if (!mounted) return;
     setState(() {
-      isLoadingHistory = true;
       isLoadingHistoryIncome = true;
       isLoadingPage = true;
       limit = 10;

@@ -56,24 +56,24 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color:
-                        widget.data.transportStatus == "NEW" ||
-                            widget.data.transportStatus == "PENDING"
+                        widget.data.inOutType == "NEW" ||
+                            widget.data.inOutType == "PENDING"
                         ? orange.withOpacity(0.1)
                         : green.withOpacity(0.1),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.transportStatus == "NEW"
+                    '${widget.data.inOutType == "NEW"
                         ? 'Хуваарилагдсан'
-                        : widget.data.transportStatus == "PENDING"
+                        : widget.data.inOutType == "PENDING"
                         ? 'Агуулахаас гарсан'
-                        : widget.data.transportStatus == "DONE"
+                        : widget.data.inOutType == "DONE"
                         ? 'Хүлээн авсан'
                         : "-"}',
                     style: TextStyle(
                       color:
-                          widget.data.transportStatus == "NEW" ||
-                              widget.data.transportStatus == "PENDING"
+                          widget.data.inOutType == "NEW" ||
+                              widget.data.inOutType == "PENDING"
                           ? orange
                           : green,
                       fontSize: 10,
@@ -112,51 +112,55 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
-                                '${widget.data.driverName ?? ''}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
+                                  '${widget.data.vehiclePlateNo?.toUpperCase() ?? ''}',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                '${widget.data.vehiclePlateNo}',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                                SizedBox(height: 2),
+                                Text(
+                                  '${widget.data.driverName}',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 4),
-                            ],
+                                SizedBox(width: 4),
+                              ],
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Тоо ширхэг',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Тоо ширхэг',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                '${widget.data.quantity} Ш',
-                                style: TextStyle(
-                                  color: orange,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
+                                SizedBox(height: 2),
+                                Text(
+                                  '${widget.data.quantity} Ш',
+                                  style: TextStyle(
+                                    color: orange,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -238,15 +242,15 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 2),
-                    Text(
-                      '${widget.data.senderUser?.firstName ?? ''}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // SizedBox(height: 2),
+                    // Text(
+                    //   '${widget.data.senderUser?.firstName ?? ''}',
+                    //   style: TextStyle(
+                    //     color: black950,
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   ],
                 ),
                 SvgPicture.asset('assets/svg/arrow_right.svg'),
@@ -261,15 +265,15 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 2),
-                    Text(
-                      '${widget.data.receiverUser?.firstName ?? ''}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // SizedBox(height: 2),
+                    // Text(
+                    //   '${widget.data.receiverUser?.firstName ?? ''}',
+                    //   style: TextStyle(
+                    //     color: black950,
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

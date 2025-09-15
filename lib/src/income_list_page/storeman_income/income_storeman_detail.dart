@@ -55,7 +55,7 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -266,99 +266,83 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'assets/svg/car.svg',
-                                              ),
-                                              SizedBox(width: 8),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            100,
-                                                          ),
-                                                      color:
-                                                          data.inOutType ==
-                                                                  "NEW" ||
-                                                              data.inOutType ==
-                                                                  "PENDING"
-                                                          ? orange.withOpacity(
-                                                              0.1,
-                                                            )
-                                                          : green.withOpacity(
-                                                              0.1,
-                                                            ),
-                                                    ),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          horizontal: 9,
-                                                          vertical: 4,
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/svg/car.svg',
+                                                ),
+                                                SizedBox(width: 12),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        '${data.vehiclePlateNo?.toUpperCase()}',
+                                                        style: TextStyle(
+                                                          color: black950,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
-                                                    child: Text(
-                                                      '${data.inOutType == "NEW"
-                                                          ? 'Хуваарилагдсан'
-                                                          : data.inOutType == "PENDING"
-                                                          ? 'Агуулахаас гарсан'
-                                                          : data.inOutType == "DONE"
-                                                          ? 'Хүлээн авсан'
-                                                          : "-"}',
-                                                      style: TextStyle(
-                                                        color:
-                                                            data.inOutType ==
-                                                                    "NEW" ||
-                                                                data.inOutType ==
-                                                                    "PENDING"
-                                                            ? orange
-                                                            : green,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w500,
                                                       ),
-                                                    ),
+                                                      Text(
+                                                        '${data.driverName}',
+                                                        style: TextStyle(
+                                                          color: black600,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ],
                                                   ),
-
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    '${data.quantity ?? '-'} ш',
-                                                    style: TextStyle(
-                                                      color: black950,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
                                               children: [
-                                                Text(
-                                                  'Агуулхаас гарсан огноо',
-                                                  style: TextStyle(
-                                                    color: black600,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.end,
-                                                ),
-                                                SizedBox(height: 2),
-                                                Text(
-                                                  textAlign: TextAlign.end,
-                                                  // '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(data.createdAt!).toLocal())}',
-                                                  '123',
-                                                  style: TextStyle(
-                                                    color: black950,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        '',
+                                                        style: TextStyle(
+                                                          color: black950,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                      SizedBox(height: 2),
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        '-',
+                                                        style: TextStyle(
+                                                          color: black600,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
@@ -626,6 +610,29 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                           //     fontWeight: FontWeight.w600,
                                           //   ),
                                           // ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Нийт дүн:',
+                                            style: TextStyle(
+                                              color: black800,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${Utils().formatCurrencyDouble(data.totalAmount?.toDouble() ?? 0)}₮',
+                                            style: TextStyle(
+                                              color: black950,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(height: 8),

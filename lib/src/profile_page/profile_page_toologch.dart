@@ -39,7 +39,7 @@ class _ProfilePageToologchState extends State<ProfilePageToologch>
       });
     } catch (e) {
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }

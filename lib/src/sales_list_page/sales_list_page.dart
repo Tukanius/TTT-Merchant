@@ -30,11 +30,11 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int selectedIndex = 0;
   int? selectedIndexTile;
   final List<String> tabs = [
-    'Бүгд',
     'Хүсэлт илгээсэн',
-    'Зөвшөөрөгдсөн',
+    'Төлбөр төлөх',
     'Төлбөр төлөгдсөн',
     'Хүлээн авсан',
+    'Бүгд',
   ];
 
   bool isLoadingPage = true;
@@ -66,7 +66,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
     } catch (e) {
       print(e);
       setState(() {
-        isLoadingPage = false;
+        isLoadingPage = true;
       });
     }
   }
@@ -175,6 +175,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(vertical: 8),
             child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
