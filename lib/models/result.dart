@@ -5,8 +5,9 @@ class Filter {
   String? dateType;
   String? status;
   String? type;
+  String? query;
 
-  Filter({this.date, this.dateType, this.status, this.type});
+  Filter({this.date, this.dateType, this.status, this.type, this.query});
 }
 
 class Offset {

@@ -72,6 +72,14 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
         params['filter']['dateType'] = [];
       }
     }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.query != null && instance.filter!.query != '') {
+        params['filter']['query'] = instance.filter!.query;
+      } else {
+        params['filter']['query'] = [];
+      }
+    }
     if (instance.page != null && instance.page! > 0) {
       params['page'] = instance.page;
     }

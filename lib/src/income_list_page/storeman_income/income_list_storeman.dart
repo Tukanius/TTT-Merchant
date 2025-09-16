@@ -12,6 +12,7 @@ import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
+import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 
 class IncomeListStoreman extends StatefulWidget {
@@ -44,7 +45,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
   int filterIndex = 0;
   bool isLoadingHistoryIncome = true;
   int selectedIndexFilter = 0;
-
+  TextEditingController controller = TextEditingController();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
@@ -60,11 +61,12 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
     }
   }
 
-  listOfInOut(page, limit, {int? index}) async {
+  listOfInOut(page, limit, {int? index, String? queryVehicle}) async {
     // final String selectedTab = tabs[selectedIndex];
     // final String dateType = tabFilters[selectedTab] ?? 'ALL';
     incomeSaleMan = await ProductApi().getIncomeSaleMan(
       ResultArguments(
+        query: queryVehicle,
         offset: Offset(page: page, limit: limit),
         filter: Filter(status: "NEW", type: filterIndex == 0 ? "IN" : "OUT"),
       ),
@@ -118,6 +120,21 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
           "${endDate!.year}/${endDate!.month.toString().padLeft(2, '0')}/${endDate!.day.toString().padLeft(2, '0')}";
     }
     return "";
+  }
+
+  Timer? timer;
+
+  onChange(String query) async {
+    if (timer != null) timer!.cancel();
+    timer = Timer(const Duration(milliseconds: 500), () async {
+      setState(() {
+        isLoadingHistoryIncome = true;
+      });
+      await listOfInOut(page, limit, index: filterIndex, queryVehicle: query);
+      setState(() {
+        isLoadingHistoryIncome = false;
+      });
+    });
   }
 
   @override
@@ -279,6 +296,35 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                   padding: EdgeInsetsGeometry.all(16),
                   child: Column(
                     children: [
+                      FormTextField(
+                        controller: controller,
+                        contentPadding: EdgeInsets.all(12),
+                        dense: true,
+                        colortext: black,
+                        color: white,
+                        name: 'vehicleNumberFilter',
+                        hintTextStyle: TextStyle(
+                          color: black500,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        hintText: 'Тээврийн хэрэгслийн дугаар',
+                        prefixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(width: 12),
+                            // SvgPicture.asset('assets/svg/login_phone.svg'),
+                            Icon(Icons.search, color: black950, size: 20),
+                            SizedBox(width: 12),
+                          ],
+                        ),
+                        borderRadius: 12,
+                        onChanged: (value) {
+                          onChange(value);
+                        },
+                      ),
+                      SizedBox(height: 16),
+
                       GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
