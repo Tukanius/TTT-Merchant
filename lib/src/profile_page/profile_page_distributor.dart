@@ -185,6 +185,7 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                           // Navigator.of(
                           //   context,
                           // ).pushNamed(PurchaseHistoryPage.routeName);
+                          widget.onChangePage(0);
                         },
                         child: Container(
                           decoration: BoxDecoration(

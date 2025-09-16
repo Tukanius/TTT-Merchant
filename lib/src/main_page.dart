@@ -93,7 +93,7 @@ class _MainPageState extends State<MainPage> {
     );
     final mediaQuery = MediaQuery.of(context);
     return PopScope(
-      canPop: true,
+      canPop: false,
       child: Scaffold(
         floatingActionButton:
             widget.userType == "STORE_MAN" || widget.userType == "TOOLOGCH"
