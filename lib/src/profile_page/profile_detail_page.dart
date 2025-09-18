@@ -462,213 +462,213 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                           ),
                         ),
                         SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Цагийн хуваарь',
-                              style: TextStyle(
-                                color: black600,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            // GestureDetector(
-                            //   onTap: () {},
-                            //   child: Row(
-                            //     children: [
-                            //       SvgPicture.asset(
-                            //         'assets/svg/edit.svg',
-                            //         height: 16,
-                            //         width: 16,
-                            //       ),
-                            //       SizedBox(width: 4),
-                            //       Text(
-                            //         'Өөрчлөх',
-                            //         style: TextStyle(
-                            //           color: black800,
-                            //           fontSize: 14,
-                            //           fontWeight: FontWeight.w400,
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: white,
-                          ),
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Даваа:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Мягмар:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Лхагва:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Пүрэв:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Баасан:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Бямба:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '09:00 - 21:00',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 14),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Ням:',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Амарна',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
 
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text(
+                        //       'Цагийн хуваарь',
+                        //       style: TextStyle(
+                        //         color: black600,
+                        //         fontSize: 14,
+                        //         fontWeight: FontWeight.w400,
+                        //       ),
+                        //     ),
+                        //     // GestureDetector(
+                        //     //   onTap: () {},
+                        //     //   child: Row(
+                        //     //     children: [
+                        //     //       SvgPicture.asset(
+                        //     //         'assets/svg/edit.svg',
+                        //     //         height: 16,
+                        //     //         width: 16,
+                        //     //       ),
+                        //     //       SizedBox(width: 4),
+                        //     //       Text(
+                        //     //         'Өөрчлөх',
+                        //     //         style: TextStyle(
+                        //     //           color: black800,
+                        //     //           fontSize: 14,
+                        //     //           fontWeight: FontWeight.w400,
+                        //     //         ),
+                        //     //       ),
+                        //     //     ],
+                        //     //   ),
+                        //     // ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 8),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     color: white,
+                        //   ),
+                        //   padding: EdgeInsets.all(12),
+                        //   child: Column(
+                        //     children: [
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Даваа:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Мягмар:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Лхагва:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Пүрэв:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Баасан:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Бямба:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             '09:00 - 21:00',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 14),
+                        //       Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             'Ням:',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Амарна',
+                        //             style: TextStyle(
+                        //               color: black950,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(
                           height: MediaQuery.of(context).padding.bottom + 50,
                         ),
