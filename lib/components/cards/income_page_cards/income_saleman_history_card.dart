@@ -18,15 +18,6 @@ class IncomeSalemanHistoryCard extends StatefulWidget {
 
 class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
   @override
-  void initState() {
-    print('=====123====');
-    print(widget.data.inOutType);
-    print('=====123====');
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -65,25 +56,27 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: widget.data.type == "IN"
-                        ? green.withOpacity(0.1)
-                        : widget.data.type == "OUT"
-                        ? redColor.withOpacity(0.1)
-                        : black950,
+                    color:
+                        widget.data.inOutType == "NEW" ||
+                            widget.data.inOutType == "PENDING"
+                        ? orange.withOpacity(0.1)
+                        : green.withOpacity(0.1),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.type == "IN"
-                        ? "Орлого"
-                        : widget.data.type == "OUT"
-                        ? "Зарлага"
-                        : '-'}',
+                    '${widget.data.inOutType == "NEW"
+                        ? 'Хуваарилагдсан'
+                        : widget.data.inOutType == "PENDING"
+                        ? 'Агуулахаас гарсан'
+                        : widget.data.inOutType == "DONE"
+                        ? 'Хүлээн авсан'
+                        : "-"}',
                     style: TextStyle(
-                      color: widget.data.type == "IN"
-                          ? green
-                          : widget.data.type == "OUT"
-                          ? redColor
-                          : black950,
+                      color:
+                          widget.data.inOutType == "NEW" ||
+                              widget.data.inOutType == "PENDING"
+                          ? orange
+                          : green,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
@@ -239,56 +232,34 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.data.type == "IN"
-                          ? '${widget.data.toInventory}'
-                          : '${widget.data.fromInventory}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                Expanded(
+                  child: Text(
+                    widget.data.type == "IN"
+                        ? '${widget.data.toInventory}'
+                        : '${widget.data.fromInventory}',
+                    style: TextStyle(
+                      color: black950,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    // SizedBox(height: 2),
-                    // Text(
-                    //   '${widget.data.receiverUser?.firstName ?? '-'}',
-                    //   style: TextStyle(
-                    //     color: black950,
-                    //     fontSize: 12,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
 
                 SvgPicture.asset('assets/svg/arrow_right.svg'),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.data.type == "OUT"
-                          ? '${widget.data.toInventory}'
-                          : '${widget.data.fromInventory}',
+                Expanded(
+                  child: Text(
+                    widget.data.type == "OUT"
+                        ? '${widget.data.toInventory}'
+                        : '${widget.data.fromInventory}',
 
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    style: TextStyle(
+                      color: black950,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    // SizedBox(height: 2),
-                    // Text(
-                    //   '${widget.data.senderUser?.firstName ?? ''}',
-                    //   style: TextStyle(
-                    //     color: black950,
-                    //     fontSize: 12,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),

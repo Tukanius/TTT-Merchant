@@ -80,6 +80,41 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
         params['filter']['query'] = [];
       }
     }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.startDate != null &&
+          instance.filter!.startDate != '') {
+        params['filter']['startDate'] = instance.filter!.startDate;
+      } else {
+        params['filter']['startDate'] = [];
+      }
+    }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.endDate != null && instance.filter!.endDate != '') {
+        params['filter']['endDate'] = instance.filter!.endDate;
+      } else {
+        params['filter']['endDate'] = [];
+      }
+    }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.requestStatus != null &&
+          instance.filter!.requestStatus != '') {
+        params['filter']['requestStatus'] = instance.filter!.requestStatus;
+      } else {
+        params['filter']['requestStatus'] = [];
+      }
+    }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.inOutType != null &&
+          instance.filter!.inOutType != '') {
+        params['filter']['inOutType'] = instance.filter!.inOutType;
+      } else {
+        params['filter']['inOutType'] = [];
+      }
+    }
     if (instance.page != null && instance.page! > 0) {
       params['page'] = instance.page;
     }

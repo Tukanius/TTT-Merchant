@@ -119,7 +119,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
     });
     data = await ProductApi().getDistributorIncome(widget.id);
     setState(() {
-      stepIndex = _getStepIndex(data.verifiedStatus);
+      stepIndex = _getStepIndex(data.inOutType);
       isLoadingPage = false;
     });
     refreshController.refreshCompleted();
@@ -288,7 +288,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        'company_name',
+                                                        '-',
                                                         style: TextStyle(
                                                           color: black950,
                                                           fontSize: 12,

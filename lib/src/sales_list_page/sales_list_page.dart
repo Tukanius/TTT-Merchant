@@ -7,6 +7,7 @@ import 'package:after_layout/after_layout.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 // import 'package:table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
@@ -29,13 +30,23 @@ class SalesListPage extends StatefulWidget {
 class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int selectedIndex = 0;
   int? selectedIndexTile;
+  ScrollController scrollController = ScrollController();
   final List<String> tabs = [
+    'Бүгд',
     'Хүсэлт илгээсэн',
     'Төлбөр төлөх',
     'Төлбөр төлөгдсөн',
+    'Татгалзсан',
     'Хүлээн авсан',
-    'Бүгд',
   ];
+  final Map<String, String> tabFilters = {
+    'Бүгд': "",
+    'Хүсэлт илгээсэн': "NEW",
+    'Төлбөр төлөх': "SALES_APPROVED",
+    'Төлбөр төлөгдсөн': "FINANCE_APPROVED",
+    'Татгалзсан': "REJECTED",
+    'Хүлээн авсан': "DONE",
+  };
 
   bool isLoadingPage = true;
   String? selectedValue;
@@ -44,11 +55,28 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   int page = 1;
   int limit = 10;
   bool isLoading = false;
-  listOfHistory(page, limit) async {
+
+  listOfHistory(
+    page,
+    limit, {
+    String? status,
+    String? startDate,
+    String? endDate,
+  }) async {
+    // final String dateType = tabFilters[selectedIndex] ?? 'ALL';
     salesHistory = await ProductApi().getSalesHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
-        filter: Filter(date: 'ALL'),
+        filter: Filter(
+          requestStatus: status,
+          date: 'ALL',
+          startDate: startDate != '' && startDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+              : '',
+          endDate: endDate != '' && endDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+              : '',
+        ),
       ),
     );
     setState(() {
@@ -86,7 +114,17 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
-    await listOfHistory(page, limit);
+    final selectedTab = tabs[selectedIndex];
+    final filter = tabFilters[selectedTab];
+    await listOfHistory(
+      page,
+      limit,
+      status: filter,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     refreshController.refreshCompleted();
   }
 
@@ -95,7 +133,17 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
-    await listOfHistory(page, limit);
+    final selectedTab = tabs[selectedIndex];
+    final filter = tabFilters[selectedTab];
+    await listOfHistory(
+      page,
+      limit,
+      status: filter,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     refreshController.loadComplete();
   }
 
@@ -188,8 +236,28 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                           selectedIndex = index;
                           isLoadingHistory = true;
                         });
+                        final selectedTab = tabs[selectedIndex];
+                        final filter = tabFilters[selectedTab];
+                        scrollController.animateTo(
+                          scrollController.position.minScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeOut,
+                        );
+                        print('========check===reject=======');
+                        print(tabFilters[4]);
+                        print('========check===reject=======');
 
-                        await listOfHistory(page, limit);
+                        await listOfHistory(
+                          page,
+                          limit,
+                          startDate: startDate != null && startDate != ''
+                              ? startDate.toString()
+                              : '',
+                          endDate: endDate != null && endDate != ''
+                              ? endDate.toString()
+                              : '',
+                          status: filter,
+                        );
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 10),
@@ -230,6 +298,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
               onLoading: onLoading,
               onRefresh: onRefresh,
               child: SingleChildScrollView(
+                controller: scrollController,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -246,12 +315,31 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                             ),
                             builder: (context) {
                               return CustomTableCalendar(
-                                onDateSelected: (start, end) {
+                                onDateSelected: (start, end) async {
                                   setState(() {
                                     startDate = start;
                                     endDate = end;
                                   });
                                   Navigator.pop(context);
+                                  final selectedTab = tabs[selectedIndex];
+                                  final filter = tabFilters[selectedTab];
+                                  print('=======dateee=====');
+                                  print(startDate);
+                                  print(endDate);
+                                  print('=======dateee=====');
+
+                                  await listOfHistory(
+                                    page,
+                                    limit,
+                                    startDate:
+                                        startDate != null && startDate != ''
+                                        ? startDate.toString()
+                                        : '',
+                                    endDate: endDate != null && endDate != ''
+                                        ? endDate.toString()
+                                        : '',
+                                    status: filter,
+                                  );
                                 },
                               );
                             },

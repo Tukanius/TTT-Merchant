@@ -139,20 +139,25 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Борлуулагч:',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            'Борлуулагч:',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Text(
-                          '${widget.data.distributor?.name ?? '-'}',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                        Expanded(
+                          child: Text(
+                            '${widget.data.distributor?.name ?? '-'}',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                       ],
@@ -161,20 +166,25 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Худалдан авагч:',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            'Худалдан авагч:',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Text(
-                          '${widget.data.user != null ? widget.data.user?.firstName : '${widget.data.cardNo ?? '-'}'}',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                        Expanded(
+                          child: Text(
+                            '${widget.data.appUser != null ? widget.data.appUser?.firstName : '${widget.data.cardNo ?? '-'}'}',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                       ],
@@ -205,7 +215,34 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         ),
                       ],
                     ),
-
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Төлбөрийн хэрэгсэл:',
+                          style: TextStyle(
+                            color: black800,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          '${widget.data.payType != null
+                              ? widget.data.payType == "CASH"
+                                    ? 'Бэлэн мөнгө'
+                                    : widget.data.payType == "QPAY"
+                                    ? '${widget.data.payType}'
+                                    : '-'
+                              : '-'}',
+                          style: TextStyle(
+                            color: black950,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 14),
                     Container(
                       width: mediaQuery.size.width,

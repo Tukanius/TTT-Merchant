@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
@@ -27,6 +28,23 @@ class _LoginPageState extends State<LoginPage> {
   bool isVisible = true;
   bool isLoading = false;
 
+  ///
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = '${info.version}';
+    });
+  }
+
+  //
   onSubmit() async {
     FocusScope.of(context).unfocus();
     if (fbkey.currentState!.saveAndValidate()) {
@@ -112,6 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                                 color: black600,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'v $_version',
+                              style: TextStyle(
+                                color: black950,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                             SizedBox(height: 32),

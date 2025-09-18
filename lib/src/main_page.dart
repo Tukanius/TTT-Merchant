@@ -180,9 +180,9 @@ class _MainPageState extends State<MainPage> {
                             onTap: onItemTapped,
                           ),
                           _buildNavItem(
-                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            selectedIconPath: 'assets/svg/profile_selected.svg',
                             unselectedIconPath:
-                                'assets/svg/menu_unselected.svg',
+                                'assets/svg/profile_unselected.svg',
                             index: 2,
                             selectedIndex: _selectedIndex,
                             onTap: onItemTapped,
@@ -226,9 +226,9 @@ class _MainPageState extends State<MainPage> {
                             onTap: onItemTapped,
                           ),
                           _buildNavItem(
-                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            selectedIconPath: 'assets/svg/profile_selected.svg',
                             unselectedIconPath:
-                                'assets/svg/menu_unselected.svg',
+                                'assets/svg/profile_unselected.svg',
                             index: 4,
                             selectedIndex: _selectedIndex,
                             onTap: onItemTapped,
@@ -248,9 +248,9 @@ class _MainPageState extends State<MainPage> {
                             onTap: onItemTapped,
                           ),
                           _buildNavItem(
-                            selectedIconPath: 'assets/svg/menu_selected.svg',
+                            selectedIconPath: 'assets/svg/profile_selected.svg',
                             unselectedIconPath:
-                                'assets/svg/menu_unselected.svg',
+                                'assets/svg/profile_unselected.svg',
                             index: 1,
                             selectedIndex: _selectedIndex,
                             onTap: onItemTapped,

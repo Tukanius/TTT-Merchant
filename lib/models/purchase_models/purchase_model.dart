@@ -12,6 +12,7 @@ class PurchaseModel {
   String? type;
   User? user;
   StaffUser? distributor;
+  StaffUser? appUser;
   String? code;
   int? quantity;
   int? totalAmount;
@@ -23,6 +24,7 @@ class PurchaseModel {
   String? createdAt;
   String? updatedAt;
   List<ProductPurchaseModel>? products;
+  String? payType;
   // StaffUser? confirmedUser;
   // StaffUser? appUser;
   String? cardNo;
@@ -48,6 +50,8 @@ class PurchaseModel {
     // this.appUser,
     this.cardNo,
     this.invoice,
+    this.appUser,
+    this.payType,
   });
   static $fromJson(Map<String, dynamic> json) => _$PurchaseModelFromJson(json);
 

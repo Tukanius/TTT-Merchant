@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 // import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
@@ -18,6 +19,7 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/general/residual.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
 // import 'package:ttt_merchant_flutter/services/notification.dart';
 // import 'package:ttt_merchant_flutter/services/notification.dart';
 // import 'package:ttt_merchant_flutter/services/notification.dart';
@@ -451,27 +453,27 @@ class _HomePageDistributorState extends State<HomePageDistributor>
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     Navigator.of(
-                          //       context,
-                          //     ).pushNamed(PurchaseHistoryPage.routeName);
-                          //   },
-                          //   child: Row(
-                          //     children: [
-                          //       Text(
-                          //         'Бүгд',
-                          //         style: TextStyle(
-                          //           color: black800,
-                          //           fontSize: 14,
-                          //           fontWeight: FontWeight.w500,
-                          //         ),
-                          //       ),
-                          //       SizedBox(width: 6),
-                          //       SvgPicture.asset('assets/svg/arrow_right.svg'),
-                          //     ],
-                          //   ),
-                          // ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(PurchaseHistoryPage.routeName);
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Бүгд',
+                                  style: TextStyle(
+                                    color: black800,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(width: 6),
+                                SvgPicture.asset('assets/svg/arrow_right.svg'),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 12),

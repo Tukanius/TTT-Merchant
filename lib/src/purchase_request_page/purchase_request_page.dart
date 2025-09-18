@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -159,6 +161,30 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
 
   int get totalQuantity => quantities.fold(0, (sum, q) => sum + q);
 
+  final RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (!mounted) return;
+    setState(() {
+      isLoadingPage = true;
+    });
+    general = await Provider.of<GeneralProvider>(context, listen: false).init();
+    if (general.residual != null) {
+      quantities = List.filled(general.residual!.length, 0);
+      controllers = List.generate(
+        general.residual!.length,
+        (i) => TextEditingController(text: '0'),
+      );
+    }
+    setState(() {
+      isLoadingPage = false;
+    });
+    refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(
@@ -201,333 +227,370 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
             ? CustomLoader()
             : Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          general.residual != null
-                              ? GridView.builder(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: general.residual!.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        childAspectRatio: 0.55,
-                                      ),
-                                  itemBuilder: (context, index) {
-                                    final resData = general.residual![index];
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: white,
-                                      ),
-                                      padding: const EdgeInsets.all(12),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              6,
-                                            ),
-                                            child: resData.mainImage != null
-                                                ? Image.network(
-                                                    '${resData.mainImage!.url}',
-                                                    height: 168,
-                                                    width: 168,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.asset(
-                                                    'assets/images/default.jpg',
-                                                    height: 168,
-                                                    width: 168,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                  Refresher(
+                    color: orange,
+                    refreshController: refreshController,
+                    onRefresh: onRefresh,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            general.residual != null
+                                ? GridView.builder(
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: general.residual!.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 16,
+                                          mainAxisSpacing: 16,
+                                          childAspectRatio: 0.55,
+                                        ),
+                                    itemBuilder: (context, index) {
+                                      final resData = general.residual![index];
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            6,
                                           ),
-                                          const SizedBox(height: 12),
-                                          Text(
-                                            resData.name!,
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'Үлдэгдэл: ',
-                                                style: TextStyle(
-                                                  color: black600,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              Text(
-                                                '${resData.residual}',
-                                                style: TextStyle(
-                                                  color: black950,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            decoration: BoxDecoration(
+                                          color: white,
+                                        ),
+                                        padding: const EdgeInsets.all(12),
+                                        child: Column(
+                                          children: [
+                                            ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: white,
-                                              border: Border.all(
-                                                color: white100,
-                                              ),
+                                                  BorderRadius.circular(6),
+                                              child: resData.mainImage != null
+                                                  ? Image.network(
+                                                      '${resData.mainImage!.url}',
+                                                      height: 168,
+                                                      width: 168,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/default.jpg',
+                                                      height: 168,
+                                                      width: 168,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                             ),
-                                            child: Row(
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              resData.name!,
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                InkWell(
-                                                  // onTap: () {
-                                                  //   setState(() {
-                                                  //     if (quantities[index] > 0) {
-                                                  //       quantities[index]--;
-                                                  //     }
-                                                  //   });
-                                                  // },
-                                                  onTap: isLoading == true
-                                                      ? () {}
-                                                      : () {
-                                                          if (resData
-                                                                  .residual! >
-                                                              0) {
-                                                            setState(() {
-                                                              if (quantities[index] >
-                                                                  0) {
-                                                                quantities[index]--;
-                                                                controllers[index]
-                                                                        .text =
-                                                                    quantities[index]
-                                                                        .toString();
-                                                              }
-                                                            });
-                                                          }
-                                                        },
-                                                  // onTap: () {
-                                                  //   setState(() {
-                                                  //     if (quantities[index] >
-                                                  //         0) {
-                                                  //       quantities[index]--;
-                                                  //       controllers[index]
-                                                  //               .text =
-                                                  //           quantities[index]
-                                                  //               .toString();
-                                                  //     }
-                                                  //   });
-                                                  // },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: white50,
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                          ),
-                                                    ),
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          vertical: 6,
-                                                          horizontal: 7,
-                                                        ),
-                                                    child: SvgPicture.asset(
-                                                      'assets/svg/minus.svg',
-                                                      height: 20,
-                                                      width: 20,
-                                                    ),
+                                                Text(
+                                                  'Үлдэгдэл: ',
+                                                  style: TextStyle(
+                                                    color: resData.residual == 0
+                                                        ? redColor
+                                                        : black600,
+                                                    fontSize: 12,
                                                   ),
                                                 ),
-                                                // Expanded(
-                                                //   child: Container(
-                                                //     color: white,
-                                                //     alignment: Alignment.center,
-                                                //     padding:
-                                                //         const EdgeInsets.symmetric(
-                                                //           vertical: 6,
-                                                //         ),
-                                                //     child: Text(
-                                                //       '${quantities[index]}',
-                                                //       style: TextStyle(
-                                                //         color: black950,
-                                                //         fontSize: 16,
-                                                //         fontWeight:
-                                                //             FontWeight.w600,
-                                                //       ),
-                                                //       textAlign: TextAlign.center,
-                                                //     ),
-                                                //   ),
-                                                // ),
-                                                Expanded(
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          vertical: 6,
-                                                        ),
-                                                    child: TextField(
-                                                      readOnly:
-                                                          isLoading == true
-                                                          ? true
-                                                          : false,
-                                                      controller:
-                                                          controllers[index],
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      enabled:
-                                                          resData.residual! > 0,
-                                                      style: TextStyle(
-                                                        color:
-                                                            resData.residual! >
-                                                                0
-                                                            ? black950
-                                                            : black400,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                      decoration:
-                                                          const InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            isDense: true,
-                                                            contentPadding:
-                                                                EdgeInsets.zero,
-                                                          ),
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          int parsed =
-                                                              int.tryParse(
-                                                                value,
-                                                              ) ??
-                                                              0;
-
-                                                          if (parsed < 0)
-                                                            parsed = 0;
-                                                          if (parsed >
-                                                              resData
-                                                                  .residual!) {
-                                                            parsed = resData
-                                                                .residual!;
-                                                            // хэрэглэгч их бичсэн тохиолдолд шууд зөв утгаар солино
-                                                            controllers[index]
-                                                                .text = parsed
-                                                                .toString();
-                                                            controllers[index]
-                                                                    .selection =
-                                                                TextSelection.fromPosition(
-                                                                  TextPosition(
-                                                                    offset: controllers[index]
-                                                                        .text
-                                                                        .length,
-                                                                  ),
-                                                                );
-                                                          }
-
-                                                          quantities[index] =
-                                                              parsed;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                InkWell(
-                                                  // onTap: () {
-                                                  //   setState(() {
-                                                  //     quantities[index]++;
-                                                  //   });
-                                                  // },
-                                                  onTap: isLoading == true
-                                                      ? () {}
-                                                      : () {
-                                                          if (resData
-                                                                  .residual! >
-                                                              0) {
-                                                            setState(() {
-                                                              if (quantities[index] <
-                                                                  resData
-                                                                      .residual!) {
-                                                                quantities[index]++;
-                                                                controllers[index]
-                                                                        .text =
-                                                                    quantities[index]
-                                                                        .toString();
-                                                              }
-                                                            });
-                                                          }
-                                                        },
-                                                  // onTap: () {
-                                                  //   setState(() {
-                                                  //     quantities[index]++;
-                                                  //     controllers[index].text =
-                                                  //         quantities[index]
-                                                  //             .toString();
-                                                  //   });
-                                                  // },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: white50,
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                            topRight:
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                  8,
-                                                                ),
-                                                          ),
-                                                    ),
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          vertical: 6,
-                                                          horizontal: 7,
-                                                        ),
-                                                    child: SvgPicture.asset(
-                                                      'assets/svg/plus.svg',
-                                                      height: 20,
-                                                      width: 20,
-                                                    ),
+                                                Text(
+                                                  '${resData.residual}',
+                                                  style: TextStyle(
+                                                    color: resData.residual == 0
+                                                        ? redColor
+                                                        : black950,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                )
-                              : SizedBox(),
-                          SizedBox(
-                            height: MediaQuery.of(context).padding.bottom + 200,
-                          ),
-                        ],
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: white,
+                                                border: Border.all(
+                                                  color: white100,
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                    // onTap: () {
+                                                    //   setState(() {
+                                                    //     if (quantities[index] > 0) {
+                                                    //       quantities[index]--;
+                                                    //     }
+                                                    //   });
+                                                    // },
+                                                    onTap: isLoading == true
+                                                        ? () {}
+                                                        : () {
+                                                            if (resData
+                                                                    .residual ==
+                                                                0) {
+                                                              ErrorDialog(
+                                                                context:
+                                                                    context,
+                                                              ).show(
+                                                                'Борлуулагчийн үлдэгдэл хүрэлцэхгүй байна.',
+                                                              );
+                                                            }
+                                                            if (resData
+                                                                    .residual ==
+                                                                0) {
+                                                              ErrorDialog(
+                                                                context:
+                                                                    context,
+                                                              ).show(
+                                                                'Борлуулагчийн үлдэгдэл хүрэлцэхгүй байна.',
+                                                              );
+                                                            }
+                                                            if (resData
+                                                                    .residual! >
+                                                                0) {
+                                                              setState(() {
+                                                                if (quantities[index] >
+                                                                    0) {
+                                                                  quantities[index]--;
+                                                                  controllers[index]
+                                                                          .text =
+                                                                      quantities[index]
+                                                                          .toString();
+                                                                }
+                                                              });
+                                                            }
+                                                          },
+                                                    // onTap: () {
+                                                    //   setState(() {
+                                                    //     if (quantities[index] >
+                                                    //         0) {
+                                                    //       quantities[index]--;
+                                                    //       controllers[index]
+                                                    //               .text =
+                                                    //           quantities[index]
+                                                    //               .toString();
+                                                    //     }
+                                                    //   });
+                                                    // },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: white50,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                              bottomLeft:
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                            ),
+                                                      ),
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                            vertical: 6,
+                                                            horizontal: 7,
+                                                          ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/svg/minus.svg',
+                                                        height: 20,
+                                                        width: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // Expanded(
+                                                  //   child: Container(
+                                                  //     color: white,
+                                                  //     alignment: Alignment.center,
+                                                  //     padding:
+                                                  //         const EdgeInsets.symmetric(
+                                                  //           vertical: 6,
+                                                  //         ),
+                                                  //     child: Text(
+                                                  //       '${quantities[index]}',
+                                                  //       style: TextStyle(
+                                                  //         color: black950,
+                                                  //         fontSize: 16,
+                                                  //         fontWeight:
+                                                  //             FontWeight.w600,
+                                                  //       ),
+                                                  //       textAlign: TextAlign.center,
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                            vertical: 6,
+                                                          ),
+                                                      child: TextField(
+                                                        readOnly:
+                                                            isLoading == true
+                                                            ? true
+                                                            : false,
+                                                        controller:
+                                                            controllers[index],
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        enabled:
+                                                            resData.residual! >
+                                                            0,
+                                                        style: TextStyle(
+                                                          color:
+                                                              resData.residual! >
+                                                                  0
+                                                              ? black950
+                                                              : black400,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                        decoration:
+                                                            const InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              isDense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                            ),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            int parsed =
+                                                                int.tryParse(
+                                                                  value,
+                                                                ) ??
+                                                                0;
+
+                                                            if (parsed < 0)
+                                                              parsed = 0;
+                                                            if (parsed >
+                                                                resData
+                                                                    .residual!) {
+                                                              parsed = resData
+                                                                  .residual!;
+                                                              // хэрэглэгч их бичсэн тохиолдолд шууд зөв утгаар солино
+                                                              controllers[index]
+                                                                  .text = parsed
+                                                                  .toString();
+                                                              controllers[index]
+                                                                      .selection =
+                                                                  TextSelection.fromPosition(
+                                                                    TextPosition(
+                                                                      offset: controllers[index]
+                                                                          .text
+                                                                          .length,
+                                                                    ),
+                                                                  );
+                                                            }
+
+                                                            quantities[index] =
+                                                                parsed;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  InkWell(
+                                                    // onTap: () {
+                                                    //   setState(() {
+                                                    //     quantities[index]++;
+                                                    //   });
+                                                    // },
+                                                    onTap: isLoading == true
+                                                        ? () {}
+                                                        : () {
+                                                            if (resData
+                                                                    .residual! >
+                                                                0) {
+                                                              setState(() {
+                                                                if (quantities[index] <
+                                                                    resData
+                                                                        .residual!) {
+                                                                  quantities[index]++;
+                                                                  controllers[index]
+                                                                          .text =
+                                                                      quantities[index]
+                                                                          .toString();
+                                                                }
+                                                              });
+                                                            }
+                                                          },
+                                                    // onTap: () {
+                                                    //   setState(() {
+                                                    //     quantities[index]++;
+                                                    //     controllers[index].text =
+                                                    //         quantities[index]
+                                                    //             .toString();
+                                                    //   });
+                                                    // },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: white50,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                              bottomRight:
+                                                                  Radius.circular(
+                                                                    8,
+                                                                  ),
+                                                            ),
+                                                      ),
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                            vertical: 6,
+                                                            horizontal: 7,
+                                                          ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/svg/plus.svg',
+                                                        height: 20,
+                                                        width: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : SizedBox(),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).padding.bottom + 200,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -4,7 +4,6 @@
 // import 'package:flutter_svg/svg.dart';
 // import 'package:ttt_merchant_flutter/components/ui/color.dart';
 // import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
-// import 'package:ttt_merchant_flutter/src/profile_page/purchase_request_detail_page.dart';
 
 // class PurchaseRequestHistoryPage extends StatefulWidget {
 //   static const routeName = "PurchaseRequestHistoryPage";

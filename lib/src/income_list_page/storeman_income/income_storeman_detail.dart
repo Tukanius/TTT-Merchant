@@ -118,11 +118,14 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
     setState(() {
       isLoadingPage = true;
     });
-    data = await ProductApi().getDistributorIncome(widget.id);
+    data = await ProductApi().getStoremanIncome(widget.id);
     setState(() {
       stepIndex = _getStepIndex(data.verifiedStatus);
       isLoadingPage = false;
     });
+    print('=======isloading========');
+    print(isLoadingPage);
+    print('=======isloading========');
     refreshController.refreshCompleted();
   }
 
@@ -316,7 +319,7 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        '',
+                                                        '-',
                                                         style: TextStyle(
                                                           color: black950,
                                                           fontSize: 12,
@@ -518,47 +521,87 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'Илгээх агуулах:',
-                                            style: TextStyle(
-                                              color: black800,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
+                                          Expanded(
+                                            child: Text(
+                                              'Илгээх агуулах:',
+                                              style: TextStyle(
+                                                color: black800,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            '${data.fromInventory?.name ?? '-'}',
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                          Expanded(
+                                            child: Text(
+                                              '${data.type == "OUT" ? data.fromInventory?.name ?? '-' : data.toInventory?.name ?? '-'}',
+                                              // 'Улаанбаатар хот, Баянгол дүүрэг, 1-р хороо, 5 байр 156 тоот',
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.right,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 4),
+                                      SizedBox(height: 8),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'Хүлээн авах цэг:',
-                                            style: TextStyle(
-                                              color: black800,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
+                                          Expanded(
+                                            child: Text(
+                                              'Хүлээн авах цэг:',
+                                              style: TextStyle(
+                                                color: black800,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            '${data.toInventory?.name ?? '-'}',
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                          Expanded(
+                                            child: Text(
+                                              '${data.type == "OUT" ? data.toInventory?.name ?? '-' : data.fromInventory?.name ?? '-'}',
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.right,
                                             ),
                                           ),
                                         ],
                                       ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'Хүлээн авах хаяг:',
+                                              style: TextStyle(
+                                                color: black800,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${data.type == "OUT" ? data.toInventory?.address?.additionalInformation ?? '-' : data.fromInventory?.address?.additionalInformation ?? '-'}',
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
                                       // SizedBox(height: 4),
                                       // Row(
                                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

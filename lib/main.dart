@@ -23,6 +23,7 @@ import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income
 import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 // import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/src/not_found_user.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
@@ -38,13 +39,14 @@ import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotifyService().initNotify();
   await FirebaseMessaging.instance.requestPermission();
-
+  await Upgrader.clearSavedSettings();
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     NotifyService().showNotification(
       title: message.notification?.title,
@@ -165,12 +167,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return QrReadScreen();
                 },
               );
-            // case PurchaseHistoryPage.routeName:
-            //   return MaterialPageRoute(
-            //     builder: (context) {
-            //       return const PurchaseHistoryPage();
-            //     },
-            //   );
+            case PurchaseHistoryPage.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const PurchaseHistoryPage();
+                },
+              );
             // case PurchaseRequestHistoryPage.routeName:
             //   return MaterialPageRoute(
             //     builder: (context) {

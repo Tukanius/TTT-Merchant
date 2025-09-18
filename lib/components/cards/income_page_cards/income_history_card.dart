@@ -231,50 +231,28 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.data.toInventory}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                Expanded(
+                  child: Text(
+                    '${widget.data.toInventory}',
+                    style: TextStyle(
+                      color: black950,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    // SizedBox(height: 2),
-                    // Text(
-                    //   '${widget.data.senderUser?.firstName ?? ''}',
-                    //   style: TextStyle(
-                    //     color: black950,
-                    //     fontSize: 12,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SvgPicture.asset('assets/svg/arrow_right.svg'),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.data.fromInventory}',
-                      style: TextStyle(
-                        color: black950,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                Expanded(
+                  child: Text(
+                    '${widget.data.fromInventory}',
+                    style: TextStyle(
+                      color: black950,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    // SizedBox(height: 2),
-                    // Text(
-                    //   '${widget.data.receiverUser?.firstName ?? ''}',
-                    //   style: TextStyle(
-                    //     color: black950,
-                    //     fontSize: 12,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),

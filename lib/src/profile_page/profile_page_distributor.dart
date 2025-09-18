@@ -14,6 +14,7 @@ import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
 class ProfilePageDistributor extends StatefulWidget {
@@ -182,10 +183,10 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                       SizedBox(height: 16),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.of(
-                          //   context,
-                          // ).pushNamed(PurchaseHistoryPage.routeName);
-                          widget.onChangePage(0);
+                          Navigator.of(
+                            context,
+                          ).pushNamed(PurchaseHistoryPage.routeName);
+                          // widget.onChangePage(0);
                         },
                         child: Container(
                           decoration: BoxDecoration(

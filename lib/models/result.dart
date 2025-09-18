@@ -6,8 +6,22 @@ class Filter {
   String? status;
   String? type;
   String? query;
+  String? startDate;
+  String? endDate;
+  String? requestStatus;
+  String? inOutType;
 
-  Filter({this.date, this.dateType, this.status, this.type, this.query});
+  Filter({
+    this.date,
+    this.dateType,
+    this.status,
+    this.type,
+    this.query,
+    this.startDate,
+    this.endDate,
+    this.requestStatus,
+    this.inOutType,
+  });
 }
 
 class Offset {
