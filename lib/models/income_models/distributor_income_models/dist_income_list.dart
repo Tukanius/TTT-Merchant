@@ -17,13 +17,14 @@ class DistIncomeList {
   String? transportStatus;
   String? createdAt;
   String? updatedAt;
-  StaffUser? staffUser;
-  StaffUser? senderUser;
-  StaffUser? receiverUser;
   int? quantity;
   List<ProductPurchaseModel>? products;
   int? totalAmount;
   String? inOutType;
+
+  StaffUser? staffUser;
+  StaffUser? senderUser;
+  StaffUser? receiverUser;
 
   DistIncomeList({
     this.id,

@@ -34,11 +34,11 @@ class UserProvider extends ChangeNotifier {
   //   myAccessToken == '' ? myAccessToken = user.accessToken! : '';
   //   notifyListeners();
   // }
-  setPassword(User data) async {
-    user = await AuthApi().chagePassword(data);
-    await setAccessToken(user.accessToken);
-    return user;
-  }
+  // setPassword(User data) async {
+  //   user = await AuthApi().chagePassword(data);
+  //   await setAccessToken(user.accessToken);
+  //   return user;
+  // }
 
   me(bool handler) async {
     user = await AuthApi().me(handler);
@@ -90,12 +90,12 @@ class UserProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  getOtp(String type, String method) async {
-    var res = await AuthApi().getOtp(type, method);
-    await setAccessToken(user.accessToken);
-    notifyListeners();
-    return res;
-  }
+  // getOtp(String type, String method) async {
+  //   var res = await AuthApi().getOtp(type, method);
+  //   await setAccessToken(user.accessToken);
+  //   notifyListeners();
+  //   return res;
+  // }
 
   // getOtpChangePhone(String otpMethod, String phone) async {
   //   var res = await AuthApi().getOtpChangePhone(otpMethod, phone);
@@ -104,11 +104,11 @@ class UserProvider extends ChangeNotifier {
   //   return res;
   // }
 
-  otpVerify(User data) async {
-    user = await AuthApi().otpVerify(data);
-    setAccessToken(user.accessToken);
-    notifyListeners();
-  }
+  // otpVerify(User data) async {
+  //   user = await AuthApi().otpVerify(data);
+  //   setAccessToken(user.accessToken);
+  //   notifyListeners();
+  // }
 
   // changePassword(User data) async {
   //   user = await AuthApi().changePassword(data);
@@ -117,11 +117,11 @@ class UserProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  forgetPassword(User data) async {
-    user = await AuthApi().forget(data);
-    await setAccessToken(user.accessToken);
-    return user;
-  }
+  // forgetPassword(User data) async {
+  //   user = await AuthApi().forget(data);
+  //   await setAccessToken(user.accessToken);
+  //   return user;
+  // }
 
   // onBoarding(User data) async {
   //   user = await AuthApi().onBoarding(data);

@@ -22,19 +22,6 @@ class ProductApi extends HttpRequest {
     return Result.fromJson(res, PurchaseModel.fromJson);
   }
 
-  getIncomeHistory(ResultArguments resultArguments) async {
-    var res = await get(
-      '/inv/app/inout/in-products',
-      data: resultArguments.toJson(),
-    );
-    return Result.fromJson(res, DistIncomeList.fromJson);
-  }
-
-  getIncomeSaleMan(ResultArguments resultArguments) async {
-    var res = await get('/inv/app/inout', data: resultArguments.toJson());
-    return Result.fromJson(res, StoremanIncomeList.fromJson);
-  }
-
   postPurchaseRequest(PurchaseRequest data) async {
     var res = await post(
       '/sls/app/order/purchase',
@@ -42,6 +29,11 @@ class ProductApi extends HttpRequest {
       handler: true,
     );
     return QpayPayment.fromJson(res as Map<String, dynamic>);
+  }
+
+  getSaleDetailData(String id) async {
+    var res = await get('/sls/app/request/$id');
+    return Sales.fromJson(res as Map<String, dynamic>);
   }
 
   postSalesRequest(SalesRequest data) async {
@@ -63,11 +55,6 @@ class ProductApi extends HttpRequest {
     return res;
   }
 
-  getSaleDetailData(String id) async {
-    var res = await get('/sls/app/request/$id');
-    return Sales.fromJson(res as Map<String, dynamic>);
-  }
-
   getDistributorIncome(String id) async {
     var res = await get('/inv/app/inout/$id');
     return DistIncomeModel.fromJson(res as Map<String, dynamic>);
@@ -78,8 +65,16 @@ class ProductApi extends HttpRequest {
     return StoremanIncomeModel.fromJson(res as Map<String, dynamic>);
   }
 
-  // putConfirmIncome(ConfirmIncome data) async {
-  //   var res = await put('', data: data.toJson(), handler: true);
-  //   return res;
-  // }
+  getIncomeHistory(ResultArguments resultArguments) async {
+    var res = await get(
+      '/inv/app/inout/in-products',
+      data: resultArguments.toJson(),
+    );
+    return Result.fromJson(res, DistIncomeList.fromJson);
+  }
+
+  getIncomeSaleMan(ResultArguments resultArguments) async {
+    var res = await get('/inv/app/inout', data: resultArguments.toJson());
+    return Result.fromJson(res, StoremanIncomeList.fromJson);
+  }
 }

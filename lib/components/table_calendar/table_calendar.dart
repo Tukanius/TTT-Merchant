@@ -137,10 +137,65 @@ class _CustomTableCalendarState extends State<CustomTableCalendar> {
             ),
           ),
           SizedBox(height: 16),
+          Row(children: [
+            
+            ],
+          ),
+          SizedBox(height: 16),
+          Row(children: [
+
+            ],
+          ),
           Row(
             children: [
               SizedBox(width: 16),
-
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    widget.onDateSelected(null, null);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: white100),
+                      color: white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        isLoading == true
+                            ? Container(
+                                // margin: EdgeInsets.only(right: 15),
+                                width: 17,
+                                height: 17,
+                                child: Platform.isAndroid
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          color: white,
+                                          strokeWidth: 2.5,
+                                        ),
+                                      )
+                                    : Center(
+                                        child: CupertinoActivityIndicator(
+                                          color: white,
+                                        ),
+                                      ),
+                              )
+                            : Text(
+                                'Цэвэрлэх',
+                                style: TextStyle(
+                                  color: black950,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
               Expanded(
                 child: GestureDetector(
                   onTap: () {

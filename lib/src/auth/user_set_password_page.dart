@@ -9,7 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+// import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
@@ -39,35 +39,35 @@ class _UserSetPasswordPageState extends State<UserSetPasswordPage> {
     });
   }
 
-  onSubmit() async {
-    FocusScope.of(context).unfocus();
-    if (fbkey.currentState!.saveAndValidate() &&
-        combinationGood == true &&
-        combLenghtGood == true) {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        User save = User.fromJson(fbkey.currentState!.value);
-        await Provider.of<UserProvider>(
-          context,
-          listen: false,
-        ).setPassword(save);
-        // await Provider.of<UserProvider>(context, listen: false).me(false);
+  // onSubmit() async {
+  //   FocusScope.of(context).unfocus();
+  //   if (fbkey.currentState!.saveAndValidate() &&
+  //       combinationGood == true &&
+  //       combLenghtGood == true) {
+  //     try {
+  //       setState(() {
+  //         isLoading = true;
+  //       });
+  //       User save = User.fromJson(fbkey.currentState!.value);
+  //       await Provider.of<UserProvider>(
+  //         context,
+  //         listen: false,
+  //       ).setPassword(save);
+  //       // await Provider.of<UserProvider>(context, listen: false).me(false);
 
-        // await Navigator.of(context).pushNamed(SplashPage.routeName);
-        showSuccess(context);
-        setState(() {
-          isLoading = false;
-        });
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-        });
-        print(e.toString());
-      }
-    }
-  }
+  //       // await Navigator.of(context).pushNamed(SplashPage.routeName);
+  //       showSuccess(context);
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //     } catch (e) {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       print(e.toString());
+  //     }
+  //   }
+  // }
 
   onExit() async {
     try {
@@ -487,7 +487,7 @@ class _UserSetPasswordPageState extends State<UserSetPasswordPage> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      onSubmit();
+                                      // onSubmit();
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(

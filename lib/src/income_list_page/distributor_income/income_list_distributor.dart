@@ -27,14 +27,14 @@ class IncomeListPage extends StatefulWidget {
 class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   final List<String> tabs = [
     'Бүгд',
-    'Агуулахаас гарсан',
     'Хуваарилагдсан',
+    'Агуулахаас гарсан',
     'Хүлээн авсан',
   ];
   final Map<String, String> tabFilters = {
     'Бүгд': "",
-    'Агуулахаас гарсан': "NEW",
-    'Хуваарилагдсан': "PENDING",
+    'Хуваарилагдсан': "NEW",
+    'Агуулахаас гарсан': "PENDING",
     'Хүлээн авсан': "DONE",
   };
   bool isLoadingPage = true;
@@ -104,10 +104,15 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
-    await listOfHistory(page, limit, queryVehicle: controller.text,startDate: startDate != '' && startDate != null
+    await listOfHistory(
+      page,
+      limit,
+      queryVehicle: controller.text,
+      startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',
-      endDate: endDate != '' && endDate != null ? endDate.toString() : '',);
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     // widget.data
     // await listOfInOut(page, limit, index: filterIndex);
     // await listOfHistory(page, limit);
@@ -119,10 +124,15 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
-    await listOfHistory(page, limit, queryVehicle: controller.text,startDate: startDate != '' && startDate != null
+    await listOfHistory(
+      page,
+      limit,
+      queryVehicle: controller.text,
+      startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',
-      endDate: endDate != '' && endDate != null ? endDate.toString() : '',);
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     refreshController.loadComplete();
   }
 

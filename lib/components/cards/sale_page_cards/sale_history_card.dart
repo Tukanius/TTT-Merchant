@@ -71,7 +71,9 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         borderRadius: BorderRadius.circular(100),
                         color: widget.data.requestStatus == "REJECTED"
                             ? redColor.withOpacity(0.1)
-                            : widget.data.requestStatus == "DONE"
+                            : widget.data.requestStatus == "DONE" ||
+                                  widget.data.requestStatus ==
+                                      "FINANCE_APPROVED"
                             ? green.withOpacity(0.1)
                             : orange.withOpacity(0.1),
                       ),
@@ -90,7 +92,9 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                         style: TextStyle(
                           color: widget.data.requestStatus == "REJECTED"
                               ? redColor
-                              : widget.data.requestStatus == "DONE"
+                              : widget.data.requestStatus == "DONE" ||
+                                    widget.data.requestStatus ==
+                                        "FINANCE_APPROVED"
                               ? green
                               : orange,
                           fontSize: 10,

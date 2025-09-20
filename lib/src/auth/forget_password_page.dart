@@ -9,13 +9,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
-import 'package:ttt_merchant_flutter/provider/user_provider.dart';
-import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 
+// import 'package:ttt_merchant_flutter/provider/user_provider.dart';
+// import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 class ForgetPasswordPage extends StatefulWidget {
   static const routeName = "ForgetPasswordPage";
   const ForgetPasswordPage({super.key});
@@ -35,77 +35,77 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   bool readOnlyPhone = false;
   late Timer _timer;
 
-  getOtp() async {
-    if (fbkeyPhone.currentState!.saveAndValidate()) {
-      try {
-        User save = User.fromJson(fbkeyPhone.currentState!.value);
-        await Provider.of<UserProvider>(
-          context,
-          listen: false,
-        ).forgetPassword(save);
-        user = await Provider.of<UserProvider>(
-          context,
-          listen: false,
-        ).getOtp("FORGOT", "PHONE");
-        setState(() {
-          FocusScope.of(context).unfocus();
-          isGetCode = true;
-          readOnlyPhone = true;
-        });
-        _startTimer();
-      } catch (e) {
-        setState(() {
-          isGetCode = false;
-          readOnlyPhone = false;
-        });
-        print(e);
-      }
-    }
-  }
+  // getOtp() async {
+  //   if (fbkeyPhone.currentState!.saveAndValidate()) {
+  //     try {
+  //       User save = User.fromJson(fbkeyPhone.currentState!.value);
+  //       await Provider.of<UserProvider>(
+  //         context,
+  //         listen: false,
+  //       ).forgetPassword(save);
+  //       user = await Provider.of<UserProvider>(
+  //         context,
+  //         listen: false,
+  //       ).getOtp("FORGOT", "PHONE");
+  //       setState(() {
+  //         FocusScope.of(context).unfocus();
+  //         isGetCode = true;
+  //         readOnlyPhone = true;
+  //       });
+  //       _startTimer();
+  //     } catch (e) {
+  //       setState(() {
+  //         isGetCode = false;
+  //         readOnlyPhone = false;
+  //       });
+  //       print(e);
+  //     }
+  //   }
+  // }
 
-  onSubmitOtp() async {
-    FocusScope.of(context).unfocus();
-    if (fbkeyOtp.currentState!.saveAndValidate() &&
-        fbkeyPhone.currentState!.saveAndValidate()) {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        user.otpCode = otpController.text;
-        await await Provider.of<UserProvider>(
-          context,
-          listen: false,
-        ).otpVerify(user);
-        await Navigator.of(context).pushNamed(SetPasswordPage.routeName);
-        setState(() {
-          isLoading = true;
-        });
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-        });
-        print(e.toString());
-      }
-    }
-  }
+  // onSubmitOtp() async {
+  //   FocusScope.of(context).unfocus();
+  //   if (fbkeyOtp.currentState!.saveAndValidate() &&
+  //       fbkeyPhone.currentState!.saveAndValidate()) {
+  //     try {
+  //       setState(() {
+  //         isLoading = true;
+  //       });
+  //       user.otpCode = otpController.text;
+  //       await await Provider.of<UserProvider>(
+  //         context,
+  //         listen: false,
+  //       ).otpVerify(user);
+  //       await Navigator.of(context).pushNamed(SetPasswordPage.routeName);
+  //       setState(() {
+  //         isLoading = true;
+  //       });
+  //     } catch (e) {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       print(e.toString());
+  //     }
+  //   }
+  // }
 
-  void _startTimer() async {
-    _counter = 180;
-    _timer = await Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_counter > 0) {
-        setState(() {
-          _counter--;
-        });
-      } else {
-        setState(() {
-          isGetCode = false;
-          readOnlyPhone = false;
-          otpController.clear();
-        });
-        _timer.cancel();
-      }
-    });
-  }
+  // void _startTimer() async {
+  //   _counter = 180;
+  //   _timer = await Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (_counter > 0) {
+  //       setState(() {
+  //         _counter--;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         isGetCode = false;
+  //         readOnlyPhone = false;
+  //         otpController.clear();
+  //       });
+  //       _timer.cancel();
+  //     }
+  //   });
+  // }
 
   String intToTimeLeft(int value) {
     int h, m, s;
@@ -222,11 +222,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       children: [
                                         SizedBox(width: 12),
                                         GestureDetector(
-                                          onTap: () {
-                                            isGetCode == true
-                                                ? () {}
-                                                : getOtp();
-                                          },
+                                          // onTap: () {
+                                          //   isGetCode == true
+                                          //       ? () {}
+                                          //       : getOtp();
+                                          // },
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -332,7 +332,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      onSubmitOtp();
+                                      // onSubmitOtp();
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(

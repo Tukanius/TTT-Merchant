@@ -3,6 +3,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/balance_api.dart';
@@ -57,11 +58,19 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
     }
   }
 
-  listOfHistory(page, limit) async {
+  listOfHistory(page, limit, {String? startDate, String? endDate}) async {
     walletList = await BalanceApi().getWalletHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
-        filter: Filter(type: 'ALL'),
+        filter: Filter(
+          type: 'ALL',
+          startDate: startDate != '' && startDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+              : '',
+          endDate: endDate != '' && endDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+              : '',
+        ),
       ),
     );
     setState(() {
@@ -87,7 +96,14 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
-    await listOfHistory(page, limit);
+    await listOfHistory(
+      page,
+      limit,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     refreshController.refreshCompleted();
   }
 
@@ -96,7 +112,14 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
-    await listOfHistory(page, limit);
+    await listOfHistory(
+      page,
+      limit,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
     refreshController.loadComplete();
   }
 
@@ -249,12 +272,23 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
                             ),
                             builder: (context) {
                               return CustomTableCalendar(
-                                onDateSelected: (start, end) {
+                                onDateSelected: (start, end) async {
                                   setState(() {
                                     startDate = start;
                                     endDate = end;
                                   });
                                   Navigator.pop(context);
+                                  await listOfHistory(
+                                    page,
+                                    limit,
+                                    startDate:
+                                        startDate != null && startDate != ''
+                                        ? startDate.toString()
+                                        : '',
+                                    endDate: endDate != null && endDate != ''
+                                        ? endDate.toString()
+                                        : '',
+                                  );
                                 },
                               );
                             },
