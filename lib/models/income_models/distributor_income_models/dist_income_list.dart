@@ -21,7 +21,6 @@ class DistIncomeList {
   List<ProductPurchaseModel>? products;
   int? totalAmount;
   String? inOutType;
-
   StaffUser? staffUser;
   StaffUser? senderUser;
   StaffUser? receiverUser;

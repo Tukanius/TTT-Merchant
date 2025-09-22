@@ -54,6 +54,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
         isLoadingPage = false;
       });
     } catch (e) {
+      print(e);
       setState(() {
         isLoadingPage = true;
       });

@@ -6,7 +6,6 @@ class ProductTypes {
   String? id;
   String? name;
   String? code;
-  List<String>? images;
   Unit? unit;
   int? perWeight;
   int? price;
@@ -15,7 +14,6 @@ class ProductTypes {
     this.id,
     this.name,
     this.code,
-    this.images,
     this.unit,
     this.perWeight,
     this.price,

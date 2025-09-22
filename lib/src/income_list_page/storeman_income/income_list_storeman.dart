@@ -118,10 +118,10 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
       limit,
       index: filterIndex,
       queryVehicle: controller.text,
-      // startDate: startDate != '' && startDate != null
-      //     ? startDate.toString()
-      //     : '',
-      // endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
     );
     // widget.data
     // await listOfInOut(page, limit, index: filterIndex);
@@ -139,10 +139,10 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
       limit,
       index: filterIndex,
       queryVehicle: controller.text,
-      // startDate: startDate != '' && startDate != null
-      //     ? startDate.toString()
-      //     : '',
-      // endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
     );
     refreshController.loadComplete();
   }
@@ -308,6 +308,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                         ),
                         child: FormTextField(
                           controller: controller,
+                          inputType: TextInputType.text,
                           contentPadding: EdgeInsets.all(0),
                           dense: true,
                           colortext: black,
@@ -347,20 +348,20 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                                             startDate = start;
                                             endDate = end;
                                           });
-                                          // await listOfInOut(
-                                          //   page,
-                                          //   limit,
-                                          //   queryVehicle: controller.text,
-                                          //   startDate:
-                                          //       startDate != '' &&
-                                          //           startDate != null
-                                          //       ? startDate.toString()
-                                          //       : '',
-                                          //   endDate:
-                                          //       endDate != '' && endDate != null
-                                          //       ? endDate.toString()
-                                          //       : '',
-                                          // );
+                                          await listOfInOut(
+                                            page,
+                                            limit,
+                                            queryVehicle: controller.text,
+                                            startDate:
+                                                startDate != '' &&
+                                                    startDate != null
+                                                ? startDate.toString()
+                                                : '',
+                                            endDate:
+                                                endDate != '' && endDate != null
+                                                ? endDate.toString()
+                                                : '',
+                                          );
                                           Navigator.pop(context);
                                         },
                                       );

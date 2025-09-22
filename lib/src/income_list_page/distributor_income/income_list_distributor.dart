@@ -259,6 +259,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                         left: 16,
                       ),
                       child: FormTextField(
+                        inputType: TextInputType.text,
                         controller: controller,
                         contentPadding: EdgeInsets.all(0),
                         dense: true,
