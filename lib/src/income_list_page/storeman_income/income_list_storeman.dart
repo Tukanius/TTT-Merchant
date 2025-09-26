@@ -26,22 +26,8 @@ class IncomeListStoreman extends StatefulWidget {
 
 class _IncomeListStoremanState extends State<IncomeListStoreman>
     with AfterLayoutMixin {
-  // int selectedIndex = 0;
   int? selectedIndexTile;
-  final List<String> tabs = ['Бүгд', 'Агуулахаас гарсан', 'Хуваарилагдсан'];
-  final Map<String, String> tabFilters = {
-    'Бүгд': "",
-    'Агуулахаас гарсан': "PENDING",
-    'Хуваарилагдсан': "NEW",
-  };
 
-  // final Map<String, String> tabFilters = {
-  //   'Нийт': 'ALL',
-  //   'Өнөөдөр': 'TODAY',
-  //   '7 Хоног': 'WEEK',
-  //   '1 Сар': 'MONTH',
-  //   '1 Жил': 'YEAR',
-  // };
   bool isLoadingPage = true;
   Result incomeHistory = Result();
   Result incomeSaleMan = Result();
@@ -193,7 +179,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
           automaticallyImplyLeading: false,
           titleSpacing: 12,
           title: Text(
-            'Түлш тээвэрлэлт',
+            'Агуулахын хөдөлгөөн',
             style: TextStyle(
               color: black950,
               fontSize: 18,
@@ -319,7 +305,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
-                          hintText: 'Хайх',
+                          hintText: 'Улсын дугаар, жолооч, гэрээний дугаар...',
                           prefixIcon: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -410,67 +396,69 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                           },
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
-                              children: List.generate(tabs.length, (index) {
-                                final bool isSelected =
-                                    selectedIndexFilter == index;
-                                return GestureDetector(
-                                  onTap: () async {
-                                    setState(() {
-                                      selectedIndexFilter = index;
-                                    });
-                                    // final selectedTab =
-                                    //     tabs[selectedIndexFilter];
-                                    // final filter = tabFilters[selectedTab];
-                                    // await listOfInOut(
-                                    //   page,
-                                    //   limit,
-                                    //   queryVehicle: controller.text,
-                                    //   status: filter,
-                                    //   startDate:
-                                    //       startDate != '' && startDate != null
-                                    //       ? startDate.toString()
-                                    //       : '',
-                                    //   endDate: endDate != '' && endDate != null
-                                    //       ? endDate.toString()
-                                    //       : '',
-                                    // );
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 6,
-                                      horizontal: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: isSelected ? orange : Colors.white,
-                                      border: Border.all(
-                                        color: isSelected ? orange : white100,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      tabs[index],
-                                      style: TextStyle(
-                                        color: isSelected ? white : black600,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: 16),
+                      // Container(
+                      //   alignment: Alignment.centerLeft,
+                      //   child: SingleChildScrollView(
+                      //     scrollDirection: Axis.horizontal,
+                      //     child: Container(
+                      //       padding: EdgeInsets.symmetric(horizontal: 16),
+                      //       child: Row(
+                      //         children: List.generate(tabs.length, (index) {
+                      //           final bool isSelected =
+                      //               selectedIndexFilter == index;
+                      //           return GestureDetector(
+                      //             onTap: () async {
+                      //               setState(() {
+                      //                 selectedIndexFilter = index;
+                      //               });
+                      //               // final selectedTab =
+                      //               //     tabs[selectedIndexFilter];
+                      //               // final filter = tabFilters[selectedTab];
+                      //               // await listOfInOut(
+                      //               //   page,
+                      //               //   limit,
+                      //               //   queryVehicle: controller.text,
+                      //               //   status: filter,
+                      //               //   startDate:
+                      //               //       startDate != '' && startDate != null
+                      //               //       ? startDate.toString()
+                      //               //       : '',
+                      //               //   endDate: endDate != '' && endDate != null
+                      //               //       ? endDate.toString()
+                      //               //       : '',
+                      //               // );
+                      //             },
+                      //             child: Container(
+                      //               margin: EdgeInsets.only(right: 10),
+                      //               padding: EdgeInsets.symmetric(
+                      //                 vertical: 6,
+                      //                 horizontal: 10,
+                      //               ),
+                      //               decoration: BoxDecoration(
+                      //                 borderRadius: BorderRadius.circular(100),
+                      //                 color: isSelected ? orange : Colors.white,
+                      //                 border: Border.all(
+                      //                   color: isSelected ? orange : white100,
+                      //                 ),
+                      //               ),
+                      //               child: Text(
+                      //                 filterIndex == 0
+                      //                     ? tabs[index]
+                      //                     : tabsRev[index],
+                      //                 style: TextStyle(
+                      //                   color: isSelected ? white : black600,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w500,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           );
+                      //         }),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: EdgeInsetsGeometry.only(
                           right: 16,

@@ -1,9 +1,11 @@
 import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/charge_wallet.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
+import 'package:ttt_merchant_flutter/models/check_civil.dart';
 import 'package:ttt_merchant_flutter/models/pay_method.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/user_card_request.dart';
 import 'package:ttt_merchant_flutter/models/wallet_transaction.dart';
 import 'package:ttt_merchant_flutter/utils/http_request.dart';
 
@@ -15,6 +17,24 @@ class BalanceApi extends HttpRequest {
       handler: true,
     );
     return CardBalance.fromJson(res as Map<String, dynamic>);
+  }
+
+  getCivilId(CheckCivil data) async {
+    var res = await post(
+      '/crd/app/id-card/scan/',
+      data: data.toJson(),
+      handler: true,
+    );
+    return CardBalance.fromJson(res as Map<String, dynamic>);
+  }
+
+  createCardRequest(UserCardRequest data) async {
+    var res = await post(
+      '/crd/app/id-card/card/request/create',
+      data: data.toJson(),
+      handler: true,
+    );
+    return res;
   }
 
   checkPayment(String id) async {

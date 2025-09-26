@@ -56,9 +56,7 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color:
-                        widget.data.inOutType == "NEW" ||
-                            widget.data.inOutType == "PENDING"
+                    color: widget.data.inOutType == "NEW"
                         ? orange.withOpacity(0.1)
                         : green.withOpacity(0.1),
                   ),
@@ -72,11 +70,7 @@ class _IncomeSalemanHistoryCardState extends State<IncomeSalemanHistoryCard> {
                         ? 'Хүлээн авсан'
                         : "-"}',
                     style: TextStyle(
-                      color:
-                          widget.data.inOutType == "NEW" ||
-                              widget.data.inOutType == "PENDING"
-                          ? orange
-                          : green,
+                      color: widget.data.inOutType == "NEW" ? orange : green,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),

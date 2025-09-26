@@ -1,14 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_list.dart';
-import 'package:ttt_merchant_flutter/utils/utils.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
 
 class IncomeDoneHistoryCard extends StatefulWidget {
-  final StoremanIncomeList data;
+  final InspectorModel data;
   final bool isExtended;
 
   const IncomeDoneHistoryCard({
@@ -38,11 +36,11 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      widget.data.inOutType == "IN"
-                          ? 'assets/svg/in.svg'
-                          : 'assets/svg/out.svg',
-                    ),
+                    // SvgPicture.asset(
+                    //   widget.data.inOutType == "IN"
+                    //       ? 'assets/svg/in.svg'
+                    //       : 'assets/svg/out.svg',
+                    // ),
                     SizedBox(width: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,30 +54,30 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                           ),
                         ),
                         SizedBox(height: 2),
-                        Row(
-                          children: [
-                            Container(
-                              width: 4,
-                              height: 4,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: widget.data.inOutType == "IN"
-                                    ? green
-                                    : redColor,
-                              ),
-                            ),
-                            Text(
-                              ' ${widget.data.inOutType == "IN" ? 'Орлого' : 'Зарлага'}',
-                              style: TextStyle(
-                                color: widget.data.inOutType == "IN"
-                                    ? green
-                                    : redColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       width: 4,
+                        //       height: 4,
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(100),
+                        //         color: widget.data.inOutType == "IN"
+                        //             ? green
+                        //             : redColor,
+                        //       ),
+                        //     ),
+                        //     Text(
+                        //       ' ${widget.data.inOutType == "IN" ? 'Орлого' : 'Зарлага'}',
+                        //       style: TextStyle(
+                        //         color: widget.data.inOutType == "IN"
+                        //             ? green
+                        //             : redColor,
+                        //         fontSize: 12,
+                        //         fontWeight: FontWeight.w400,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ],
@@ -97,7 +95,8 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      '${widget.data.vehiclePlateNo?.toUpperCase() ?? '-'}',
+                      // '${widget.data.vehiclePlateNo?.toUpperCase() ?? '-'}',
+                      '123',
                       style: TextStyle(
                         color: orange,
                         fontSize: 16,
@@ -257,54 +256,54 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Илгээх агуулах:',
-                        style: TextStyle(
-                          color: black800,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        widget.data.type == "IN"
-                            ? '${widget.data.toInventory ?? '-'}'
-                            : '${widget.data.fromInventory ?? '-'}',
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Илгээх агуулах:',
+                  //       style: TextStyle(
+                  //         color: black800,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       widget.data.type == "IN"
+                  //           ? '${widget.data.toInventory ?? '-'}'
+                  //           : '${widget.data.fromInventory ?? '-'}',
 
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  //       style: TextStyle(
+                  //         color: black950,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Хүлээн авах цэг:',
-                        style: TextStyle(
-                          color: black800,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        widget.data.type == "OUT"
-                            ? '${widget.data.toInventory ?? '-'}'
-                            : '${widget.data.fromInventory ?? '-'}',
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Хүлээн авах цэг:',
+                  //       style: TextStyle(
+                  //         color: black800,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       widget.data.type == "OUT"
+                  //           ? '${widget.data.toInventory ?? '-'}'
+                  //           : '${widget.data.fromInventory ?? '-'}',
+                  //       style: TextStyle(
+                  //         color: black950,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   // SizedBox(height: 4),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -356,39 +355,39 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     ],
                   ),
                   SizedBox(height: 8),
-                  Column(
-                    children: widget.data.products!
-                        .map(
-                          (item) => Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${item.name ?? '-'}:',
-                                    style: TextStyle(
-                                      color: black800,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
-                                    style: TextStyle(
-                                      color: black950,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2),
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  // Column(
+                  //   children: widget.data.products!
+                  //       .map(
+                  //         (item) => Column(
+                  //           children: [
+                  //             Row(
+                  //               mainAxisAlignment:
+                  //                   MainAxisAlignment.spaceBetween,
+                  //               children: [
+                  //                 Text(
+                  //                   '${item.name ?? '-'}:',
+                  //                   style: TextStyle(
+                  //                     color: black800,
+                  //                     fontSize: 14,
+                  //                     fontWeight: FontWeight.w500,
+                  //                   ),
+                  //                 ),
+                  //                 Text(
+                  //                   '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
+                  //                   style: TextStyle(
+                  //                     color: black950,
+                  //                     fontSize: 14,
+                  //                     fontWeight: FontWeight.w600,
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             SizedBox(height: 2),
+                  //           ],
+                  //         ),
+                  //       )
+                  //       .toList(),
+                  // ),
                 ],
               ),
             ),

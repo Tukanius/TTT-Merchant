@@ -729,7 +729,9 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                     ),
                   ),
                 ),
-                data.inOutType == "PENDING" || data.type == "OUT"
+                // data.inOutType == "PENDING" || data.type == "OUT"
+                data.type == "OUT" && data.inOutType == "NEW" ||
+                        data.type == "IN" && data.inOutType == "PENDING"
                     ? Align(
                         alignment: AlignmentDirectional.bottomCenter,
                         child: Container(
@@ -760,7 +762,8 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                       ),
                                     ),
                                     Text(
-                                      '${Utils().formatCurrencyDouble(data.totalAmount?.toDouble() ?? 0)}₮',
+                                      // ' ${data.type == "OUT" ? Utils().formatCurrencyDouble(data.totalAmount?.toDouble() ?? 0) : data.quantity}${data.type == "OUT" ? '₮' : 'ш'}',
+                                      '${data.quantity}ш',
                                       style: TextStyle(
                                         color: orange,
                                         fontSize: 24,

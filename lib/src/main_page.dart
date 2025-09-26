@@ -12,10 +12,10 @@ import 'package:ttt_merchant_flutter/src/home_page/home_page_storeman.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/check_card_modal.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_list_distributor.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_list_storeman.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/toologch/income_list_toologch.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_list.dart';
 import 'package:ttt_merchant_flutter/src/not_found_user.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page_distributor.dart';
-import 'package:ttt_merchant_flutter/src/profile_page/profile_page_toologch.dart';
+import 'package:ttt_merchant_flutter/src/profile_page/profile_page_inspector.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page_storeman.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qr_read_screen.dart';
@@ -63,8 +63,8 @@ class _MainPageState extends State<MainPage> {
       ];
     } else if (widget.userType == "FACTORY_INSPECTOR") {
       return [
-        IncomeListToologch(),
-        ProfilePageToologch(onChangePage: (index) => onItemTapped(index)),
+        IncomeInspectorList(),
+        ProfilePageInspector(onChangePage: (index) => onItemTapped(index)),
       ];
     } else {
       return [NotFoundUser()];
@@ -96,7 +96,8 @@ class _MainPageState extends State<MainPage> {
       canPop: false,
       child: Scaffold(
         floatingActionButton:
-            widget.userType == "STORE_MAN" || widget.userType == "TOOLOGCH"
+            widget.userType == "STORE_MAN" ||
+                widget.userType == "FACTORY_INSPECTOR"
             ? null
             : _selectedIndex == 0
             ? Column(
@@ -235,7 +236,7 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ],
                       )
-                    : widget.userType == "TOOLOGCH"
+                    : widget.userType == "FACTORY_INSPECTOR"
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

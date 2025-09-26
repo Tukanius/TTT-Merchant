@@ -18,6 +18,7 @@ import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/search_vehicle.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
@@ -64,7 +65,6 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => GeneralProvider()),
-          // ChangeNotifierProvider(create: (_) => SocketProvider()),
         ],
         child: MyApp(),
       ),
@@ -344,6 +344,36 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                 builder: (context) {
                   return IncomeStoremanConfirmPage(data: arguments.data);
                 },
+              );
+            case SearchVehicle.routeName:
+              SearchVehicleArguments arguments =
+                  settings.arguments as SearchVehicleArguments;
+              return PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return SearchVehicle(
+                    onClick: arguments.onClick,
+                    textEditingController: arguments.textEditingController,
+                    // onSearch: arguments.onSearch,
+                  );
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(0.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+
+                      var tween = Tween(
+                        begin: begin,
+                        end: end,
+                      ).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                transitionDuration: Duration(milliseconds: 300),
               );
             default:
               return MaterialPageRoute(builder: (_) => const SplashPage());

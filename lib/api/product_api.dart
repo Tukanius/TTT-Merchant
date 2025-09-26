@@ -3,6 +3,8 @@ import 'package:ttt_merchant_flutter/models/income_models/distributor_income_mod
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_model.dart';
 import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_list.dart';
 import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_model.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/search_vehicle.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/purchase_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_request.dart';
 import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
@@ -76,5 +78,23 @@ class ProductApi extends HttpRequest {
   getIncomeSaleMan(ResultArguments resultArguments) async {
     var res = await get('/inv/app/inout', data: resultArguments.toJson());
     return Result.fromJson(res, StoremanIncomeList.fromJson);
+  }
+
+  getInspectorList(ResultArguments resultArguments) async {
+    var res = await get(
+      '/fac/app/truck-counter',
+      data: resultArguments.toJson(),
+    );
+    return Result.fromJson(res, InspectorModel.fromJson);
+  }
+
+  getInspectorItem(String id) async {
+    var res = await get('/fac/app/truck-counter/$id');
+    return InspectorModel.fromJson(res as Map<String, dynamic>);
+  }
+
+  searchVehicle(SearchByPlateNo data) async {
+    var res = await get('/fac/app/truck-counter/search', data: data.toJson());
+    return Result.fromJson(res, InspectorModel.fromJson);
   }
 }

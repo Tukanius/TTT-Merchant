@@ -7,8 +7,6 @@ class Distributor {
   String? phone;
   String? registerNo;
   bool? isActive;
-  double? latitude;
-  double? longitude;
   String? staffUser;
   String? deletedAt;
   String? createdAt;
@@ -21,8 +19,6 @@ class Distributor {
     this.phone,
     this.registerNo,
     this.isActive,
-    this.latitude,
-    this.longitude,
     this.staffUser,
     this.deletedAt,
     this.createdAt,

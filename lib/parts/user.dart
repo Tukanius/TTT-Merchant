@@ -76,6 +76,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
         ? json['redirect_uri'] as String
         : null,
     userType: json['userType'] != null ? json['userType'] as String : null,
+    registerNo: json['registerNo'] != null
+        ? json['registerNo'] as String
+        : null,
   );
 }
 
@@ -130,6 +133,7 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.redirect_uri != null)
     json['redirect_uri'] = instance.redirect_uri;
   if (instance.userType != null) json['userType'] = instance.userType;
+  if (instance.registerNo != null) json['registerNo'] = instance.registerNo;
 
   return json;
 }

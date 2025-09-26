@@ -2,13 +2,11 @@ part '../parts/check_card.dart';
 
 class CheckCard {
   String? cardNumber;
-  int? balance;
   String? cardNo;
   int? availableLimit;
   String? appUserId;
   CheckCard({
     this.cardNumber,
-    this.balance,
     this.cardNo,
     this.availableLimit,
     this.appUserId,

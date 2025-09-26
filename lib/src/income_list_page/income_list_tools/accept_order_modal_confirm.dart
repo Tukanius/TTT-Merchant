@@ -239,11 +239,118 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
               ),
               SizedBox(height: 16),
               Text(
-                'Жолооч баталгаажуулах',
+                'Баталгаажуулах',
                 style: TextStyle(
                   color: black950,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Машины дугаар:',
+                              style: TextStyle(
+                                color: black800,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${widget.product.vehiclePlateNo ?? '-'}',
+                              style: TextStyle(
+                                color: black950,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Жолооч:',
+                              style: TextStyle(
+                                color: black800,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${widget.product.driverName ?? '-'}',
+                              style: TextStyle(
+                                color: black950,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Тоо ширхэг:',
+                              style: TextStyle(
+                                color: black800,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${widget.product.quantity ?? '-'}ш',
+                              style: TextStyle(
+                                color: black950,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [Text('Жолооч'), Text('А.Аадар')],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [Text('Шахмал түлш'), Text('200ш/ 5тн')],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [Text('Тоо ширхэг'), Text('200ш')],
+                      // ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 16),

@@ -41,6 +41,7 @@ class User {
   bool? isEmailHidden;
   String? redirect_uri;
   String? userType;
+  String? registerNo;
 
   User({
     this.otpMethod,
@@ -82,6 +83,7 @@ class User {
     this.isEmailHidden,
     this.redirect_uri,
     this.userType,
+    this.registerNo,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

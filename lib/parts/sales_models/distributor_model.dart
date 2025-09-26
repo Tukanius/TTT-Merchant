@@ -10,8 +10,6 @@ Distributor _$DistributorFromJson(Map<String, dynamic> json) {
         ? json['registerNo'] as String
         : null,
     isActive: json['isActive'] != null ? json['isActive'] as bool : null,
-    latitude: json['latitude'] != null ? json['latitude'] as double : null,
-    longitude: json['longitude'] != null ? json['longitude'] as double : null,
     staffUser: json['staffUser'] != null ? json['staffUser'] as String : null,
     deletedAt: json['deletedAt'] != null ? json['deletedAt'] as String : null,
     createdAt: json['createdAt'] != null ? json['createdAt'] as String : null,
@@ -28,8 +26,6 @@ Map<String, dynamic> _$DistributorToJson(Distributor instance) {
   if (instance.phone != null) json['phone'] = instance.phone;
   if (instance.registerNo != null) json['registerNo'] = instance.registerNo;
   if (instance.isActive != null) json['isActive'] = instance.isActive;
-  if (instance.latitude != null) json['latitude'] = instance.latitude;
-  if (instance.longitude != null) json['longitude'] = instance.longitude;
   if (instance.staffUser != null) json['staffUser'] = instance.staffUser;
   if (instance.deletedAt != null) json['deletedAt'] = instance.deletedAt;
   if (instance.createdAt != null) json['createdAt'] = instance.createdAt;
