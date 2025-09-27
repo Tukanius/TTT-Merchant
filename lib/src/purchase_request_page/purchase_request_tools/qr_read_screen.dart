@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +13,9 @@ import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
-import 'package:ttt_merchant_flutter/models/check_civil.dart';
 import 'package:ttt_merchant_flutter/models/user.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_page.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/user_card_request_page.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
 
 class QrReadScreen extends StatefulWidget {
@@ -101,73 +100,134 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
                               // print('========testdata====');
                               // print(data);
                               // print('========testdata====');
-
                               try {
                                 CardBalance cardData = CardBalance();
-                                CheckCivil civilData = CheckCivil()
-                                  ..civilId = barcode.rawValue
-                                  ..distributorRegnum = user.registerNo;
-                                cardData = await BalanceApi().getCivilId(
-                                  civilData,
-                                );
-                                isNavigated = true;
-                                await controller.stop();
-                                Navigator.of(context)
-                                    .pushReplacementNamed(
-                                      PurchaseRequestPage.routeName,
-                                      arguments: PurchaseRequestPageArguments(
-                                        data: cardData,
-                                        payType: "QR",
-                                      ),
-                                    )
-                                    .then((_) async {
-                                      isNavigated = false;
-                                      // await controller.start();
-                                    });
-                              } catch (e) {
-                                print(e);
-                              }
-                              if (jsonDecode(barcode.rawValue!)['card'] !=
-                                      null &&
-                                  jsonDecode(
-                                        barcode.rawValue!,
-                                      )['card']['cardNo'] !=
-                                      null) {
-                                final data = jsonDecode(barcode.rawValue!);
-
-                                String cardNo = data['card']['cardNo'];
-                                String appUserJson = data['appUser'];
                                 CheckCard card = CheckCard()
-                                  ..cardNumber = cardNo
-                                  ..appUserId = appUserJson;
-                                CardBalance cardData = CardBalance();
-                                cardData = await BalanceApi().getCardBalance(
+                                  ..str = barcode.rawValue
+                                  ..distributorRegnum = user.registerNo;
+                                cardData = await BalanceApi().getCardBalanceV2(
                                   card,
                                 );
+                                if (cardData.card != null) {
+                                  isNavigated = true;
+                                  await controller.stop();
 
-                                isNavigated = true;
-                                await controller.stop();
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(
+                                        PurchaseRequestPage.routeName,
+                                        arguments: PurchaseRequestPageArguments(
+                                          data: cardData,
+                                          payType: "QR",
+                                        ),
+                                      )
+                                      .then((_) async {
+                                        isNavigated = false;
+                                        // await controller.start();
+                                      });
+                                } else {
+                                  isNavigated = true;
+                                  await controller.stop();
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(
+                                        UserCardRequestPage.routeName,
+                                        arguments: UserCardRequestPageArguments(
+                                          data: cardData,
+                                        ),
+                                      )
+                                      .then((_) async {
+                                        isNavigated = false;
+                                        // await controller.start();
+                                      });
+                                }
 
-                                Navigator.of(context)
-                                    .pushReplacementNamed(
-                                      PurchaseRequestPage.routeName,
-                                      arguments: PurchaseRequestPageArguments(
-                                        data: cardData,
-                                        payType: "QR",
-                                      ),
-                                    )
-                                    .then((_) async {
-                                      isNavigated = false;
-                                      // await controller.start();
-                                    });
-                              } else {
-                                final data = jsonDecode(barcode.rawValue!);
-                                // cardNo байхгүй үед өөр API дуудах
-                                // String civilId = data;
-                                print('=====civilId====');
-                                print(data);
-                                print('=====civilId====');
+                                print('=eee=ee=e=e==');
+                                print(cardData);
+                                print('=eee=ee=e=e==');
+                              } catch (e) {
+                                print('test');
                               }
+
+                              // 1. virtual card HOTULA unshina 10 min delaytai screen shot hiiged res hiingut screenshot oo unshuulna
+                              // 2. civilId asuudalgu bnu card bnu geed butsaana
+                              // 3. ymarch cardgu tohioldold ugaariin medregch biyt cardtai hun gehdee manai deer virtual cardgu bh heregtei
+                              // 4. yu yuchgui huselt yvuulsan bol huselt yvuulsan ugui bol
+                              //   export enum CARD_REQUEST_STATUS {
+                              //   NEW = "NEW",
+                              //   CONFIRMED = "CONFIRMED",
+                              //   CANCELLED = "CANCELLED",   ene uyd bolon null uyd  dahin yvuulj bolno
+                              //   CONFIRMED_BY_SD = "CONFIRMED_BY_SD"
+                              // }
+
+                              // try {
+                              //   CardBalance cardData = CardBalance();
+                              //   CheckCivil civilData = CheckCivil()
+                              //     ..civilId = barcode.rawValue
+                              //     ..distributorRegnum = user.registerNo;
+                              //   cardData = await BalanceApi().getCivilId(
+                              //     civilData,
+                              //   );
+                              //   isNavigated = true;
+                              //   await controller.stop();
+                              //   // cardData.cardRequest == null ?
+                              //   // &&
+                              //   //     cardData.cardRequest?.requestStatus ==
+                              //   //         "CANCELLED" ?
+                              //   Navigator.of(context)
+                              //       .pushReplacementNamed(
+                              //         PurchaseRequestPage.routeName,
+                              //         arguments: PurchaseRequestPageArguments(
+                              //           data: cardData,
+                              //           payType: "QR",
+                              //         ),
+                              //       )
+                              //       .then((_) async {
+                              //         isNavigated = false;
+                              //         // await controller.start();
+                              //       });
+                              // } catch (e) {
+                              //   print(e);
+                              // }
+                              // if (jsonDecode(barcode.rawValue!)['card'] !=
+                              //         null &&
+                              //     jsonDecode(
+                              //           barcode.rawValue!,
+                              //         )['card']['cardNo'] !=
+                              //         null) {
+                              //   final data = jsonDecode(barcode.rawValue!);
+
+                              //   String cardNo = data['card']['cardNo'];
+                              //   String appUserJson = data['appUser'];
+                              //   CheckCard card = CheckCard()
+                              //     ..cardNumber = cardNo
+                              //     ..appUserId = appUserJson;
+                              //   CardBalance cardData = CardBalance();
+                              //   cardData = await BalanceApi().getCardBalance(
+                              //     card,
+                              //   );
+
+                              //   isNavigated = true;
+                              //   await controller.stop();
+
+                              //   Navigator.of(context)
+                              //       .pushReplacementNamed(
+                              //         PurchaseRequestPage.routeName,
+                              //         arguments: PurchaseRequestPageArguments(
+                              //           data: cardData,
+                              //           payType: "QR",
+                              //         ),
+                              //       )
+                              //       .then((_) async {
+                              //         isNavigated = false;
+                              //         // await controller.start();
+                              //       });
+                              // } else {
+                              //   final data = jsonDecode(barcode.rawValue!);
+                              //   // cardNo байхгүй үед өөр API дуудах
+                              //   // String civilId = data;
+                              //   print('=====civilId====');
+                              //   print(data);
+                              //   print('=====civilId====');
+                              // }
                             } catch (e) {
                               if (!isErrorShown) {
                                 isErrorShown = true;

@@ -5,11 +5,16 @@ class CheckCard {
   String? cardNo;
   int? availableLimit;
   String? appUserId;
+  String? str;
+  String? distributorRegnum;
+
   CheckCard({
     this.cardNumber,
     this.cardNo,
     this.availableLimit,
     this.appUserId,
+    this.str,
+    this.distributorRegnum,
   });
   static $fromJson(Map<String, dynamic> json) => _$CheckCardFromJson(json);
 

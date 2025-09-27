@@ -11,6 +11,7 @@ import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
+import 'package:ttt_merchant_flutter/models/user_address.dart';
 import 'package:ttt_merchant_flutter/utils/http_request.dart';
 
 class ProductApi extends HttpRequest {
@@ -97,4 +98,14 @@ class ProductApi extends HttpRequest {
     var res = await get('/fac/app/truck-counter/search', data: data.toJson());
     return Result.fromJson(res, InspectorModel.fromJson);
   }
+
+  getAddress() async {
+    List<dynamic> jsonData = await get('/crd/app/address');
+    return jsonData.map((item) => UserAddress.fromJson(item)).toList();
+  }
+
+  // getAddress() async {
+  //   var res = await get('/crd/app/address');
+  //   return Result.fromJson(res, Address.fromJson);
+  // }
 }

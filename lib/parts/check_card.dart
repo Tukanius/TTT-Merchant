@@ -11,6 +11,10 @@ CheckCard _$CheckCardFromJson(Map<String, dynamic> json) {
         ? json['availableLimit'] as int
         : null,
     appUserId: json['appUserId'] != null ? json['appUserId'] as String : null,
+    str: json['str'] != null ? json['str'] as String : null,
+    distributorRegnum: json['distributorRegnum'] != null
+        ? json['distributorRegnum'] as String
+        : null,
   );
 }
 
@@ -22,6 +26,9 @@ Map<String, dynamic> _$CheckCardToJson(CheckCard instance) {
   if (instance.availableLimit != null)
     json['availableLimit'] = instance.availableLimit;
   if (instance.appUserId != null) json['appUserId'] = instance.appUserId;
+  if (instance.str != null) json['str'] = instance.str;
+  if (instance.distributorRegnum != null)
+    json['distributorRegnum'] = instance.distributorRegnum;
 
   return json;
 }

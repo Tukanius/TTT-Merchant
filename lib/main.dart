@@ -25,6 +25,7 @@ import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.da
 // import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/src/not_found_user.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
+import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/user_card_request_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_payment.dart';
@@ -374,6 +375,14 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                       );
                     },
                 transitionDuration: Duration(milliseconds: 300),
+              );
+            case UserCardRequestPage.routeName:
+              UserCardRequestPageArguments arguments =
+                  settings.arguments as UserCardRequestPageArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return UserCardRequestPage(data: arguments.data);
+                },
               );
             default:
               return MaterialPageRoute(builder: (_) => const SplashPage());

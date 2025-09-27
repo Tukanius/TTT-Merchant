@@ -19,6 +19,15 @@ class BalanceApi extends HttpRequest {
     return CardBalance.fromJson(res as Map<String, dynamic>);
   }
 
+  getCardBalanceV2(CheckCard data) async {
+    var res = await post(
+      '/sls/appv2/order/check-card',
+      data: data.toJson(),
+      handler: true,
+    );
+    return CardBalance.fromJson(res as Map<String, dynamic>);
+  }
+
   getCivilId(CheckCivil data) async {
     var res = await post(
       '/crd/app/id-card/scan/',
@@ -81,5 +90,15 @@ class BalanceApi extends HttpRequest {
     var res = await put('/sls/app/request/$id/pay');
     return res;
     // return Result.fromJson(res, Purchase.fromJson);
+  }
+
+  userCardRequestCreate(UserCardRequest data) async {
+    var res = await post(
+      '/crd/app/id-card/card/request/create',
+      data: data.toJson(),
+      handler: true,
+    );
+    return res;
+    // return UserCardRequest.fromJson(res as Map<String, dynamic>);
   }
 }

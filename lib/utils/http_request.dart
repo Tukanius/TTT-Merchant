@@ -29,8 +29,8 @@ class HttpRequest {
   // static const host = 'https://gb.zto.mn';
   // static const host = 'https://honog-admin.zto.mn/';
   // static const host = 'https://honog.zto.mn';
-  // static const host = 'https://ttt-inventory.zto.mn';
-  static const host = 'https://ttt.hotula.mn';
+  static const host = 'https://ttt-inventory.zto.mn';
+  // static const host = 'https://ttt.hotula.mn';
 
   // static const host = 'https://app.xotsocial.mn';
 
