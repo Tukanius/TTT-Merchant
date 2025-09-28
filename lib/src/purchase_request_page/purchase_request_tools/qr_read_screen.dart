@@ -6,14 +6,15 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:ttt_merchant_flutter/api/auth_api.dart';
+import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/general/general_init.dart';
+import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_page.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/user_card_request_page.dart';
 // import 'package:ttt_merchant_flutter/src/home_page/purchase_request_tools/purchase_request_page.dart';
@@ -29,7 +30,7 @@ class QrReadScreen extends StatefulWidget {
 class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
   // Barcode? result;
   // QRViewController? controller;
-  User user = User();
+  GeneralInit general = GeneralInit();
   final MobileScannerController controller = MobileScannerController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool isNavigated = false;
@@ -40,7 +41,10 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      user = await AuthApi().me(false);
+      general = await Provider.of<GeneralProvider>(
+        context,
+        listen: false,
+      ).init();
       setState(() {
         isLoadingPage = false;
       });
@@ -104,7 +108,8 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
                                 CardBalance cardData = CardBalance();
                                 CheckCard card = CheckCard()
                                   ..str = barcode.rawValue
-                                  ..distributorRegnum = user.registerNo;
+                                  ..distributorRegnum =
+                                      general.inventory!.registerNo!;
                                 cardData = await BalanceApi().getCardBalanceV2(
                                   card,
                                 );

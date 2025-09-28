@@ -2,14 +2,16 @@
 
 import 'dart:async';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/components/cards/income_page_cards/inspector_list_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/search_vehicle.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_detail.dart';
 
 class SearchVehicleArguments {
   final TextEditingController textEditingController;
@@ -39,42 +41,46 @@ class SearchVehicle extends StatefulWidget {
   State<SearchVehicle> createState() => _SearchVehicleState();
 }
 
-class _SearchVehicleState extends State<SearchVehicle> {
-  bool isLoadingStays = false;
-
-  Result result = Result();
+class _SearchVehicleState extends State<SearchVehicle> with AfterLayoutMixin {
   int page = 1;
   int limit = 100;
   Timer? timer;
-  listStays(page, limit, query) async {
-    SearchByPlateNo data = SearchByPlateNo();
+  bool isLoadingList = true;
+  Result inspectorList = Result();
+  bool isLoadingPage = true;
 
+  listOfInspector(page, limit, {String? query}) async {
+    inspectorList = await ProductApi().getInspectorList(
+      ResultArguments(
+        offset: Offset(page: page, limit: limit),
+        filter: Filter(query: query),
+      ),
+    );
     setState(() {
-      isLoadingStays = true;
-    });
-    data.vehiclePlateNo = query;
-    result = await ProductApi().searchVehicle(data);
-    // stays = await ProductApi().getStaysList(
-    //   query != ''
-    //       ? ResultArguments(page: page, limit: limit, query: query)
-    //       : ResultArguments(page: page, limit: limit),
-    // );
-    // _getBoundsFromProperties();
-    setState(() {
-      isLoadingStays = false;
+      isLoadingList = false;
     });
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    try {
+      await listOfInspector(page, limit);
+      setState(() {
+        isLoadingPage = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        isLoadingPage = true;
+      });
+    }
   }
 
   onChange(String query) {
     if (timer != null) timer!.cancel();
     timer = Timer(const Duration(milliseconds: 500), () async {
       if (query != '') {
-        listStays(page, limit, query);
+        listOfInspector(page, limit, query: query);
       }
       // setState(() {
       //   isLoadingStays = false;
@@ -91,178 +97,197 @@ class _SearchVehicleState extends State<SearchVehicle> {
       child: Scaffold(
         body: Container(
           color: white50,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: SvgPicture.asset(
-                          'assets/svg/arrow_left.svg',
-                          color: black950,
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: FormTextField(
-                          controller: widget.textEditingController,
-                          inputType: TextInputType.text,
-                          contentPadding: EdgeInsets.all(12),
-                          dense: true,
-                          colortext: black,
-                          color: white,
-                          name: 'vehicleNumberFilter',
-                          hintTextStyle: TextStyle(
-                            color: black400,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          autoFocus: true,
-                          hintText: 'Улсын дугаар хайх',
-                          prefixIcon: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(width: 12),
-                              SvgPicture.asset('assets/svg/search.svg'),
-                              SizedBox(width: 8),
-                            ],
-                          ),
-
-                          suffixIcon: null,
-                          hintTextColor: gray103,
-                          onChanged: (value) {
-                            onChange(value);
-                          },
-                          onComplete: () {
-                            // setState(() {
-                            //   if (widget.textEditingController.text != '') {
-                            //     Navigator.of(context).pop(true);
-                            //     FocusScope.of(context).unfocus();
-                            //     widget.onClick(
-                            //       stays,
-                            //       widget.textEditingController.text,
-                            //     );
-                            //   } else {
-                            //     Navigator.of(context).pop(false);
-                            //     FocusScope.of(context).unfocus();
-                            //   }
-                            //   // showSearchSection = false;
-                            // });
-                          },
-                          onTap: () {
-                            setState(() {
-                              // _getBoundsFromProperties();
-                              // showSearchSection = true;
-                              // showSearchSection == true
-                              // ? searchFocus.requestFocus()
-                              // : FocusScope.of(context).unfocus();
-                            });
-
-                            // FocusScope.of(context)
-                            //     .FocusScope
-                            //     .of(context)
-                            //     .requestFocus(searchFocus);
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   isScrollControlled: true,
-                            //   // shape: RoundedRectangleBorder(
-                            //   //   borderRadius: BorderRadius.only(
-                            //   //     topLeft: Radius.circular(16),
-                            //   //     topRight: Radius.circular(16),
-                            //   //   ),
-                            //   // ),
-                            //   isDismissible: false,
-                            //   // backgroundColor: transparent,
-                            //   builder: (context) {
-                            //     return SearchOnMap();
-                            //   },
-                            // );
-                            // widget.onChange();
-                            //   showDialog(
-                            //   context: context,
-                            //   useSafeArea: false,
-                            //   builder: (context) {
-                            //     return SearchDetailPage();
-                            //   },
-                            // );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Expanded(
-                    child: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).padding.top + 16),
+                Row(
+                  children: [
+                    GestureDetector(
                       onTap: () {
-                        FocusScope.of(context).unfocus();
+                        Navigator.of(context).pop();
                       },
-                      child: SingleChildScrollView(
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
-                        child: Column(
+                      child: SvgPicture.asset(
+                        'assets/svg/arrow_left.svg',
+                        color: black950,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: FormTextField(
+                        controller: widget.textEditingController,
+                        inputType: TextInputType.text,
+                        contentPadding: EdgeInsets.all(12),
+                        dense: true,
+                        colortext: black,
+                        color: white,
+                        name: 'vehicleNumberFilter',
+                        hintTextStyle: TextStyle(
+                          color: black400,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        autoFocus: true,
+                        hintText: 'Улсын дугаар хайх',
+                        prefixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(height: 16),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
+                            SizedBox(width: 12),
+                            SvgPicture.asset('assets/svg/search.svg'),
+                            SizedBox(width: 8),
+                          ],
+                        ),
+
+                        suffixIcon: null,
+                        hintTextColor: gray103,
+                        onChanged: (value) {
+                          onChange(value);
+                        },
+                        onComplete: () {
+                          // setState(() {
+                          //   if (widget.textEditingController.text != '') {
+                          //     Navigator.of(context).pop(true);
+                          //     FocusScope.of(context).unfocus();
+                          //     widget.onClick(
+                          //       stays,
+                          //       widget.textEditingController.text,
+                          //     );
+                          //   } else {
+                          //     Navigator.of(context).pop(false);
+                          //     FocusScope.of(context).unfocus();
+                          //   }
+                          //   // showSearchSection = false;
+                          // });
+                        },
+                        onTap: () {
+                          setState(() {
+                            // _getBoundsFromProperties();
+                            // showSearchSection = true;
+                            // showSearchSection == true
+                            // ? searchFocus.requestFocus()
+                            // : FocusScope.of(context).unfocus();
+                          });
+
+                          // FocusScope.of(context)
+                          //     .FocusScope
+                          //     .of(context)
+                          //     .requestFocus(searchFocus);
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   // shape: RoundedRectangleBorder(
+                          //   //   borderRadius: BorderRadius.only(
+                          //   //     topLeft: Radius.circular(16),
+                          //   //     topRight: Radius.circular(16),
+                          //   //   ),
+                          //   // ),
+                          //   isDismissible: false,
+                          //   // backgroundColor: transparent,
+                          //   builder: (context) {
+                          //     return SearchOnMap();
+                          //   },
+                          // );
+                          // widget.onChange();
+                          //   showDialog(
+                          //   context: context,
+                          //   useSafeArea: false,
+                          //   builder: (context) {
+                          //     return SearchDetailPage();
+                          //   },
+                          // );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                isLoadingPage == true
+                    ? CustomLoader()
+                    : Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          child: SingleChildScrollView(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            child: Column(
                               children: [
-                                isLoadingStays == true
-                                    ? CustomLoader()
-                                    : result.rows?.isEmpty == 0 ||
-                                          result.rows == null
-                                    ? Column(
-                                        children: [
-                                          SizedBox(height: 12),
-                                          Center(
-                                            child: const Text(
-                                              'Түүх алга байна',
-                                              style: TextStyle(
-                                                color: black600,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
+                                SizedBox(height: 16),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    isLoadingList == true
+                                        ? CustomLoader()
+                                        : inspectorList.rows?.isEmpty == true ||
+                                              inspectorList.rows == null
+                                        ? Column(
+                                            children: [
+                                              SizedBox(height: 12),
+                                              Center(
+                                                child: const Text(
+                                                  'Түүх алга байна',
+                                                  style: TextStyle(
+                                                    color: black600,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            child: Column(
+                                              children: List.generate(
+                                                inspectorList.rows!.length,
+                                                (index) {
+                                                  final item = inspectorList
+                                                      .rows![index];
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        // if (selectedIndexTile ==
+                                                        //     index) {
+                                                        //   selectedIndexTile =
+                                                        //       null;
+                                                        // } else {
+                                                        //   selectedIndexTile =
+                                                        //       index;
+                                                        // }
+                                                        //r
+                                                      });
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pushNamed(
+                                                        IncomeInspectorDetail
+                                                            .routeName,
+                                                        arguments:
+                                                            IncomeInspectorDetailArguments(
+                                                              id: item.id,
+                                                            ),
+                                                      );
+                                                    },
+                                                    child: InspectorListCard(
+                                                      isExtended: false,
+                                                      data: item,
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: BouncingScrollPhysics(),
-                                        itemCount: result.rows!.length,
-                                        itemBuilder: (context, index) {
-                                          final item = result.rows![index];
-                                          return InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                Navigator.of(context).pop(true);
-                                                FocusScope.of(
-                                                  context,
-                                                ).unfocus();
-                                                // widget.onSearch(item);
-                                              });
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                bottom: 15,
-                                              ),
-                                              child: Text(item),
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
         ),

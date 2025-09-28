@@ -18,6 +18,7 @@ import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_detail.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/search_vehicle.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
@@ -382,6 +383,14 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return UserCardRequestPage(data: arguments.data);
+                },
+              );
+            case IncomeInspectorDetail.routeName:
+              IncomeInspectorDetailArguments arguments =
+                  settings.arguments as IncomeInspectorDetailArguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return IncomeInspectorDetail(id: arguments.id);
                 },
               );
             default:

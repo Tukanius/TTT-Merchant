@@ -9,6 +9,7 @@ class InventoryUser {
   StaffUser? staffUser;
   String? name;
   Address? address;
+  String? registerNo;
 
   InventoryUser({
     this.id,
@@ -16,6 +17,7 @@ class InventoryUser {
     this.staffUser,
     this.name,
     this.address,
+    this.registerNo,
   });
   static $fromJson(Map<String, dynamic> json) => _$InventoryUserFromJson(json);
 

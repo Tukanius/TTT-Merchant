@@ -115,6 +115,15 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
         params['filter']['inOutType'] = [];
       }
     }
+    if (instance.filter != null) {
+      params['filter'] ??= {};
+      if (instance.filter!.receiptStatus != null &&
+          instance.filter!.receiptStatus != '') {
+        params['filter']['receiptStatus'] = instance.filter!.receiptStatus;
+      } else {
+        params['filter']['receiptStatus'] = [];
+      }
+    }
     if (instance.page != null && instance.page! > 0) {
       params['page'] = instance.page;
     }

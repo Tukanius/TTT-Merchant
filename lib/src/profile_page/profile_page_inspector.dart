@@ -200,7 +200,7 @@ class _ProfilePageInspectorState extends State<ProfilePageInspector>
                                   SvgPicture.asset('assets/svg/board.svg'),
                                   SizedBox(width: 12),
                                   Text(
-                                    'Агуулахын хөдөлгөөн',
+                                    'Захиалга',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 12,

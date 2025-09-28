@@ -1,32 +1,59 @@
+import 'package:ttt_merchant_flutter/models/order_products.dart';
+
 part '../../parts/inspector_models/inspector_model.dart';
 
 class InspectorModel {
   String? id;
-  String? order;
-  String? code;
-  String? inventory;
-  String? name;
-  int? price;
-  int? quantity;
+  String? contractId;
+  String? contractPlanId;
+  String? contractNo;
+  String? email;
+  // List<VehicleStatuses>? vehicleStatuses;
+  num? orderProductCount;
+  List<OrderProducts>? orderProducts;
+  String? paymentType;
+  // Vehicle? vehicle;
+  // ToInventory? toInventory;
+  // ToInventory? fromInventory;
+  // List<Null>? truckScales;
+  String? receiptType;
+  // Driver? driver;
+  String? vehiclePlateNo;
+  num? unladedWeight;
+  num? ladedWeight;
+  String? driverName;
+  String? receiptStatus;
+  // List<ReceiptStatuses>? receiptStatuses;
+  String? receiptStatusDate;
+  bool? isFixed;
+  bool? isPrinted;
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
-  int? residual;
-  String? productId;
+  num? netWeight;
 
   InspectorModel({
     this.id,
-    this.order,
-    this.code,
-    this.inventory,
-    this.name,
-    this.price,
-    this.quantity,
+    this.contractId,
+    this.contractPlanId,
+    this.contractNo,
+    this.email,
+    this.orderProductCount,
+    this.paymentType,
+    this.receiptType,
+    this.vehiclePlateNo,
+    this.unladedWeight,
+    this.ladedWeight,
+    this.driverName,
+    this.receiptStatus,
+    this.receiptStatusDate,
+    this.isFixed,
+    this.isPrinted,
     this.deletedAt,
     this.createdAt,
     this.updatedAt,
-    this.residual,
-    this.productId,
+    this.netWeight,
+    this.orderProducts,
   });
   static $fromJson(Map<String, dynamic> json) => _$InspectorModelFromJson(json);
 

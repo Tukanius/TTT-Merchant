@@ -9,6 +9,9 @@ InventoryUser _$InventoryUserFromJson(Map<String, dynamic> json) {
         : null,
     name: json['name'] != null ? json['name'] as String : null,
     address: json['address'] != null ? Address.fromJson(json['address']) : null,
+    registerNo: json['registerNo'] != null
+        ? json['registerNo'] as String
+        : null,
   );
 }
 
@@ -20,6 +23,7 @@ Map<String, dynamic> _$InventoryUserToJson(InventoryUser instance) {
   if (instance.staffUser != null) json['staffUser'] = instance.staffUser;
   if (instance.name != null) json['name'] = instance.name;
   if (instance.address != null) json['address'] = instance.address;
+  if (instance.registerNo != null) json['registerNo'] = instance.registerNo;
 
   return json;
 }

@@ -82,15 +82,12 @@ class ProductApi extends HttpRequest {
   }
 
   getInspectorList(ResultArguments resultArguments) async {
-    var res = await get(
-      '/fac/app/truck-counter',
-      data: resultArguments.toJson(),
-    );
+    var res = await get('/scl/app/receipt', data: resultArguments.toJson());
     return Result.fromJson(res, InspectorModel.fromJson);
   }
 
   getInspectorItem(String id) async {
-    var res = await get('/fac/app/truck-counter/$id');
+    var res = await get('/scl/app/receipt/$id');
     return InspectorModel.fromJson(res as Map<String, dynamic>);
   }
 
@@ -102,6 +99,11 @@ class ProductApi extends HttpRequest {
   getAddress() async {
     List<dynamic> jsonData = await get('/crd/app/address');
     return jsonData.map((item) => UserAddress.fromJson(item)).toList();
+  }
+
+  putInspector(String id) async {
+    var res = await put('/scl/app/receipt/$id/confirm', handler: true);
+    return res;
   }
 
   // getAddress() async {

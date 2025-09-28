@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/app_bar/custom_app_bar.dart';
-import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_done_history_card.dart';
+import 'package:ttt_merchant_flutter/components/cards/income_page_cards/inspector_list_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -47,7 +47,7 @@ class _IncomeInspectorListState extends State<IncomeInspectorList>
     inspectorList = await ProductApi().getInspectorList(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
-        filter: Filter(query: query),
+        filter: Filter(receiptStatus: "FACTORY_APPROVED"),
       ),
     );
     setState(() {
@@ -150,7 +150,7 @@ class _IncomeInspectorListState extends State<IncomeInspectorList>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Агуулахын хөдөлгөөн',
+                        'Захиалга хайх',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -327,37 +327,52 @@ class _IncomeInspectorListState extends State<IncomeInspectorList>
                           // onChange(value);
                         },
                       ),
+                      SizedBox(height: 16),
                       isLoadingList
                           ? CustomLoader()
                           : (inspectorList.rows != null &&
                                 inspectorList.rows!.isNotEmpty)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Column(
-                                children: List.generate(
-                                  inspectorList.rows!.length,
-                                  (index) {
-                                    final isExpanded =
-                                        selectedIndexTile == index;
-                                    final item = inspectorList.rows![index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          if (selectedIndexTile == index) {
-                                            selectedIndexTile = null;
-                                          } else {
-                                            selectedIndexTile = index;
-                                          }
-                                        });
-                                      },
-                                      child: IncomeDoneHistoryCard(
-                                        isExtended: isExpanded,
-                                        data: item,
-                                      ),
-                                    );
-                                  },
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Баталгаажсан захиалгууд',
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
+                                SizedBox(height: 12),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Column(
+                                    children: List.generate(
+                                      inspectorList.rows!.length,
+                                      (index) {
+                                        final isExpanded =
+                                            selectedIndexTile == index;
+                                        final item = inspectorList.rows![index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (selectedIndexTile == index) {
+                                                selectedIndexTile = null;
+                                              } else {
+                                                selectedIndexTile = index;
+                                              }
+                                            });
+                                          },
+                                          child: InspectorListCard(
+                                            isExtended: isExpanded,
+                                            data: item,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           // Column(
                           //     children: incomeHistory.rows!

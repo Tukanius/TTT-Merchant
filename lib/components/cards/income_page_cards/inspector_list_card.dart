@@ -5,21 +5,21 @@ import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
 
-class IncomeDoneHistoryCard extends StatefulWidget {
+class InspectorListCard extends StatefulWidget {
   final InspectorModel data;
   final bool isExtended;
 
-  const IncomeDoneHistoryCard({
+  const InspectorListCard({
     super.key,
     required this.data,
     required this.isExtended,
   });
 
   @override
-  State<IncomeDoneHistoryCard> createState() => _IncomeDoneHistoryCardState();
+  State<InspectorListCard> createState() => _InspectorListCardState();
 }
 
-class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
+class _InspectorListCardState extends State<InspectorListCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,57 +34,18 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    // SvgPicture.asset(
-                    //   widget.data.inOutType == "IN"
-                    //       ? 'assets/svg/in.svg'
-                    //       : 'assets/svg/out.svg',
-                    // ),
-                    SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${widget.data.quantity ?? '0'} ширхэг',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        // Row(
-                        //   children: [
-                        //     Container(
-                        //       width: 4,
-                        //       height: 4,
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(100),
-                        //         color: widget.data.inOutType == "IN"
-                        //             ? green
-                        //             : redColor,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       ' ${widget.data.inOutType == "IN" ? 'Орлого' : 'Зарлага'}',
-                        //       style: TextStyle(
-                        //         color: widget.data.inOutType == "IN"
-                        //             ? green
-                        //             : redColor,
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                  ],
-                ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      '${widget.data.vehiclePlateNo?.toUpperCase() ?? '0'}',
+                      style: TextStyle(
+                        color: black950,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 2),
                     Text(
                       '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
                       style: TextStyle(
@@ -93,10 +54,55 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: widget.data.receiptStatus == "CANCELED"
+                            ? redColor.withOpacity(0.1)
+                            : widget.data.receiptStatus == "NEW" ||
+                                  widget.data.receiptStatus == "PENDING" ||
+                                  widget.data.receiptStatus ==
+                                      "FINANCE_APPROVED"
+                            ? orange.withOpacity(0.1)
+                            : green.withOpacity(0.1),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                      child: Text(
+                        '${widget.data.receiptStatus == "NEW"
+                            ? 'Шинэ'
+                            : widget.data.receiptStatus == "PENDING"
+                            ? 'Хүлээгдэж буй'
+                            : widget.data.receiptStatus == "FACTORY_APPROVED"
+                            ? 'Баталгаажсан'
+                            : widget.data.receiptStatus == "FINANCE_APPROVED"
+                            ? 'Төлбөр баталгаажсан'
+                            : widget.data.receiptStatus == "CANCELED"
+                            ? 'Татгазсан'
+                            : widget.data.receiptStatus == "DONE"
+                            ? 'Амжилттай'
+                            : "-"}',
+                        style: TextStyle(
+                          color: widget.data.receiptStatus == "CANCELED"
+                              ? redColor
+                              : widget.data.receiptStatus == "NEW" ||
+                                    widget.data.receiptStatus == "PENDING" ||
+                                    widget.data.receiptStatus ==
+                                        "FINANCE_APPROVED"
+                              ? orange
+                              : green,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 2),
                     Text(
-                      // '${widget.data.vehiclePlateNo?.toUpperCase() ?? '-'}',
-                      '123',
+                      '${widget.data.orderProductCount ?? '-'}Тонн',
                       style: TextStyle(
                         color: orange,
                         fontSize: 16,
@@ -156,7 +162,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Захиалгын дугаар:',
+                        'Код:',
                         style: TextStyle(
                           color: black800,
                           fontSize: 14,
@@ -164,7 +170,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.code ?? '#'}',
+                        '${widget.data.contractNo}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -178,7 +184,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Захиалсан тоо :',
+                        'Ачаатай жин:',
                         style: TextStyle(
                           color: black800,
                           fontSize: 14,
@@ -186,7 +192,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.quantity} ш',
+                        '${widget.data.ladedWeight ?? '#'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -200,7 +206,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Баталгаажсан тоо:',
+                        'Ачаагүй жин:',
                         style: TextStyle(
                           color: black800,
                           fontSize: 14,
@@ -208,8 +214,29 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        // 'Б.Эрдэнэ',
-                        '-',
+                        '${widget.data.unladedWeight ?? '-'}',
+                        style: TextStyle(
+                          color: black950,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Цэвэр жин:',
+                        style: TextStyle(
+                          color: black800,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '${widget.data.netWeight ?? '-'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -240,22 +267,22 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(height: 14),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 1,
-                    color: white200,
-                  ),
-                  SizedBox(height: 14),
-                  Text(
-                    'Тээврийн мэдээлэл',
-                    style: TextStyle(
-                      color: black400,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  SizedBox(height: 8),
+                  // SizedBox(height: 14),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: 1,
+                  //   color: white200,
+                  // ),
+                  // SizedBox(height: 14),
+                  // Text(
+                  //   'Тээврийн мэдээлэл',
+                  //   style: TextStyle(
+                  //     color: black400,
+                  //     fontSize: 12,
+                  //     fontWeight: FontWeight.w400,
+                  //   ),
+                  // ),
+                  // SizedBox(height: 8),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
@@ -280,7 +307,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(height: 4),
+                  // SizedBox(height: 4),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
@@ -326,35 +353,35 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(height: 14),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 1,
-                    color: white200,
-                  ),
-                  SizedBox(height: 14),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Захиалсан бараа',
-                        style: TextStyle(
-                          color: black400,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      // Text(
-                      //   '20,000.00₮',
-                      //   style: TextStyle(
-                      //     color: black950,
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
+                  // SizedBox(height: 14),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: 1,
+                  //   color: white200,
+                  // ),
+                  // SizedBox(height: 14),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Захиалсан бараа',
+                  //       style: TextStyle(
+                  //         color: black400,
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //     // Text(
+                  //     //   '20,000.00₮',
+                  //     //   style: TextStyle(
+                  //     //     color: black950,
+                  //     //     fontSize: 16,
+                  //     //     fontWeight: FontWeight.w600,
+                  //     //   ),
+                  //     // ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 8),
                   // Column(
                   //   children: widget.data.products!
                   //       .map(
