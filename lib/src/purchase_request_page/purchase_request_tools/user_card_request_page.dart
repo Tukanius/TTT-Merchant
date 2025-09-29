@@ -80,7 +80,8 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
           ..level2 = selectedDuuregId
           ..level3 = selectedKhorooId
           ..additionalInformation =
-              fbkeyToot.currentState?.fields['information']?.value;
+              fbkeyToot.currentState?.fields['information']?.value
+          ..passportAddress = widget.data.userInfo?.passportAddess;
         /*
   phone                : Joi.string().required(),
   registerNo           : Joi.string().required(),
@@ -388,7 +389,7 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Хаягын мэдээлэл',
+                                          'Хаягийн мэдээлэл',
                                           style: TextStyle(
                                             color: black400,
                                             fontSize: 14,
@@ -560,6 +561,7 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
                                         Column(
                                           children: [
                                             FormTextField(
+                                              inputType: TextInputType.text,
                                               contentPadding: EdgeInsets.all(
                                                 12,
                                               ),
@@ -663,15 +665,38 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                'Энэ хэрэглэгчийн виртуал карт авах хүсэлт илгээгдсэн байна.',
-                                style: TextStyle(
-                                  color: black950,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                              child: RichText(
                                 textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    color: black950,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          'Виртуаль картын хүсэлт илгээгдсэн байна. Хүсэлттэй холбоотой  мэдээллийг ',
+                                    ),
+                                    TextSpan(
+                                      text: '70119400',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ), // зөвхөн энэ хэсэг w600
+                                    ),
+                                    TextSpan(text: ' дугаараас авна уу.'),
+                                  ],
+                                ),
                               ),
+                              // Text(
+                              //   'Виртуаль картын хүсэлт илгээгдсэн байна. Хүсэлттэй холбоотой  мэдээллийг 70119400 дугаараас авна уу.',
+                              //   style: TextStyle(
+                              //     color: black950,
+                              //     fontSize: 14,
+                              //     fontWeight: FontWeight.w400,
+                              //   ),
+                              //   textAlign: TextAlign.center,
+                              // ),
                             ),
                           ],
                         ),

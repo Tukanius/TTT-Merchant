@@ -11,6 +11,7 @@ import 'package:ttt_merchant_flutter/api/product_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/home_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
+// import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/result.dart';
@@ -44,7 +45,7 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
   int page = 1;
   int limit = 10;
 
-  listOfHistory(page, limit) async {
+  listOfHistory(page, limit, {String? startDate, String? endDate}) async {
     final String selectedTab = tabs[selectedIndex];
     final String dateType = tabFilters[selectedTab] ?? 'ALL';
     salesHistory = await ProductApi().getPurchaseHistory(
@@ -104,6 +105,22 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
     });
     await listOfHistory(page, limit);
     refreshController.loadComplete();
+  }
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  String get formattedDate {
+    if (startDate == null && endDate == null) {
+      final now = DateTime.now();
+      return "${now.year}/${now.month.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate == null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')}";
+    } else if (startDate != null && endDate != null) {
+      return "${startDate!.year}/${startDate!.month.toString().padLeft(2, '0')}/${startDate!.day.toString().padLeft(2, '0')} - "
+          "${endDate!.year}/${endDate!.month.toString().padLeft(2, '0')}/${endDate!.day.toString().padLeft(2, '0')}";
+    }
+    return "";
   }
 
   @override
@@ -366,6 +383,64 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
                       //       ],
                       //     ),
                       //   ],
+                      // ),
+                      // SizedBox(height: 16),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     showModalBottomSheet(
+                      //       context: context,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.vertical(
+                      //           top: Radius.circular(8),
+                      //         ),
+                      //       ),
+                      //       builder: (context) {
+                      //         return CustomTableCalendar(
+                      //           onDateSelected: (start, end) async {
+                      //             setState(() {
+                      //               startDate = start;
+                      //               endDate = end;
+                      //             });
+                      //             Navigator.pop(context);
+                      //             await listOfHistory(
+                      //               page,
+                      //               limit,
+                      //               startDate:
+                      //                   startDate != null && startDate != ''
+                      //                   ? startDate.toString()
+                      //                   : '',
+                      //               endDate: endDate != null && endDate != ''
+                      //                   ? endDate.toString()
+                      //                   : '',
+                      //             );
+                      //           },
+                      //         );
+                      //       },
+                      //     );
+                      //   },
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(12),
+                      //       color: white,
+                      //       border: Border.all(color: white100),
+                      //     ),
+                      //     padding: EdgeInsets.symmetric(vertical: 10),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         SvgPicture.asset('assets/svg/calendar.svg'),
+                      //         SizedBox(width: 12),
+                      //         Text(
+                      //           formattedDate,
+                      //           style: TextStyle(
+                      //             color: black950,
+                      //             fontSize: 14,
+                      //             fontWeight: FontWeight.w600,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
                       // ),
                       // SizedBox(height: 16),
                       Text(

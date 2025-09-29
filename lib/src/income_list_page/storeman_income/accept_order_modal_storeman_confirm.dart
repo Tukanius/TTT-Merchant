@@ -83,6 +83,7 @@ class _AcceptOrderModalStoremanConfirmState
       _saveEdits();
       setState(() {
         validate = false;
+        isLoading = true;
       });
       List<ProductPurchaseModel> products = widget.data.receivedProducts!
           .where((p) => (p.quantity ?? 0) > 0)
@@ -101,9 +102,13 @@ class _AcceptOrderModalStoremanConfirmState
         ..receivedProducts = products;
       await ProductApi().incomeConfirm(request, widget.id);
       Navigator.of(context).pop();
+      setState(() {
+        isLoading = false;
+      });
       teeverSuccess(context);
     } else {
       setState(() {
+        isLoading = false;
         validate = true;
       });
     }
@@ -454,9 +459,11 @@ class _AcceptOrderModalStoremanConfirmState
                   SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        onSubmit();
-                      },
+                      onTap: isLoading == true
+                          ? () {}
+                          : () {
+                              onSubmit();
+                            },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(

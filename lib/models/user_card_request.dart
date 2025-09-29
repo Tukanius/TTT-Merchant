@@ -9,6 +9,7 @@ class UserCardRequest {
   String? level3;
   String? additionalInformation;
   String? requestStatus;
+  String? passportAddress;
   UserCardRequest({
     this.phone,
     this.registerNo,
@@ -18,6 +19,7 @@ class UserCardRequest {
     this.level3,
     this.additionalInformation,
     this.requestStatus,
+    this.passportAddress,
   });
   static $fromJson(Map<String, dynamic> json) =>
       _$UserCardRequestFromJson(json);

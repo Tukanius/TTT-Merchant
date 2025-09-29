@@ -16,6 +16,9 @@ UserCardRequest _$UserCardRequestFromJson(Map<String, dynamic> json) {
     requestStatus: json['requestStatus'] != null
         ? json['requestStatus'] as String
         : null,
+    passportAddress: json['passportAddress'] != null
+        ? json['passportAddress'] as String
+        : null,
   );
 }
 
@@ -32,6 +35,8 @@ Map<String, dynamic> _$UserCardRequestToJson(UserCardRequest instance) {
     json['additionalInformation'] = instance.additionalInformation;
   if (instance.requestStatus != null)
     json['requestStatus'] = instance.requestStatus;
+  if (instance.passportAddress != null)
+    json['passportAddress'] = instance.passportAddress;
 
   return json;
 }

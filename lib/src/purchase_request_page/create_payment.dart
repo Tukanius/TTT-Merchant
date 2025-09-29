@@ -605,7 +605,9 @@ class _CreatePaymentState extends State<CreatePayment> with AfterLayoutMixin {
                             children: [
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: selectIndex == null
+                                  onTap: isLoading == true
+                                      ? () {}
+                                      : selectIndex == null
                                       ? () {}
                                       : showQpay == true && selectIndex == 1
                                       ? () async {

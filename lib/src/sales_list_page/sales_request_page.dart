@@ -585,7 +585,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () {
+                                          onTap: isLoading == true ? (){}: () {
                                             onSubmit();
                                           },
                                           child: Container(

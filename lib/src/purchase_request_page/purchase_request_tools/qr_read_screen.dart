@@ -9,7 +9,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/api/balance_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
-import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/card_balance.dart';
 import 'package:ttt_merchant_flutter/models/check_card.dart';
@@ -37,6 +36,7 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
   bool isFlashOn = false;
   bool isErrorShown = false;
   bool isLoadingPage = true;
+  bool isProcessing = false;
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
@@ -94,64 +94,55 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
                         final List<Barcode> barcodes = capture.barcodes;
                         for (final barcode in barcodes) {
                           if (barcode.rawValue == null) continue;
+
+                          // Prevent multiple API calls
+                          if (isProcessing) return;
+                          isProcessing = true;
+
                           if (!isNavigated && !isErrorShown) {
-                            print('========barcode====');
-                            // print(barcode.displayValue);R
-                            print(barcode.rawValue);
-                            print('========barcode====');
                             try {
-                              // final data = jsonDecode(barcode.rawValue!);
-                              // print('========testdata====');
-                              // print(data);
-                              // print('========testdata====');
-                              try {
-                                CardBalance cardData = CardBalance();
-                                CheckCard card = CheckCard()
-                                  ..str = barcode.rawValue
-                                  ..distributorRegnum =
-                                      general.inventory!.registerNo!;
-                                cardData = await BalanceApi().getCardBalanceV2(
-                                  card,
-                                );
-                                if (cardData.card != null) {
-                                  isNavigated = true;
-                                  await controller.stop();
+                              CardBalance cardData = CardBalance();
+                              CheckCard card = CheckCard()
+                                ..str = barcode.rawValue
+                                ..distributorRegnum =
+                                    general.inventory!.registerNo!;
 
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(
-                                        PurchaseRequestPage.routeName,
-                                        arguments: PurchaseRequestPageArguments(
-                                          data: cardData,
-                                          payType: "QR",
-                                        ),
-                                      )
-                                      .then((_) async {
-                                        isNavigated = false;
-                                        // await controller.start();
-                                      });
-                                } else {
-                                  isNavigated = true;
-                                  await controller.stop();
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(
-                                        UserCardRequestPage.routeName,
-                                        arguments: UserCardRequestPageArguments(
-                                          data: cardData,
-                                        ),
-                                      )
-                                      .then((_) async {
-                                        isNavigated = false;
-                                        // await controller.start();
-                                      });
-                                }
+                              cardData = await BalanceApi().getCardBalanceV2(
+                                card,
+                              );
 
-                                print('=eee=ee=e=e==');
-                                print(cardData);
-                                print('=eee=ee=e=e==');
-                              } catch (e) {
-                                print('test');
+                              if (cardData.card != null) {
+                                isNavigated = true;
+                                await controller.stop();
+
+                                Navigator.of(context)
+                                    .pushReplacementNamed(
+                                      PurchaseRequestPage.routeName,
+                                      arguments: PurchaseRequestPageArguments(
+                                        data: cardData,
+                                        payType: "QR",
+                                      ),
+                                    )
+                                    .then((_) async {
+                                      isNavigated = false;
+                                      isProcessing = false; // reset
+                                    });
+                              } else {
+                                isNavigated = true;
+                                await controller.stop();
+
+                                Navigator.of(context)
+                                    .pushReplacementNamed(
+                                      UserCardRequestPage.routeName,
+                                      arguments: UserCardRequestPageArguments(
+                                        data: cardData,
+                                      ),
+                                    )
+                                    .then((_) async {
+                                      isNavigated = false;
+                                      isProcessing = false; // reset
+                                    });
                               }
-
                               // 1. virtual card HOTULA unshina 10 min delaytai screen shot hiiged res hiingut screenshot oo unshuulna
                               // 2. civilId asuudalgu bnu card bnu geed butsaana
                               // 3. ymarch cardgu tohioldold ugaariin medregch biyt cardtai hun gehdee manai deer virtual cardgu bh heregtei
@@ -236,11 +227,13 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
                             } catch (e) {
                               if (!isErrorShown) {
                                 isErrorShown = true;
-                                ErrorDialog(
-                                  context: context,
-                                ).show('QR код буруу байна.');
-                                Future.delayed(const Duration(seconds: 2), () {
+
+                                Future.delayed(const Duration(seconds: 3), () {
                                   isErrorShown = false;
+                                  isProcessing = false;
+                                  // if (Navigator.canPop(context)) {
+                                  //   Navigator.pop(context);
+                                  // }
                                 });
                               }
                             }

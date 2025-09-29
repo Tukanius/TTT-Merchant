@@ -7,6 +7,9 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
         : null,
     lastName: json['lastName'] != null ? json['lastName'] as String : null,
     firstName: json['firstName'] != null ? json['firstName'] as String : null,
+    passportAddess: json['passportAddess'] != null
+        ? json['passportAddess'] as String
+        : null,
   );
 }
 
@@ -16,6 +19,8 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) {
   if (instance.registerNo != null) json['registerNo'] = instance.registerNo;
   if (instance.lastName != null) json['lastName'] = instance.lastName;
   if (instance.firstName != null) json['firstName'] = instance.firstName;
+  if (instance.passportAddess != null)
+    json['passportAddess'] = instance.passportAddess;
 
   return json;
 }

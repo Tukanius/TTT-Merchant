@@ -136,7 +136,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
         // );
         QpayPayment qpayPayment = QpayPayment();
         qpayPayment = await ProductApi().postPurchaseRequest(request);
-        await Navigator.of(context).pushNamed(
+        await Navigator.of(context).popAndPushNamed(
           CreatePayment.routeName,
           arguments: CreatePaymentArguments(
             id: qpayPayment.id!,
@@ -352,16 +352,6 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                               );
                                                             }
                                                             if (resData
-                                                                    .residual ==
-                                                                0) {
-                                                              ErrorDialog(
-                                                                context:
-                                                                    context,
-                                                              ).show(
-                                                                'Борлуулагчийн үлдэгдэл хүрэлцэхгүй байна.',
-                                                              );
-                                                            }
-                                                            if (resData
                                                                     .residual! >
                                                                 0) {
                                                               setState(() {
@@ -525,6 +515,16 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                     onTap: isLoading == true
                                                         ? () {}
                                                         : () {
+                                                            if (resData
+                                                                    .residual ==
+                                                                0) {
+                                                              ErrorDialog(
+                                                                context:
+                                                                    context,
+                                                              ).show(
+                                                                'Борлуулагчийн үлдэгдэл хүрэлцэхгүй байна.',
+                                                              );
+                                                            }
                                                             if (resData
                                                                     .residual! >
                                                                 0) {

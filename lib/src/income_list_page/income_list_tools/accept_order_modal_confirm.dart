@@ -68,6 +68,7 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
         pinput.text.isEmpty == false) {
       _saveEdits();
       setState(() {
+        isLoading = true;
         validate = false;
       });
       List<ProductPurchaseModel> products = widget.data.receivedProducts!
@@ -87,9 +88,14 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
         ..receivedProducts = products;
       await ProductApi().incomeConfirm(request, widget.id);
       Navigator.of(context).pop();
+      setState(() {
+        isLoading = false;
+      });
       teeverSuccess(context);
     } else {
       setState(() {
+        isLoading = false;
+
         validate = true;
       });
     }
@@ -438,7 +444,7 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
                   SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
+                      onTap:isLoading == true ? (){}: () {
                         onSubmit();
                       },
                       child: Container(

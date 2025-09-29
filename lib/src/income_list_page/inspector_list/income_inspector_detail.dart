@@ -791,7 +791,7 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
                                   children: [
                                     Expanded(
                                       child: GestureDetector(
-                                        onTap: () {
+                                        onTap: isLoading == true ? (){}:() {
                                           // onSubmit();
                                           // Navigator.of(context).pushNamed(
                                           //   IncomeConfirmPage.routeName,
