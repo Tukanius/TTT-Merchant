@@ -81,7 +81,7 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
           ..level3 = selectedKhorooId
           ..additionalInformation =
               fbkeyToot.currentState?.fields['information']?.value
-          ..passportAddress = widget.data.userInfo?.passportAddess;
+          ..passportAddress = widget.data.userInfo?.passportAddress;
         /*
   phone                : Joi.string().required(),
   registerNo           : Joi.string().required(),

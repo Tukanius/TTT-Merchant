@@ -4,13 +4,13 @@ class UserInfo {
   String? registerNo;
   String? lastName;
   String? firstName;
-  String? passportAddess;
+  String? passportAddress;
 
   UserInfo({
     this.registerNo,
     this.lastName,
     this.firstName,
-    this.passportAddess,
+    this.passportAddress,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
