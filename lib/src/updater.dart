@@ -1,45 +1,46 @@
-// import 'package:flutter/material.dart';
-// // import 'package:new_version_plus/new_version_plus.dart';
-// import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:async';
+import 'dart:io';
 
-// class VersionCheck {
-//   static Future<void> checkVersion(BuildContext context) async {
-//     final newVersion = NewVersionPlus(
-//       androidId: "com.yourcompany.yourapp", // play store packageName
-//       iOSId: "1234567890", // app store ID
-//     );
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter/material.dart';
+import 'package:upgrader/upgrader.dart';
 
-//     final versionStatus = await newVersion.getVersionStatus();
-//     final packageInfo = await PackageInfo.fromPlatform();
-//     final currentVersion = packageInfo.version;
+class UpdaterComponent extends StatefulWidget {
+  final Widget child;
+  const UpdaterComponent({super.key, required this.child});
 
-//     debugPrint("📌 Current version: $currentVersion");
-//     debugPrint("📌 Store version: ${versionStatus?.storeVersion}");
+  @override
+  State<UpdaterComponent> createState() => _UpdaterComponentState();
+}
 
-//     if (versionStatus != null &&
-//         versionStatus.storeVersion.trim() != currentVersion.trim()) {
-//       // Patch ялгаатай байсан ч заавал update хийлгэнэ
-//       _showForceUpdateDialog(context, versionStatus.appStoreLink);
-//     }
-//   }
+class _UpdaterComponentState extends State<UpdaterComponent>
+    with AfterLayoutMixin {
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    await Upgrader.clearSavedSettings();
+  }
 
-//   static void _showForceUpdateDialog(BuildContext context, String appLink) {
-//     showDialog(
-//       context: context,
-//       barrierDismissible: false, // хааж болохгүй
-//       builder: (context) => AlertDialog(
-//         title: const Text("Шинэ хувилбар заавал хэрэгтэй"),
-//         content: const Text(
-//             "Шинэ хувилбар гарсан тул update хийж байж үргэлжлүүлнэ."),
-//         actions: [
-//           TextButton(
-//             onPressed: () {
-//               NewVersionPlus.launchAppStore(appLink);
-//             },
-//             child: const Text("Update хийх"),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  final upgrader = Upgrader(
+    debugLogging: true,
+    messages: UpgraderMessages(code: 'mn'),
+  );
+  @override
+  Widget build(BuildContext context) {
+    return UpgradeAlert(
+      dialogStyle: Platform.isAndroid
+          ? UpgradeDialogStyle.material
+          : UpgradeDialogStyle.cupertino,
+      showLater: false,
+      showIgnore: false,
+      barrierDismissible: false,
+      upgrader: Upgrader(
+        upgraderOS: UpgraderOS(),
+        debugLogging: true,
+        messages: UpgraderMessages(code: 'mn'),
+        countryCode: 'MN',
+        minAppVersion: '1.0.11',
+      ),
+      child: widget.child,
+    );
+  }
+}

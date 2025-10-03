@@ -104,6 +104,8 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = false;
     });
+    final selectedTab = tabs[selectedIndexFilter];
+    final filter = tabFilters[selectedTab];
     await listOfHistory(
       page,
       limit,
@@ -111,8 +113,10 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
       startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',
+      status: filter,
       endDate: endDate != '' && endDate != null ? endDate.toString() : '',
     );
+
     // widget.data
     // await listOfInOut(page, limit, index: filterIndex);
     // await listOfHistory(page, limit);
@@ -124,10 +128,13 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     setState(() {
       limit += 10;
     });
+    final selectedTab = tabs[selectedIndexFilter];
+    final filter = tabFilters[selectedTab];
     await listOfHistory(
       page,
       limit,
       queryVehicle: controller.text,
+      status: filter,
       startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',

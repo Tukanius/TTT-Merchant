@@ -153,7 +153,8 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                               SizedBox(width: 12),
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${user.lastName?[0].toUpperCase()}. ${user.firstName} ',
@@ -217,7 +218,6 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                         ),
                       ),
                       SizedBox(height: 16),
-
                       GestureDetector(
                         onTap: () {
                           // Navigator.of(
@@ -312,15 +312,17 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                                       height: 24,
                                       child: Platform.isAndroid
                                           ? Center(
-                                              child: CircularProgressIndicator(
-                                                color: white,
-                                                strokeWidth: 2.5,
-                                              ),
+                                              child:
+                                                  CircularProgressIndicator(
+                                                    color: white,
+                                                    strokeWidth: 2.5,
+                                                  ),
                                             )
                                           : Center(
-                                              child: CupertinoActivityIndicator(
-                                                color: white,
-                                              ),
+                                              child:
+                                                  CupertinoActivityIndicator(
+                                                    color: white,
+                                                  ),
                                             ),
                                     )
                                   : Row(

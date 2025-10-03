@@ -19,6 +19,7 @@ import 'package:ttt_merchant_flutter/src/profile_page/profile_page_inspector.dar
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page_storeman.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qr_read_screen.dart';
+import 'package:ttt_merchant_flutter/src/updater.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_page.dart';
 
 class MainPageArguments {
@@ -40,11 +41,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late int _selectedIndex = widget.changeIndex ?? 0;
-  @override
-  void initState() {
-    super.initState();
-    print(widget.userType);
-  }
 
   List<Widget> get widgetOptions {
     if (widget.userType == "STORE_MAN") {
@@ -92,175 +88,181 @@ class _MainPageState extends State<MainPage> {
       ),
     );
     final mediaQuery = MediaQuery.of(context);
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        floatingActionButton:
-            widget.userType == "STORE_MAN" ||
-                widget.userType == "FACTORY_INSPECTOR"
-            ? null
-            : _selectedIndex == 0
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(QrReadScreen.routeName);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: orange,
-                      ),
-                      child: SvgPicture.asset('assets/svg/qr_code.svg'),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () async {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: transparent,
-                        builder: (context) {
-                          return CheckCardModal();
-                        },
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: orange,
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: SvgPicture.asset(
-                        'assets/svg/edit.svg',
-                        height: 28,
-                        width: 28,
-                        color: white,
+    return UpdaterComponent(
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          floatingActionButton:
+              widget.userType == "STORE_MAN" ||
+                  widget.userType == "FACTORY_INSPECTOR"
+              ? null
+              : _selectedIndex == 0
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(QrReadScreen.routeName);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: orange,
+                        ),
+                        child: SvgPicture.asset('assets/svg/qr_code.svg'),
                       ),
                     ),
+                    SizedBox(height: 12),
+                    GestureDetector(
+                      onTap: () async {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: transparent,
+                          builder: (context) {
+                            return CheckCardModal();
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: orange,
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: SvgPicture.asset(
+                          'assets/svg/edit.svg',
+                          height: 28,
+                          width: 28,
+                          color: white,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : null,
+          extendBodyBehindAppBar: true,
+          body: Center(child: widgetOptions.elementAt(_selectedIndex)),
+          backgroundColor: white,
+          extendBody: true,
+          bottomNavigationBar: !isKeyboardVisible
+              ? Container(
+                  decoration: BoxDecoration(color: white),
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    bottom: Platform.isIOS
+                        ? mediaQuery.padding.bottom
+                        : mediaQuery.padding.bottom + 16,
+                    right: 12,
+                    left: 12,
                   ),
-                ],
-              )
-            : null,
-        extendBodyBehindAppBar: true,
-        body: Center(child: widgetOptions.elementAt(_selectedIndex)),
-        backgroundColor: white,
-        extendBody: true,
-        bottomNavigationBar: !isKeyboardVisible
-            ? Container(
-                decoration: BoxDecoration(color: white),
-                padding: EdgeInsets.only(
-                  top: 16,
-                  bottom: Platform.isIOS
-                      ? mediaQuery.padding.bottom
-                      : mediaQuery.padding.bottom + 16,
-                  right: 12,
-                  left: 12,
-                ),
-                child: widget.userType == "STORE_MAN"
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/home_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/home_unselected.svg',
-                            index: 0,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/truck_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/truck_unselected.svg',
-                            index: 1,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/profile_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/profile_unselected.svg',
-                            index: 2,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                        ],
-                      )
-                    : widget.userType == "DISTRIBUTOR"
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/home_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/home_unselected.svg',
-                            index: 0,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/shop_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/shop_unselected.svg',
-                            index: 1,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/wallet_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/wallet_unselected.svg',
-                            index: 2,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/truck_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/truck_unselected.svg',
-                            index: 3,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/profile_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/profile_unselected.svg',
-                            index: 4,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                        ],
-                      )
-                    : widget.userType == "FACTORY_INSPECTOR"
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/truck_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/truck_unselected.svg',
-                            index: 0,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                          _buildNavItem(
-                            selectedIconPath: 'assets/svg/profile_selected.svg',
-                            unselectedIconPath:
-                                'assets/svg/profile_unselected.svg',
-                            index: 1,
-                            selectedIndex: _selectedIndex,
-                            onTap: onItemTapped,
-                          ),
-                        ],
-                      )
-                    : SizedBox(),
-              )
-            : null,
+                  child: widget.userType == "STORE_MAN"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/home_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/home_unselected.svg',
+                              index: 0,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/truck_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/truck_unselected.svg',
+                              index: 1,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath:
+                                  'assets/svg/profile_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/profile_unselected.svg',
+                              index: 2,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                          ],
+                        )
+                      : widget.userType == "DISTRIBUTOR"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/home_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/home_unselected.svg',
+                              index: 0,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/shop_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/shop_unselected.svg',
+                              index: 1,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath:
+                                  'assets/svg/wallet_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/wallet_unselected.svg',
+                              index: 2,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/truck_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/truck_unselected.svg',
+                              index: 3,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath:
+                                  'assets/svg/profile_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/profile_unselected.svg',
+                              index: 4,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                          ],
+                        )
+                      : widget.userType == "FACTORY_INSPECTOR"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildNavItem(
+                              selectedIconPath: 'assets/svg/truck_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/truck_unselected.svg',
+                              index: 0,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                            _buildNavItem(
+                              selectedIconPath:
+                                  'assets/svg/profile_selected.svg',
+                              unselectedIconPath:
+                                  'assets/svg/profile_unselected.svg',
+                              index: 1,
+                              selectedIndex: _selectedIndex,
+                              onTap: onItemTapped,
+                            ),
+                          ],
+                        )
+                      : SizedBox(),
+                )
+              : null,
+        ),
       ),
     );
   }

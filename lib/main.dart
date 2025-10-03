@@ -40,6 +40,7 @@ import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_
 // import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
+import 'package:ttt_merchant_flutter/src/updater.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
 import 'package:upgrader/upgrader.dart';
@@ -142,7 +143,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
             case LoginPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
-                  return const LoginPage();
+                  return UpdaterComponent(child: const LoginPage());
                 },
               );
             case ForgetPasswordPage.routeName:

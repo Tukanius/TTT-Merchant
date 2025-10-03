@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/main.dart';
+import 'package:ttt_merchant_flutter/provider/change_host.dart';
 // import 'package:ttt_merchant_flutter/main.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/services/navigation.dart';
@@ -29,7 +30,8 @@ class HttpRequest {
   // static const host = 'https://gb.zto.mn';
   // static const host = 'https://honog-admin.zto.mn/';
   // static const host = 'https://honog.zto.mn';
-  // static const host = 'https://ttt-inventory.zto.mn';
+  static const hostDev = 'https://ttt-inventory.zto.mn';
+
   static const host = 'https://ttt.hotula.mn';
 
   // static const host = 'https://app.xotsocial.mn';
@@ -53,8 +55,8 @@ class HttpRequest {
     Response? response;
     final String uri;
     var token = await UserProvider.getAccessToken();
-
-    uri = '$host$api';
+    bool? locale = await getHost();
+    locale == true ? uri = '$hostDev$api' : uri = '$host$api';
     debugPrint(uri);
 
     debugPrint('+++++++++++++++++++++++++++++++++++++++++++++++++++');
