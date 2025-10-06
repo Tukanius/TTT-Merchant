@@ -1,7 +1,7 @@
 import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/staff_user.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/invoice.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 
 part '../../parts/purchase_models/purchase_model.dart';
 
@@ -14,10 +14,10 @@ class PurchaseModel {
   StaffUser? distributor;
   StaffUser? appUser;
   String? code;
-  int? quantity;
-  int? totalAmount;
-  int? payAmount;
-  int? paidAmount;
+  num? quantity;
+  num? totalAmount;
+  num? payAmount;
+  num? paidAmount;
   Invoice? invoice;
   String? orderStatusDate;
   String? deletedAt;

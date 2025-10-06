@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -46,7 +46,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      data = await ProductApi().getSaleDetailData(widget.id);
+      data = await SalesApi().getSaleDetailData(widget.id);
 
       stepIndex = _getStepIndex(data.requestStatus);
 
@@ -133,7 +133,7 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
     setState(() {
       isLoadingPage = true;
     });
-    data = await ProductApi().getSaleDetailData(widget.id);
+    data = await SalesApi().getSaleDetailData(widget.id);
     setState(() {
       stepIndex = _getStepIndex(data.requestStatus);
       isLoadingPage = false;
@@ -238,42 +238,6 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  // Container(
-                                                  //   decoration: BoxDecoration(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(100),
-                                                  //     color:
-                                                  //         widget.data.inOutType == "IN"
-                                                  //         ? green.withOpacity(0.1)
-                                                  //         : widget.data.inOutType ==
-                                                  //               "OUT"
-                                                  //         ? redColor.withOpacity(0.1)
-                                                  //         : green.withOpacity(0.1),
-                                                  //   ),
-                                                  //   padding: EdgeInsets.symmetric(
-                                                  //     horizontal: 9,
-                                                  //     vertical: 4,
-                                                  //   ),
-                                                  //   child: Text(
-                                                  //     '${widget.data.inOutType == "IN"
-                                                  //         ? "Орлого"
-                                                  //         : widget.data.inOutType == "OUT"
-                                                  //         ? "Зарлага"
-                                                  //         : '${widget.data.transportStatus}'}',
-                                                  //     style: TextStyle(
-                                                  //       color:
-                                                  //           widget.data.inOutType ==
-                                                  //               "IN"
-                                                  //           ? green
-                                                  //           : widget.data.inOutType ==
-                                                  //                 "OUT"
-                                                  //           ? redColor
-                                                  //           : green,
-                                                  //       fontSize: 10,
-                                                  //       fontWeight: FontWeight.w500,
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
                                                   Container(
                                                     padding:
                                                         EdgeInsets.symmetric(
@@ -295,6 +259,11 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                           : data.requestStatus ==
                                                                 "DONE"
                                                           ? green.withOpacity(
+                                                              0.1,
+                                                            )
+                                                          : data.requestStatus ==
+                                                                "NEW"
+                                                          ? primary.withOpacity(
                                                               0.1,
                                                             )
                                                           : orange.withOpacity(
@@ -321,6 +290,9 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                             : data.requestStatus ==
                                                                   "DONE"
                                                             ? green
+                                                            : data.requestStatus ==
+                                                                  "NEW"
+                                                            ? primary
                                                             : orange,
                                                         fontSize: 10,
                                                         fontWeight:
@@ -506,48 +478,6 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                               ),
                                             ],
                                           ),
-
-                                          // SizedBox(height: 14),
-                                          // Container(
-                                          //   width: MediaQuery.of(
-                                          //     context,
-                                          //   ).size.width,
-                                          //   height: 1,
-                                          //   color: white200,
-                                          // ),
-                                          // SizedBox(height: 14),
-                                          // Text(
-                                          //   'Тээврийн мэдээлэл',
-                                          //   style: TextStyle(
-                                          //     color: black400,
-                                          //     fontSize: 12,
-                                          //     fontWeight: FontWeight.w400,
-                                          //   ),
-                                          // ),
-                                          // SizedBox(height: 8),
-
-                                          // Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.spaceBetween,
-                                          //   children: [
-                                          //     Text(
-                                          //       'Хүлээн авах цэг:',
-                                          //       style: TextStyle(
-                                          //         color: black800,
-                                          //         fontSize: 14,
-                                          //         fontWeight: FontWeight.w500,
-                                          //       ),
-                                          //     ),
-                                          //     Text(
-                                          //       '${data.toInventory?.name ?? '-'}',
-                                          //       style: TextStyle(
-                                          //         color: black950,
-                                          //         fontSize: 14,
-                                          //         fontWeight: FontWeight.w600,
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
                                           SizedBox(height: 14),
                                           Container(
                                             width: MediaQuery.of(
@@ -569,14 +499,6 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                              // Text(
-                                              //   '20,000.00₮',
-                                              //   style: TextStyle(
-                                              //     color: black950,
-                                              //     fontSize: 16,
-                                              //     fontWeight: FontWeight.w600,
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                           SizedBox(height: 8),
@@ -618,27 +540,6 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                 )
                                                 .toList(),
                                           ),
-                                          // Row(
-                                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //   children: [
-                                          //     Text(
-                                          //       '1ш: 5,000₮',
-                                          //       style: TextStyle(
-                                          //         color: black800,
-                                          //         fontSize: 14,
-                                          //         fontWeight: FontWeight.w400,
-                                          //       ),
-                                          //     ),
-                                          //     Text(
-                                          //       '400x5,000₮',
-                                          //       style: TextStyle(
-                                          //         color: black800,
-                                          //         fontSize: 14,
-                                          //         fontWeight: FontWeight.w400,
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -699,7 +600,8 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                           Navigator.of(context).pushNamed(
                                             SalePayment.routeName,
                                             arguments: SalePaymentArguments(
-                                              payAmount: data.totalAmount!,
+                                              payAmount: data.totalAmount!
+                                                  .toInt(),
                                               id: data.id!,
                                             ),
                                           );
@@ -783,10 +685,8 @@ class TimelineStepData {
 class OrderTimeline extends StatefulWidget {
   final List<TimelineStepData> steps;
 
-  /// 0-ээс эхлэх индекс. Жишээ нь 1 гэвэл 0 = done, 1 = current, 2+ = next
   final int stepIndex;
 
-  // Та эдгээр өнгийг өөрийнхтэйгээ тааруулаад солиорой.
   final Color orange;
   final Color white50;
   final Color white100;

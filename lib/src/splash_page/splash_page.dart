@@ -2,7 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 // import 'package:ttt_merchant_flutter/src/auth/first_user_login_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 // import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';

@@ -82,7 +82,7 @@ Widget _buildKey(Widget child, {required VoidCallback onTap}) {
     child: InkWell(
       onTap: onTap,
       // customBorder: const CircleBorder(),
-      highlightColor: gray200,
+      highlightColor: transparent,
       splashColor: transparent,
       child: Container(
         decoration: BoxDecoration(

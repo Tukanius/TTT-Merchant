@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -44,7 +44,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      data = await ProductApi().getDistributorIncome(widget.id);
+      data = await InventoryApi().getDistributorIncome(widget.id);
       print('====inoiuttype=====');
       print(data.inOutType?.length);
       print('====inoiuttype=====');
@@ -117,7 +117,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
     setState(() {
       isLoadingPage = true;
     });
-    data = await ProductApi().getDistributorIncome(widget.id);
+    data = await InventoryApi().getDistributorIncome(widget.id);
     setState(() {
       stepIndex = _getStepIndex(data.inOutType);
       isLoadingPage = false;

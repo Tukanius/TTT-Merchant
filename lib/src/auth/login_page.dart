@@ -10,8 +10,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
-import 'package:ttt_merchant_flutter/provider/change_host.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
+import 'package:ttt_merchant_flutter/services/change_host.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 // import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
@@ -49,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
   onSubmit() async {
     FocusScope.of(context).unfocus();
     if (fbkey.currentState!.saveAndValidate()) {
-      if (fbkey.currentState?.fields['username']?.value == "99119911") {
+      if (fbkey.currentState?.fields['username']?.value == "99119911" ||
+          fbkey.currentState?.fields['username']?.value == "88887777") {
         saveHost(true);
         try {
           setState(() {

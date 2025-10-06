@@ -3,7 +3,7 @@ part of '../../models/general/general_balance.dart';
 GeneralBalance _$GeneralBalanceFromJson(Map<String, dynamic> json) {
   return GeneralBalance(
     lastBalance: json['lastBalance'] != null
-        ? json['lastBalance'] as int
+        ? json['lastBalance'] as num
         : null,
   );
 }

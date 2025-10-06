@@ -8,15 +8,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/card_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/success_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/card_balance.dart';
-import 'package:ttt_merchant_flutter/models/user_address.dart';
-import 'package:ttt_merchant_flutter/models/user_card_request.dart';
+import 'package:ttt_merchant_flutter/models/card_models/card_balance.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user_address.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user_card_request.dart';
 
 class UserCardRequestPageArguments {
   final CardBalance data;
@@ -49,7 +48,7 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      addressDatas = await ProductApi().getAddress();
+      addressDatas = await CardApi().getAddress();
       setState(() {
         duuregs = addressDatas.where((item) => item.level == 2).toList();
         isLoadingPage = false;
@@ -91,7 +90,7 @@ class _UserCardRequestPageState extends State<UserCardRequestPage>
   level3               : Joi.string().required(),
   additionalInformation: Joi.string().optional().allow(null, ""),
   */
-        await BalanceApi().userCardRequestCreate(userCardRequest);
+        await CardApi().userCardRequestCreate(userCardRequest);
         showSuccess(context, 'Таны хүсэлт амжилттай илгээгдлээ.');
         setState(() {
           isLoading = false;

@@ -19,7 +19,7 @@ import 'package:ttt_merchant_flutter/src/profile_page/profile_page_inspector.dar
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_page_storeman.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qr_read_screen.dart';
-import 'package:ttt_merchant_flutter/src/updater.dart';
+import 'package:ttt_merchant_flutter/components/updater/updater.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_page.dart';
 
 class MainPageArguments {

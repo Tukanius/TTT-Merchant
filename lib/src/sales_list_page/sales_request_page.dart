@@ -14,7 +14,7 @@ import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
@@ -585,9 +585,11 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: isLoading == true ? (){}: () {
-                                            onSubmit();
-                                          },
+                                          onTap: isLoading == true
+                                              ? () {}
+                                              : () {
+                                                  onSubmit();
+                                                },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 10,

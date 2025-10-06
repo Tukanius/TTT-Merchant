@@ -3,7 +3,7 @@ import 'package:ttt_merchant_flutter/models/sales_models/from_inventory.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_statuses.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/to_inventory.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 
 part '../../parts/sales_models/sales_model.dart';
 
@@ -17,7 +17,7 @@ class Sales {
   Distributor? distributor;
   ToInventory? toInventory;
   List<RequestProduct>? requestProduct;
-  int? weight;
+  num? weight;
   String? requestType;
   List<String>? images;
   User? user;
@@ -25,11 +25,11 @@ class Sales {
   String? createdAt;
   String? updatedAt;
   FromInventory? fromInventory;
-  int? totalCount;
+  num? totalCount;
   String? saleType;
   String? loadDate;
   String? sendDate;
-  int? totalAmount;
+  num? totalAmount;
   String? requestStatus;
   List<RequestStatuses>? requestStatuses;
 

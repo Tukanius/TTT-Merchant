@@ -7,8 +7,8 @@ ProductTypes _$ProductTypesFromJson(Map<String, dynamic> json) {
     code: json['code'] != null ? json['code'] as String : null,
 
     unit: json['unit'] != null ? Unit.fromJson(json['unit']) : null,
-    perWeight: json['perWeight'] != null ? json['perWeight'] as int : null,
-    price: json['price'] != null ? json['price'] as int : null,
+    perWeight: json['perWeight'] != null ? json['perWeight'] as num : null,
+    price: json['price'] != null ? json['price'] as num : null,
   );
 }
 

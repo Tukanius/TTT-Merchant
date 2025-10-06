@@ -4,10 +4,10 @@ part '../../parts/sales_models/request_product_post.dart';
 
 class RequestProductPost {
   String? product;
-  int? totalCount;
+  num? totalCount;
   String? name;
-  int? price;
-  int? residual;
+  num? price;
+  num? residual;
   MainImage? mainImage;
 
   RequestProductPost({

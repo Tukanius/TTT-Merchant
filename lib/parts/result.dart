@@ -1,4 +1,4 @@
-part of '../models/result.dart';
+part of '../models/inspector_models/result.dart';
 
 Result _$ResultFromJson(dynamic res, Function fromJson) {
   Map<String, dynamic>? json;

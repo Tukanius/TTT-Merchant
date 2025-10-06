@@ -21,7 +21,7 @@ Sales _$SalesFromJson(Map<String, dynamic> json) {
               .map((e) => RequestProduct.fromJson(e))
               .toList()
         : null,
-    weight: json['weight'] != null ? json['weight'] as int : null,
+    weight: json['weight'] != null ? json['weight'] as num : null,
     requestType: json['requestType'] != null
         ? json['requestType'] as String
         : null,
@@ -38,12 +38,12 @@ Sales _$SalesFromJson(Map<String, dynamic> json) {
         ? FromInventory.fromJson(json['fromInventory'])
         : null,
 
-    totalCount: json['totalCount'] != null ? json['totalCount'] as int : null,
+    totalCount: json['totalCount'] != null ? json['totalCount'] as num : null,
     saleType: json['saleType'] != null ? json['saleType'] as String : null,
     loadDate: json['loadDate'] != null ? json['loadDate'] as String : null,
     sendDate: json['sendDate'] != null ? json['sendDate'] as String : null,
     totalAmount: json['totalAmount'] != null
-        ? json['totalAmount'] as int
+        ? json['totalAmount'] as num
         : null,
     requestStatus: json['requestStatus'] != null
         ? json['requestStatus'] as String

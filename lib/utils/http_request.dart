@@ -1,28 +1,14 @@
-// import 'dart:io';
-// import 'package:cookie_jar/cookie_jar.dart';
-// import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/main.dart';
-import 'package:ttt_merchant_flutter/provider/change_host.dart';
-// import 'package:ttt_merchant_flutter/main.dart';
+import 'package:ttt_merchant_flutter/services/change_host.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/services/navigation.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
-// import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
-// import 'package:gerbook_flutter/main.dart';
-// import 'package:gerbook_flutter/services/dialog.dart';
-// import 'package:gerbook_flutter/services/navigation.dart';
-// import 'package:gerbook_flutter/src/localization/localization_local.dart';
-// import 'package:gerbook_flutter/src/screens/splash_page/splash_page.dart';
-// import 'package:gerbook_flutter/components/dialog_component/error_dialog.dart';86020448
-// import 'package:path_provider/path_provider.dart';
-// import 'package:gerbook_flutter/provider/user_provider.dart';
-// import 'package:gerbook_flutter/services/dialog.dart';
+
 import 'http_handler.dart';
-// import '../main.dart';
 
 class HttpRequest {
   // static const host = "http://dev-cb-admin.zto.mn";
@@ -32,6 +18,7 @@ class HttpRequest {
   // static const host = 'https://honog.zto.mn';
   static const hostDev = 'https://ttt-inventory.zto.mn';
 
+  // static const host = 'https://ttt-inventory.zto.mn';
   static const host = 'https://ttt.hotula.mn';
 
   // static const host = 'https://app.xotsocial.mn';

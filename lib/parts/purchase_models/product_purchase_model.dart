@@ -10,12 +10,12 @@ ProductPurchaseModel _$ProductPurchaseModelFromJson(Map<String, dynamic> json) {
     code: json['code'] != null ? json['code'] as String : null,
     inventory: json['inventory'] != null ? json['inventory'] as String : null,
     name: json['name'] != null ? json['name'] as String : null,
-    price: json['price'] != null ? json['price'] as int : null,
-    quantity: json['quantity'] != null ? json['quantity'] as int : null,
+    price: json['price'] != null ? json['price'] as num : null,
+    quantity: json['quantity'] != null ? json['quantity'] as num : null,
     deletedAt: json['deletedAt'] != null ? json['deletedAt'] as String : null,
     createdAt: json['createdAt'] != null ? json['createdAt'] as String : null,
     updatedAt: json['updatedAt'] != null ? json['updatedAt'] as String : null,
-    residual: json['residual'] != null ? json['residual'] as int : null,
+    residual: json['residual'] != null ? json['residual'] as num : null,
     productId: json['productId'] != null ? json['productId'] as String : null,
   );
 }

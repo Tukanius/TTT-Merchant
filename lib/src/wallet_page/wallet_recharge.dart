@@ -8,13 +8,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_keyboard/custom_keyboard.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/charge_wallet.dart';
-import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/card_models/charge_wallet.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
@@ -72,7 +72,7 @@ class _WalletRechargeState extends State<WalletRecharge> with AfterLayoutMixin {
         isLoading = true;
       });
       data.amount = int.parse(controller.text);
-      qpayPayment = await BalanceApi().rechargeWallet(data);
+      qpayPayment = await SalesApi().rechargeWallet(data);
       final result = await Navigator.of(context).pushNamed(
         WalletQpayCharge.routeName,
         arguments: WalletQpayChargeArguments(data: qpayPayment),

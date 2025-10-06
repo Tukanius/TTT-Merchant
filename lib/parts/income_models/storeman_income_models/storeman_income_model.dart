@@ -46,14 +46,14 @@ StoremanIncomeModel _$StoremanIncomeModelFromJson(Map<String, dynamic> json) {
     receiverUser: json['receiverUser'] != null
         ? StaffUser.fromJson(json['receiverUser'])
         : null,
-    quantity: json['quantity'] != null ? json['quantity'] as int : null,
+    quantity: json['quantity'] != null ? json['quantity'] as num : null,
     products: json['products'] != null
         ? (json['products'] as List)
               .map((e) => ProductPurchaseModel.fromJson(e))
               .toList()
         : null,
     totalAmount: json['totalAmount'] != null
-        ? json['totalAmount'] as int
+        ? json['totalAmount'] as num
         : null,
     inOutTypes: json['inOutTypes'] != null
         ? (json['inOutTypes'] as List)

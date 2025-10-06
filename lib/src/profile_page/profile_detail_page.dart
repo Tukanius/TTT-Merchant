@@ -9,7 +9,7 @@ import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 

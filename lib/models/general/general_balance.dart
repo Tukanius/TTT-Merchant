@@ -1,7 +1,7 @@
 part '../../parts/general/general_balance.dart';
 
 class GeneralBalance {
-  int? lastBalance;
+  num? lastBalance;
 
   GeneralBalance({this.lastBalance});
   static $fromJson(Map<String, dynamic> json) => _$GeneralBalanceFromJson(json);

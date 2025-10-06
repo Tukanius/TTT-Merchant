@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
 
 class IncomeListPage extends StatefulWidget {
   static const routeName = "IncomeListPage";
@@ -53,7 +53,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     String? endDate,
     String? status,
   }) async {
-    incomeHistory = await ProductApi().getIncomeHistory(
+    incomeHistory = await InventoryApi().getIncomeHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(

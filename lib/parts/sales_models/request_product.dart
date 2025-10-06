@@ -4,8 +4,8 @@ RequestProduct _$RequestProductFromJson(Map<String, dynamic> json) {
   return RequestProduct(
     id: json['_id'] != null ? json['_id'] as String : null,
     product: json['product'] != null ? Product.fromJson(json['product']) : null,
-    totalCount: json['totalCount'] != null ? json['totalCount'] as int : null,
-    weight: json['weight'] != null ? json['weight'] as int : null,
+    totalCount: json['totalCount'] != null ? json['totalCount'] as num : null,
+    weight: json['weight'] != null ? json['weight'] as num : null,
   );
 }
 

@@ -12,12 +12,12 @@ PurchaseModel _$PurchaseModelFromJson(Map<String, dynamic> json) {
     invoice: json['invoice'] != null ? Invoice.fromJson(json['invoice']) : null,
 
     code: json['code'] != null ? json['code'] as String : null,
-    quantity: json['quantity'] != null ? json['quantity'] as int : null,
+    quantity: json['quantity'] != null ? json['quantity'] as num : null,
     totalAmount: json['totalAmount'] != null
-        ? json['totalAmount'] as int
+        ? json['totalAmount'] as num
         : null,
-    payAmount: json['payAmount'] != null ? json['payAmount'] as int : null,
-    paidAmount: json['paidAmount'] != null ? json['paidAmount'] as int : null,
+    payAmount: json['payAmount'] != null ? json['payAmount'] as num : null,
+    paidAmount: json['paidAmount'] != null ? json['paidAmount'] as num : null,
     orderStatusDate: json['orderStatusDate'] != null
         ? json['orderStatusDate'] as String
         : null,

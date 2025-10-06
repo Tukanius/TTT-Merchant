@@ -3,10 +3,10 @@ part of '../../models/sales_models/request_product_post.dart';
 RequestProductPost _$RequestProductPostFromJson(Map<String, dynamic> json) {
   return RequestProductPost(
     product: json['product'] != null ? json['product'] as String : null,
-    totalCount: json['totalCount'] != null ? json['totalCount'] as int : null,
+    totalCount: json['totalCount'] != null ? json['totalCount'] as num : null,
     name: json['name'] != null ? json['name'] as String : null,
-    price: json['price'] != null ? json['price'] as int : null,
-    residual: json['residual'] != null ? json['residual'] as int : null,
+    price: json['price'] != null ? json['price'] as num : null,
+    residual: json['residual'] != null ? json['residual'] as num : null,
     mainImage: json['mainImage'] != null
         ? MainImage.fromJson(json['mainImage'])
         : null,

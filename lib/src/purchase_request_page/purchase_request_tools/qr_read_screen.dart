@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/card_balance.dart';
-import 'package:ttt_merchant_flutter/models/check_card.dart';
+import 'package:ttt_merchant_flutter/models/card_models/card_balance.dart';
+import 'package:ttt_merchant_flutter/models/card_models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_page.dart';
@@ -107,7 +107,7 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
                                 ..distributorRegnum =
                                     general.inventory!.registerNo!;
 
-                              cardData = await BalanceApi().getCardBalanceV2(
+                              cardData = await SalesApi().getCardBalanceV2(
                                 card,
                               );
 
@@ -342,27 +342,6 @@ class _QrReadScreenState extends State<QrReadScreen> with AfterLayoutMixin {
               ),
             ),
           );
-    // if (!_hasPermission) {
-    //   return Scaffold(
-    //     body: Center(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           const Text("Камерын зөвшөөрөл шаардлагатай."),
-    //           const SizedBox(height: 12),
-    //           ElevatedButton(
-    //             onPressed: () {
-    //               openAppSettings();
-    //             },
-    //             child: const Text("Тохиргоо руу очих"),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // } else {
-
-    // }
   }
 
   @override

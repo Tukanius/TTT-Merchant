@@ -47,7 +47,7 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
         _controllers[i] = TextEditingController(
           text: widget.data.products![i].quantity.toString(),
         );
-        _editedQuantities[i] = widget.data.products![i].quantity!;
+        _editedQuantities[i] = widget.data.products![i].quantity!.toInt();
       }
     }
   }
@@ -134,9 +134,9 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color:
-                                widget.data.inOutType == "NEW" ||
-                                    widget.data.inOutType == "PENDING"
+                            color: widget.data.inOutType == "NEW"
+                                ? primary.withOpacity(0.1)
+                                : widget.data.inOutType == "PENDING"
                                 ? orange.withOpacity(0.1)
                                 : green.withOpacity(0.1),
                           ),
@@ -153,9 +153,9 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                                 ? 'Хүлээн авсан'
                                 : "-"}',
                             style: TextStyle(
-                              color:
-                                  widget.data.inOutType == "NEW" ||
-                                      widget.data.inOutType == "PENDING"
+                              color: widget.data.inOutType == "NEW"
+                                  ? primary
+                                  : widget.data.inOutType == "PENDING"
                                   ? orange
                                   : green,
                               fontSize: 10,

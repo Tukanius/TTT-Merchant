@@ -12,8 +12,8 @@ class Product {
   String? createdAt;
   String? updatedAt;
   String? unit;
-  int? perWeight;
-  int? price;
+  num? perWeight;
+  num? price;
 
   Product({
     this.id,

@@ -6,7 +6,7 @@ part '../../parts/general/residual.dart';
 class Residual {
   String? id;
   String? name;
-  int? residual;
+  num? residual;
   Unit? unit;
   String? weight;
   MainImage? mainImage;

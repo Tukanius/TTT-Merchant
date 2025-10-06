@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/home_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 // import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
-import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 
 class PurchaseHistoryPage extends StatefulWidget {
@@ -48,7 +48,7 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
   listOfHistory(page, limit, {String? startDate, String? endDate}) async {
     final String selectedTab = tabs[selectedIndex];
     final String dateType = tabFilters[selectedTab] ?? 'ALL';
-    salesHistory = await ProductApi().getPurchaseHistory(
+    salesHistory = await SalesApi().getPurchaseHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(dateType: dateType),
@@ -216,233 +216,6 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // GestureDetector(
-                      //   onTap: () {},
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(12),
-                      //       color: white,
-                      //       border: Border.all(color: white100),
-                      //     ),
-                      //     padding: EdgeInsets.symmetric(vertical: 10),
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         SvgPicture.asset('assets/svg/calendar.svg'),
-                      //         SizedBox(width: 12),
-                      //         Text(
-                      //           '2025/08',
-                      //           style: TextStyle(
-                      //             color: black950,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.w600,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(height: 16),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: Container(
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(12),
-                      //           color: orange,
-                      //         ),
-                      //         padding: EdgeInsets.all(12),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             Text(
-                      //               'Үлдэгдэл',
-                      //               style: TextStyle(
-                      //                 color: white,
-                      //                 fontSize: 12,
-                      //                 fontWeight: FontWeight.w400,
-                      //               ),
-                      //             ),
-                      //             SizedBox(height: 4),
-                      //             Text(
-                      //               '120 Ширхэг шуудай',
-                      //               style: TextStyle(
-                      //                 color: white,
-                      //                 fontSize: 24,
-                      //                 fontWeight: FontWeight.w700,
-                      //               ),
-                      //             ),
-                      //             SizedBox(height: 4),
-
-                      //             Text(
-                      //               'Үлдэгдэл',
-                      //               style: TextStyle(
-                      //                 color: white,
-                      //                 fontSize: 14,
-                      //                 fontWeight: FontWeight.w400,
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     SizedBox(width: 16),
-                      //     Column(
-                      //       children: [
-                      //         Container(
-                      //           decoration: BoxDecoration(
-                      //             borderRadius: BorderRadius.circular(12),
-                      //             color: white,
-                      //           ),
-                      //           padding: EdgeInsets.all(8),
-                      //           child: Column(
-                      //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //             children: [
-                      //               Text(
-                      //                 'Орлого',
-                      //                 style: TextStyle(
-                      //                   color: black400,
-                      //                   fontSize: 12,
-                      //                   fontWeight: FontWeight.w400,
-                      //                 ),
-                      //               ),
-                      //               SizedBox(height: 4),
-                      //               Row(
-                      //                 crossAxisAlignment:
-                      //                     CrossAxisAlignment.end,
-                      //                 children: [
-                      //                   Text(
-                      //                     '120 Ш',
-                      //                     style: TextStyle(
-                      //                       color: orange,
-                      //                       fontSize: 18,
-                      //                       fontWeight: FontWeight.w700,
-                      //                     ),
-                      //                   ),
-                      //                   SizedBox(width: 8),
-
-                      //                   Text(
-                      //                     '750 КГ',
-                      //                     style: TextStyle(
-                      //                       color: black600,
-                      //                       fontSize: 14,
-                      //                       fontWeight: FontWeight.w400,
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //         SizedBox(height: 12),
-                      //         Container(
-                      //           decoration: BoxDecoration(
-                      //             borderRadius: BorderRadius.circular(12),
-                      //             color: white,
-                      //           ),
-                      //           padding: EdgeInsets.all(8),
-                      //           child: Column(
-                      //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //             children: [
-                      //               Text(
-                      //                 'Орлого',
-                      //                 style: TextStyle(
-                      //                   color: black400,
-                      //                   fontSize: 12,
-                      //                   fontWeight: FontWeight.w400,
-                      //                 ),
-                      //               ),
-                      //               SizedBox(height: 4),
-                      //               Row(
-                      //                 crossAxisAlignment:
-                      //                     CrossAxisAlignment.end,
-                      //                 children: [
-                      //                   Text(
-                      //                     '120 Ш',
-                      //                     style: TextStyle(
-                      //                       color: orange,
-                      //                       fontSize: 18,
-                      //                       fontWeight: FontWeight.w700,
-                      //                     ),
-                      //                   ),
-                      //                   SizedBox(width: 8),
-
-                      //                   Text(
-                      //                     '750 КГ',
-                      //                     style: TextStyle(
-                      //                       color: black600,
-                      //                       fontSize: 14,
-                      //                       fontWeight: FontWeight.w400,
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(height: 16),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     showModalBottomSheet(
-                      //       context: context,
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.vertical(
-                      //           top: Radius.circular(8),
-                      //         ),
-                      //       ),
-                      //       builder: (context) {
-                      //         return CustomTableCalendar(
-                      //           onDateSelected: (start, end) async {
-                      //             setState(() {
-                      //               startDate = start;
-                      //               endDate = end;
-                      //             });
-                      //             Navigator.pop(context);
-                      //             await listOfHistory(
-                      //               page,
-                      //               limit,
-                      //               startDate:
-                      //                   startDate != null && startDate != ''
-                      //                   ? startDate.toString()
-                      //                   : '',
-                      //               endDate: endDate != null && endDate != ''
-                      //                   ? endDate.toString()
-                      //                   : '',
-                      //             );
-                      //           },
-                      //         );
-                      //       },
-                      //     );
-                      //   },
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(12),
-                      //       color: white,
-                      //       border: Border.all(color: white100),
-                      //     ),
-                      //     padding: EdgeInsets.symmetric(vertical: 10),
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         SvgPicture.asset('assets/svg/calendar.svg'),
-                      //         SizedBox(width: 12),
-                      //         Text(
-                      //           formattedDate,
-                      //           style: TextStyle(
-                      //             color: black950,
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.w600,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(height: 16),
                       Text(
                         'Борлуулалтын түүх',
                         style: TextStyle(

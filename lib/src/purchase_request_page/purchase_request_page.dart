@@ -8,17 +8,17 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/card_balance.dart';
+import 'package:ttt_merchant_flutter/models/card_models/card_balance.dart';
 // import 'package:ttt_merchant_flutter/models/check_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
-import 'package:ttt_merchant_flutter/models/purchase_request.dart';
-import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/models/purchase_models/purchase_request.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 
@@ -135,7 +135,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
         //   arguments: ConfirmPurchaseRequestArguments(data: request),
         // );
         QpayPayment qpayPayment = QpayPayment();
-        qpayPayment = await ProductApi().postPurchaseRequest(request);
+        qpayPayment = await SalesApi().postPurchaseRequest(request);
         await Navigator.of(context).popAndPushNamed(
           CreatePayment.routeName,
           arguments: CreatePaymentArguments(
@@ -482,7 +482,8 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                                                                 resData
                                                                     .residual!) {
                                                               parsed = resData
-                                                                  .residual!;
+                                                                  .residual!
+                                                                  .toInt();
                                                               // хэрэглэгч их бичсэн тохиолдолд шууд зөв утгаар солино
                                                               controllers[index]
                                                                   .text = parsed

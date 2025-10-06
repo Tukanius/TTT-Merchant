@@ -1,22 +1,19 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
-// import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-// import 'package:table_calendar/table_calendar.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/sale_page_cards/sale_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sales_request_page.dart';
 
 class SalesListPage extends StatefulWidget {
@@ -64,7 +61,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
     String? endDate,
   }) async {
     // final String dateType = tabFilters[selectedIndex] ?? 'ALL';
-    salesHistory = await ProductApi().getSalesHistory(
+    salesHistory = await SalesApi().getSalesHistory(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(
@@ -369,7 +366,6 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 16),
                       Text(
                         'Татан авалтын түүх',

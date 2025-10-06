@@ -17,9 +17,9 @@ class DistIncomeList {
   String? transportStatus;
   String? createdAt;
   String? updatedAt;
-  int? quantity;
+  num? quantity;
   List<ProductPurchaseModel>? products;
-  int? totalAmount;
+  num? totalAmount;
   String? inOutType;
   StaffUser? staffUser;
   StaffUser? senderUser;

@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_saleman_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
 
 class IncomeListStoreman extends StatefulWidget {
   static const routeName = "IncomeListStoreman";
@@ -63,7 +63,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
   }) async {
     // final String selectedTab = tabs[selectedIndex];
     // final String dateType = tabFilters[selectedTab] ?? 'ALL';
-    incomeSaleMan = await ProductApi().getIncomeSaleMan(
+    incomeSaleMan = await InventoryApi().getIncomeSaleMan(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(
@@ -396,69 +396,6 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                           },
                         ),
                       ),
-                      // SizedBox(height: 16),
-                      // Container(
-                      //   alignment: Alignment.centerLeft,
-                      //   child: SingleChildScrollView(
-                      //     scrollDirection: Axis.horizontal,
-                      //     child: Container(
-                      //       padding: EdgeInsets.symmetric(horizontal: 16),
-                      //       child: Row(
-                      //         children: List.generate(tabs.length, (index) {
-                      //           final bool isSelected =
-                      //               selectedIndexFilter == index;
-                      //           return GestureDetector(
-                      //             onTap: () async {
-                      //               setState(() {
-                      //                 selectedIndexFilter = index;
-                      //               });
-                      //               // final selectedTab =
-                      //               //     tabs[selectedIndexFilter];
-                      //               // final filter = tabFilters[selectedTab];
-                      //               // await listOfInOut(
-                      //               //   page,
-                      //               //   limit,
-                      //               //   queryVehicle: controller.text,
-                      //               //   status: filter,
-                      //               //   startDate:
-                      //               //       startDate != '' && startDate != null
-                      //               //       ? startDate.toString()
-                      //               //       : '',
-                      //               //   endDate: endDate != '' && endDate != null
-                      //               //       ? endDate.toString()
-                      //               //       : '',
-                      //               // );
-                      //             },
-                      //             child: Container(
-                      //               margin: EdgeInsets.only(right: 10),
-                      //               padding: EdgeInsets.symmetric(
-                      //                 vertical: 6,
-                      //                 horizontal: 10,
-                      //               ),
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(100),
-                      //                 color: isSelected ? orange : Colors.white,
-                      //                 border: Border.all(
-                      //                   color: isSelected ? orange : white100,
-                      //                 ),
-                      //               ),
-                      //               child: Text(
-                      //                 filterIndex == 0
-                      //                     ? tabs[index]
-                      //                     : tabsRev[index],
-                      //                 style: TextStyle(
-                      //                   color: isSelected ? white : black600,
-                      //                   fontSize: 12,
-                      //                   fontWeight: FontWeight.w500,
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           );
-                      //         }),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: EdgeInsetsGeometry.only(
                           right: 16,
@@ -467,53 +404,6 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                         ),
                         child: Column(
                           children: [
-                            // SizedBox(height: 16),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     showModalBottomSheet(
-                            //       context: context,
-                            //       shape: RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.vertical(
-                            //           top: Radius.circular(8),
-                            //         ),
-                            //       ),
-                            //       builder: (context) {
-                            //         return CustomTableCalendar(
-                            //           onDateSelected: (start, end) {
-                            //             setState(() {
-                            //               startDate = start;
-                            //               endDate = end;
-                            //             });
-                            //             Navigator.pop(context);
-                            //           },
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(12),
-                            //       color: white,
-                            //       border: Border.all(color: white100),
-                            //     ),
-                            //     padding: EdgeInsets.symmetric(vertical: 10),
-                            //     child: Row(
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       children: [
-                            //         SvgPicture.asset('assets/svg/calendar.svg'),
-                            //         SizedBox(width: 12),
-                            //         Text(
-                            //           formattedDate,
-                            //           style: TextStyle(
-                            //             color: black950,
-                            //             fontSize: 14,
-                            //             fontWeight: FontWeight.w600,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
                             SizedBox(height: 16),
                             isLoadingHistoryIncome
                                 ? CustomLoader()

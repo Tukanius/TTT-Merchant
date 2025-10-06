@@ -22,9 +22,9 @@ class StoremanIncomeModel {
   StaffUser? staffUser;
   StaffUser? senderUser;
   StaffUser? receiverUser;
-  int? quantity;
+  num? quantity;
   List<ProductPurchaseModel>? products;
-  int? totalAmount;
+  num? totalAmount;
   List<InOutTypes>? inOutTypes;
   String? inOutType;
   String? type;

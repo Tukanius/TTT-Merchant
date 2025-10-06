@@ -9,21 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/pay_method.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/pay_method.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
-import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class CreatePaymentArguments {
   final String id;
   final List<ProductPurchaseModel> data;
-  final int totalAmount;
+  final num totalAmount;
   CreatePaymentArguments({
     required this.totalAmount,
     required this.id,
@@ -35,7 +35,7 @@ class CreatePayment extends StatefulWidget {
   static const routeName = "CreatePayment";
   final String id;
   final List<ProductPurchaseModel> data;
-  final int totalAmount;
+  final num totalAmount;
 
   const CreatePayment({
     super.key,
@@ -90,7 +90,7 @@ class _CreatePaymentState extends State<CreatePayment> with AfterLayoutMixin {
         if (selectIndex == 0) {
           PayMethod data = PayMethod();
           data.paymentMethod = 'CASH';
-          qpayPayment = await BalanceApi().checkPaymentMethod(widget.id, data);
+          qpayPayment = await SalesApi().checkPaymentMethod(widget.id, data);
           setState(() {
             isLoading = false;
           });
@@ -99,7 +99,7 @@ class _CreatePaymentState extends State<CreatePayment> with AfterLayoutMixin {
         if (selectIndex == 1) {
           PayMethod data = PayMethod();
           data.paymentMethod = 'QPAY';
-          qpayPayment = await BalanceApi().checkPaymentMethod(widget.id, data);
+          qpayPayment = await SalesApi().checkPaymentMethod(widget.id, data);
           setState(() {
             showQpay = true;
             isLoading = false;
@@ -124,7 +124,7 @@ class _CreatePaymentState extends State<CreatePayment> with AfterLayoutMixin {
         isLoading = true;
       });
       QpayPayment data = QpayPayment();
-      data = await BalanceApi().checkPayment(qpayPayment.id!);
+      data = await SalesApi().checkPayment(qpayPayment.id!);
       if (data.status != "PAID") {
         ErrorDialog(context: context).show('Төлбөр хүлээгдэж байна');
         setState(() {

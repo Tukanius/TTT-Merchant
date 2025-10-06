@@ -7,17 +7,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
-// import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class SalePaymentArguments {
   final int payAmount;
@@ -77,7 +76,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
           onRefresh();
         }
       } else {
-        await BalanceApi().paySales(widget.id);
+        await SalesApi().paySales(widget.id);
         saleSuccess(context);
       }
       setState(() {
@@ -238,7 +237,7 @@ class _SalePaymentState extends State<SalePayment> with AfterLayoutMixin {
         automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Text(
-          'Татан авалтын төлбөр төлөх',
+          'Төлбөр төлөх',
           style: TextStyle(
             color: black950,
             fontSize: 18,

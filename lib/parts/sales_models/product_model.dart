@@ -15,8 +15,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     createdAt: json['createdAt'] != null ? json['createdAt'] as String : null,
     updatedAt: json['updatedAt'] != null ? json['updatedAt'] as String : null,
     unit: json['unit'] != null ? json['unit'] as String : null,
-    perWeight: json['perWeight'] != null ? json['perWeight'] as int : null,
-    price: json['price'] != null ? json['price'] as int : null,
+    perWeight: json['perWeight'] != null ? json['perWeight'] as num : null,
+    price: json['price'] != null ? json['price'] as num : null,
   );
 }
 

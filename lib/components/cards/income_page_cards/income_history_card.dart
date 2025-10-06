@@ -58,6 +58,8 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                     color: widget.data.inOutType == "CANCELED"
                         ? redColor.withOpacity(0.1)
                         : widget.data.inOutType == "NEW"
+                        ? primary.withOpacity(0.1)
+                        : widget.data.inOutType == "PENDING"
                         ? orange.withOpacity(0.1)
                         : green.withOpacity(0.1),
                   ),
@@ -76,6 +78,8 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                       color: widget.data.inOutType == "CANCELED"
                           ? redColor
                           : widget.data.inOutType == "NEW"
+                          ? primary
+                          : widget.data.inOutType == "PENDING"
                           ? orange
                           : green,
                       fontSize: 10,

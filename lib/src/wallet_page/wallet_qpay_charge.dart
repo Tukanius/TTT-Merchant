@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/balance_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/dialog/error_dialog.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/qpay_payment.dart';
-import 'package:ttt_merchant_flutter/models/urls.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/qpay_payment.dart';
+import 'package:ttt_merchant_flutter/models/payment_models/urls.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,7 +60,7 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
         isLoading = true;
       });
       QpayPayment qpayPayment = QpayPayment();
-      qpayPayment = await BalanceApi().checkPayment(widget.data.id!);
+      qpayPayment = await SalesApi().checkPayment(widget.data.id!);
 
       if (qpayPayment.status != "PAID") {
         ErrorDialog(context: context).show('Төлбөр хүлээгдэж байна');
@@ -150,39 +150,6 @@ class _WalletQpayChargeState extends State<WalletQpayCharge>
                     ),
                   ),
                 ),
-                // SizedBox(height: 16),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.of(context).pop();
-                //     Navigator.of(context).pop();
-                //     Navigator.of(context).pop();
-                //     // Navigator.of(
-                //     //   context,
-                //     // ).pushNamed(PurchaseHistoryPage.routeName);
-                //   },
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(12),
-                //       color: white,
-                //       border: Border.all(color: white100),
-                //     ),
-                //     padding: EdgeInsets.symmetric(vertical: 10),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           'Листээс харах',
-                //           style: TextStyle(
-                //             color: black800,
-                //             fontSize: 14,
-                //             fontWeight: FontWeight.w600,
-                //             decoration: TextDecoration.none,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

@@ -75,6 +75,8 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                                   widget.data.requestStatus ==
                                       "FINANCE_APPROVED"
                             ? green.withOpacity(0.1)
+                            : widget.data.requestStatus == "NEW"
+                            ? primary.withOpacity(0.1)
                             : orange.withOpacity(0.1),
                       ),
                       child: Text(
@@ -96,6 +98,8 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                                     widget.data.requestStatus ==
                                         "FINANCE_APPROVED"
                               ? green
+                              : widget.data.requestStatus == "NEW"
+                              ? primary
                               : orange,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
@@ -379,20 +383,6 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
           ],
         ],
       ),
-
-      //  ExpansionTile(
-      //   enabled: true,
-
-      //   tilePadding: EdgeInsets.symmetric(
-      //     horizontal: 14,
-      //     vertical: 0,
-      //   ),
-      //   backgroundColor: white,
-      //   collapsedBackgroundColor: white,
-      //   title:
-      //   trailing:
-      //   children: [],
-      // ),
     );
   }
 }

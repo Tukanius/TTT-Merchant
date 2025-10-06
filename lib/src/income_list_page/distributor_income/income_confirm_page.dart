@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_model.dart';
-import 'package:ttt_merchant_flutter/src/income_list_page/income_list_tools/accept_order_modal_confirm.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/accept_order_modal_distributor_confirm.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_list_tools/order_problem_modal.dart';
 
 class IncomeConfirmPageArguments {
@@ -46,7 +46,7 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
         _controllers[i] = TextEditingController(
           text: widget.data.products![i].quantity.toString(),
         );
-        _editedQuantities[i] = widget.data.products![i].quantity!;
+        _editedQuantities[i] = widget.data.products![i].quantity!.toInt();
       }
     }
   }
@@ -133,9 +133,11 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color:
-                                widget.data.inOutType == "NEW" ||
-                                    widget.data.inOutType == "PENDING"
+                            color: widget.data.inOutType == "CANCELED"
+                                ? redColor.withOpacity(0.1)
+                                : widget.data.inOutType == "NEW"
+                                ? primary.withOpacity(0.1)
+                                : widget.data.inOutType == "PENDING"
                                 ? orange.withOpacity(0.1)
                                 : green.withOpacity(0.1),
                           ),
@@ -150,11 +152,15 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                                 ? 'Агуулахаас гарсан'
                                 : widget.data.inOutType == "DONE"
                                 ? 'Хүлээн авсан'
+                                : widget.data.inOutType == "CANCELED"
+                                ? 'Цуцлагдсан'
                                 : "-"}',
                             style: TextStyle(
-                              color:
-                                  widget.data.inOutType == "NEW" ||
-                                      widget.data.inOutType == "PENDING"
+                              color: widget.data.inOutType == "CANCELED"
+                                  ? redColor
+                                  : widget.data.inOutType == "NEW"
+                                  ? primary
+                                  : widget.data.inOutType == "PENDING"
                                   ? orange
                                   : green,
                               fontSize: 10,

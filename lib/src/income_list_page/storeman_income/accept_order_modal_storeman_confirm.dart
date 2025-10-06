@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
 import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 
 class AcceptOrderModalStoremanConfirm extends StatefulWidget {
@@ -100,7 +100,7 @@ class _AcceptOrderModalStoremanConfirmState
         ..code = pinput.text
         ..isComplaint = widget.data.isComplaint
         ..receivedProducts = products;
-      await ProductApi().incomeConfirm(request, widget.id);
+      await InventoryApi().incomeConfirm(request, widget.id);
       Navigator.of(context).pop();
       setState(() {
         isLoading = false;

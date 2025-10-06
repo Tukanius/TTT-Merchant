@@ -10,11 +10,11 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/scale_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 
 class IncomeInspectorDetailArguments {
@@ -40,14 +40,15 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      incomeData = await ProductApi().getInspectorItem(widget.id);
+      incomeData = await ScaleApi().getInspectorItem(widget.id);
       user = await AuthApi().me(false);
       if (incomeData.orderProducts != null) {
         for (var i = 0; i < incomeData.orderProducts!.length; i++) {
           _controllers[i] = TextEditingController(
             text: incomeData.orderProducts![i].totalCount.toString(),
           );
-          _editedQuantities[i] = incomeData.orderProducts![i].totalCount!;
+          _editedQuantities[i] = incomeData.orderProducts![i].totalCount!
+              .toInt();
         }
       }
       setState(() {
@@ -128,7 +129,7 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
         isLoading = true;
       });
       Navigator.of(dialogContext).pop();
-      await ProductApi().putInspector(incomeData.id!);
+      await ScaleApi().putInspector(incomeData.id!);
       await showSuccess(context, 'Захиалга амжилттай баталгаажлаа.');
       setState(() {
         isLoading = false;
@@ -791,17 +792,19 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
                                   children: [
                                     Expanded(
                                       child: GestureDetector(
-                                        onTap: isLoading == true ? (){}:() {
-                                          // onSubmit();
-                                          // Navigator.of(context).pushNamed(
-                                          //   IncomeConfirmPage.routeName,
-                                          //   arguments:
-                                          //       IncomeConfirmPageArguments(
-                                          //         data: data,
-                                          //       ),
-                                          // );
-                                          onSubmit();
-                                        },
+                                        onTap: isLoading == true
+                                            ? () {}
+                                            : () {
+                                                // onSubmit();
+                                                // Navigator.of(context).pushNamed(
+                                                //   IncomeConfirmPage.routeName,
+                                                //   arguments:
+                                                //       IncomeConfirmPageArguments(
+                                                //         data: data,
+                                                //       ),
+                                                // );
+                                                onSubmit();
+                                              },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
                                             vertical: 10,

@@ -5,12 +5,12 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/scale_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/inspector_list_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/result.dart';
+import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_detail.dart';
 
 class SearchVehicleArguments {
@@ -50,7 +50,7 @@ class _SearchVehicleState extends State<SearchVehicle> with AfterLayoutMixin {
   bool isLoadingPage = true;
 
   listOfInspector(page, limit, {String? query}) async {
-    inspectorList = await ProductApi().getInspectorList(
+    inspectorList = await ScaleApi().getInspectorList(
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(query: query),

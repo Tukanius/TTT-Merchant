@@ -75,7 +75,7 @@ class _NotifyPageState extends State<NotifyPage> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Үлдэгдэл: 0 ш',
+                                'Үлдэгдэл: - ш',
                                 style: TextStyle(
                                   color: black600,
                                   fontSize: 14,

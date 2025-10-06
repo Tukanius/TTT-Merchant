@@ -7,8 +7,8 @@ class ProductTypes {
   String? name;
   String? code;
   Unit? unit;
-  int? perWeight;
-  int? price;
+  num? perWeight;
+  num? price;
 
   ProductTypes({
     this.id,

@@ -20,9 +20,9 @@ class StoremanIncomeList {
   StaffUser? staffUser;
   StaffUser? senderUser;
   StaffUser? receiverUser;
-  int? quantity;
+  num? quantity;
   List<ProductPurchaseModel>? products;
-  int? totalAmount;
+  num? totalAmount;
   String? inOutType;
   String? type;
 

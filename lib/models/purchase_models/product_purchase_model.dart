@@ -9,12 +9,12 @@ class ProductPurchaseModel {
   String? code;
   String? inventory;
   String? name;
-  int? price;
-  int? quantity;
+  num? price;
+  num? quantity;
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
-  int? residual;
+  num? residual;
   String? productId;
 
   ProductPurchaseModel({

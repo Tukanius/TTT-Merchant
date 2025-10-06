@@ -138,15 +138,15 @@ class _OrderProblemModalState extends State<OrderProblemModal>
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Хамгийн багадаа 3 ширхэг зураг оруулна уу.',
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
+                                // SizedBox(height: 4),
+                                // Text(
+                                //   'Хамгийн багадаа 3 ширхэг зураг оруулна уу.',
+                                //   style: TextStyle(
+                                //     color: black,
+                                //     fontSize: 12,
+                                //     fontWeight: FontWeight.w400,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],

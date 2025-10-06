@@ -13,10 +13,7 @@ import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
 import 'package:ttt_merchant_flutter/services/navigation.dart';
 import 'package:ttt_merchant_flutter/services/notification.dart';
-import 'package:ttt_merchant_flutter/src/auth/user_set_password_page.dart';
-import 'package:ttt_merchant_flutter/src/auth/forget_password_page.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
-import 'package:ttt_merchant_flutter/src/auth/set_password_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_detail.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/search_vehicle.dart';
@@ -40,7 +37,7 @@ import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_
 // import 'package:ttt_merchant_flutter/src/income_list_page/income_list_page.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
-import 'package:ttt_merchant_flutter/src/updater.dart';
+import 'package:ttt_merchant_flutter/components/updater/updater.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_qpay_charge.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
 import 'package:upgrader/upgrader.dart';
@@ -146,12 +143,24 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return UpdaterComponent(child: const LoginPage());
                 },
               );
-            case ForgetPasswordPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const ForgetPasswordPage();
-                },
-              );
+            // case ForgetPasswordPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const ForgetPasswordPage();
+            //     },
+            //   );
+            // case UserSetPasswordPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const UserSetPasswordPage();
+            //     },
+            //   );
+            // case SetPasswordPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const SetPasswordPage();
+            //     },
+            //   );
             case SalesRequestPage.routeName:
               return MaterialPageRoute(
                 builder: (context) {
@@ -214,12 +223,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
             //       return const OrderAcceptPage();
             //     },
             //   );
-            case SetPasswordPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const SetPasswordPage();
-                },
-              );
+
             // case ConfirmPurchaseRequest.routeName:
             //   ConfirmPurchaseRequestArguments arguments =
             //       settings.arguments as ConfirmPurchaseRequestArguments;
@@ -255,12 +259,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return ConfirmSaleRequest(data: arguments.data);
                 },
               );
-            case UserSetPasswordPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const UserSetPasswordPage();
-                },
-              );
+
             case SaleDetailPage.routeName:
               SaleDetailPageArguments arguments =
                   settings.arguments as SaleDetailPageArguments;

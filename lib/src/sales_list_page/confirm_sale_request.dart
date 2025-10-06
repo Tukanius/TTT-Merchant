@@ -7,19 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
-// import 'package:provider/provider.dart';
-import 'package:ttt_merchant_flutter/api/product_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-// import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/request_product_post.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
-import 'package:ttt_merchant_flutter/models/user.dart';
-// import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-// import 'package:ttt_merchant_flutter/src/home_page/purchase_history_page.dart';
+import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
-// import 'package:ttt_merchant_flutter/src/home_page/sales_history_page.dart';
 
 class ConfirmSaleRequestArguments {
   final SalesRequest data;
@@ -40,15 +35,21 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     with AfterLayoutMixin {
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
-  int purchaseIndex = 0;
-  // GeneralInit general = GeneralInit();
   bool isLoadingPage = true;
   List<TextEditingController> controllers = [];
 
   int get totalPrice {
     return (widget.data.requestProducts ?? [])
         .map((p) => (p.price ?? 0) * (p.totalCount ?? 0))
-        .fold(0, (a, b) => a + b);
+        .fold(0, (a, b) => a + b.toInt());
+  }
+
+  @override
+  void dispose() {
+    for (var c in controllers) {
+      c.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -84,82 +85,6 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
     }
   }
 
-  List<int> quantities = [];
-  List<String> ids = [];
-
-  // await ProductApi().postSalesRequest(request);
-  // onSubmit() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     List<RequestProductPost> products = [];
-
-  //     for (int i = 0; i < general.residual!.length; i++) {
-  //       if (quantities[i] > 0) {
-  //         products.add(
-  //           RequestProductPost(
-  //             product: general.residual![i].id,
-  //             totalCount: quantities[i],
-  //           ),
-  //         );
-  //       }
-  //     }
-  SalesRequest request = SalesRequest();
-  //     request.requestProducts = products;
-
-  //     saleSuccess(context);
-  //     // await Navigator.of(context).pushNamed(
-  //     //   ConfirmRequest.routeName,
-  //     //   arguments: ConfirmRequestArguments(data: request),
-  //     // );
-  //     // await ProductApi().postPurchaseRequest(request);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
-
-  // onSubmit() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-
-  //     List<Products> products = widget.data.products!
-  //         .where((p) => (p.quantity ?? 0) > 0)
-  //         .map((p) {
-  //           print("✅ Product ID: ${p.product}, Quantity: ${p.quantity}");
-  //           return Products(product: p.product, quantity: p.quantity);
-  //         })
-  //         .toList();
-
-  //     PurchaseRequest request = PurchaseRequest()
-  //       ..cardNumber = widget.data.cardNumber
-  //       ..products = products
-  //       ..salesType = widget.payType;
-
-  //     // await Navigator.of(context).pushNamed(
-  //     //   ConfirmSaleRequest.routeName,
-  //     //   arguments: ConfirmSaleRequestArguments(data: request),
-  //     // );
-  //     await ProductApi().postPurchaseRequest(request);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //     await saleSuccess(context);
-  //   } catch (e) {
-  //     print(e);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
   onSubmit() async {
     try {
       setState(() {
@@ -177,12 +102,7 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
           })
           .toList();
       SalesRequest request = SalesRequest()..requestProducts = products;
-
-      // await Navigator.of(context).pushNamed(
-      //   ConfirmPurchaseRequest.routeName,
-      //   arguments: ConfirmPurchaseRequestArguments(data: request),
-      // );
-      await ProductApi().postSalesRequest(request);
+      await SalesApi().postSalesRequest(request);
       setState(() {
         isLoading = false;
       });
@@ -194,45 +114,6 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
       });
     }
   }
-
-  // onSubmit() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-  //     List<RequestProductPost> products = [];
-  //     for (int i = 0; i < general.residual!.length; i++) {
-  //       if (quantities[i] > 0) {
-  //         products.add(
-  //           RequestProductPost(
-  //             product: general.residual![i].id,
-  //             totalCount: quantities[i],
-  //             // name: general.residual![i].name,
-  //           ),
-  //         );
-  //       }
-  //     }
-  //     products.map((p) {
-  //       print("✅ Product ID: ${p.product}, ${p.totalCount}");
-  //     }).toList();
-
-  //     SalesRequest request = SalesRequest()..requestProducts = products;
-
-  //     // await Navigator.of(context).pushNamed(
-  //     //   ConfirmSaleRequest.routeName,
-  //     //   arguments: ConfirmSaleRequestArguments(data: request),
-  //     // );
-  //     await ProductApi().postSalesRequest(request);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
 
   saleSuccess(BuildContext context) {
     showDialog(
@@ -350,24 +231,6 @@ class _ConfirmSaleRequestState extends State<ConfirmSaleRequest>
       },
     );
   }
-
-  @override
-  void dispose() {
-    // Санах ой цэвэрлэх
-    for (var c in controllers) {
-      c.dispose();
-    }
-    super.dispose();
-  }
-  // final List<Product> items = List.generate(
-  //   3,
-  //   (i) => Product(
-  //     name: 'Хөх нүүрс 25кг',
-  //     stockText: '1,000,000 Ш',
-  //     image: 'assets/images/default.jpg',
-  //     qty: 2,
-  //   ),
-  // );
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ Residual _$ResidualFromJson(Map<String, dynamic> json) {
   return Residual(
     id: json['_id'] != null ? json['_id'] as String : null,
     name: json['name'] != null ? json['name'] as String : null,
-    residual: json['residual'] != null ? json['residual'] as int : null,
+    residual: json['residual'] != null ? json['residual'] as num : null,
     unit: json['unit'] != null ? Unit.fromJson(json['unit']) : null,
     weight: json['weight'] != null ? json['weight'] as String : null,
     mainImage: json['mainImage'] != null
