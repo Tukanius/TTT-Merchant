@@ -15,14 +15,15 @@ import 'package:ttt_merchant_flutter/services/navigation.dart';
 import 'package:ttt_merchant_flutter/services/notification.dart';
 import 'package:ttt_merchant_flutter/src/auth/login_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_history.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/income_inspector_detail.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/inspector_list/search_vehicle.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_detail.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_history.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 // import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/qpay_payment.dart';
 import 'package:ttt_merchant_flutter/src/not_found_user.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_request_tools/user_card_request_page.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/confirm_sale_request.dart';
 import 'package:ttt_merchant_flutter/src/sales_list_page/sale_detail_page.dart';
@@ -179,12 +180,12 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   return QrReadScreen();
                 },
               );
-            case PurchaseHistoryPage.routeName:
-              return MaterialPageRoute(
-                builder: (context) {
-                  return const PurchaseHistoryPage();
-                },
-              );
+            // case PurchaseHistoryPage.routeName:
+            //   return MaterialPageRoute(
+            //     builder: (context) {
+            //       return const PurchaseHistoryPage();
+            //     },
+            //   );
             // case PurchaseRequestHistoryPage.routeName:
             //   return MaterialPageRoute(
             //     builder: (context) {
@@ -328,7 +329,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   settings.arguments as IncomeDistributorDetailArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return IncomeDistributorDetail(id: arguments.id);
+                  return IncomeDistributorDetail(
+                    id: arguments.id,
+                    inOutType: arguments.inOutType,
+                  );
                 },
               );
             case IncomeStoremanDetail.routeName:
@@ -336,7 +340,10 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
                   settings.arguments as IncomeStoremanDetailArguments;
               return MaterialPageRoute(
                 builder: (context) {
-                  return IncomeStoremanDetail(id: arguments.id);
+                  return IncomeStoremanDetail(
+                    id: arguments.id,
+                    inOutType: arguments.inOutType,
+                  );
                 },
               );
             case IncomeStoremanConfirmPage.routeName:
@@ -391,6 +398,18 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
               return MaterialPageRoute(
                 builder: (context) {
                   return IncomeInspectorDetail(id: arguments.id);
+                },
+              );
+            case IncomeStoremanHistory.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const IncomeStoremanHistory();
+                },
+              );
+            case IncomeDistributorHistory.routeName:
+              return MaterialPageRoute(
+                builder: (context) {
+                  return const IncomeDistributorHistory();
                 },
               );
             default:

@@ -9,18 +9,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
-import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/accept_order_modal_distributor_confirm.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_list_tools/order_problem_modal.dart';
 
 class IncomeConfirmPageArguments {
-  final DistIncomeModel data;
+  final IncomeModel data;
 
   IncomeConfirmPageArguments({required this.data});
 }
 
 class IncomeConfirmPage extends StatefulWidget {
-  final DistIncomeModel data;
+  final IncomeModel data;
   static const routeName = "IncomeConfirmPage";
   const IncomeConfirmPage({super.key, required this.data});
 
@@ -113,7 +113,7 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.data.code ?? '#'}',
+                              '${widget.data.orderNo ?? '#'}',
                               style: TextStyle(
                                 color: black950,
                                 fontSize: 14,
@@ -121,7 +121,7 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                               ),
                             ),
                             Text(
-                              '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutTypes?[1].date! ?? widget.data.createdAt!).toLocal())}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.requestStatusHistories?[1].date! ?? widget.data.createdAt!).toLocal())}',
                               style: TextStyle(
                                 color: black400,
                                 fontSize: 12,
@@ -133,11 +133,11 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: widget.data.inOutType == "CANCELED"
+                            color: widget.data.requestStatus == "CANCELED"
                                 ? redColor.withOpacity(0.1)
-                                : widget.data.inOutType == "NEW"
+                                : widget.data.requestStatus == "NEW"
                                 ? primary.withOpacity(0.1)
-                                : widget.data.inOutType == "PENDING"
+                                : widget.data.requestStatus == "PENDING"
                                 ? orange.withOpacity(0.1)
                                 : green.withOpacity(0.1),
                           ),
@@ -146,21 +146,21 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                             vertical: 4,
                           ),
                           child: Text(
-                            '${widget.data.inOutType == "NEW"
+                            '${widget.data.requestStatus == "NEW"
                                 ? 'Хуваарилагдсан'
-                                : widget.data.inOutType == "PENDING"
+                                : widget.data.requestStatus == "PENDING"
                                 ? 'Агуулахаас гарсан'
-                                : widget.data.inOutType == "DONE"
+                                : widget.data.requestStatus == "DONE"
                                 ? 'Хүлээн авсан'
-                                : widget.data.inOutType == "CANCELED"
+                                : widget.data.requestStatus == "CANCELED"
                                 ? 'Цуцлагдсан'
                                 : "-"}',
                             style: TextStyle(
-                              color: widget.data.inOutType == "CANCELED"
+                              color: widget.data.requestStatus == "CANCELED"
                                   ? redColor
-                                  : widget.data.inOutType == "NEW"
+                                  : widget.data.requestStatus == "NEW"
                                   ? primary
-                                  : widget.data.inOutType == "PENDING"
+                                  : widget.data.requestStatus == "PENDING"
                                   ? orange
                                   : green,
                               fontSize: 10,
@@ -420,11 +420,24 @@ class _IncomeConfirmPageState extends State<IncomeConfirmPage> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/default.jpg',
-                                          height: 62,
-                                          width: 62,
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadiusGeometry.circular(8),
+                                          child: data.mainImage != null
+                                              ? Image.network(
+                                                  '${data.mainImage!.url}',
+                                                  width: 62,
+                                                  height: 62,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  width: 62,
+                                                  height: 62,
+                                                  'assets/images/default.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
                                         ),
+
                                         SizedBox(width: 12),
                                         Expanded(
                                           child: Column(

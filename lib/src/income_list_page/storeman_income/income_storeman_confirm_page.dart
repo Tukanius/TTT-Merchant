@@ -9,18 +9,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
-import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/income_list_tools/order_problem_modal.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/accept_order_modal_storeman_confirm.dart';
 
 class IncomeStoremanConfirmPageArguments {
-  final StoremanIncomeModel data;
+  final IncomeModel data;
 
   IncomeStoremanConfirmPageArguments({required this.data});
 }
 
 class IncomeStoremanConfirmPage extends StatefulWidget {
-  final StoremanIncomeModel data;
+  final IncomeModel data;
   static const routeName = "IncomeStoremanConfirmPage";
   const IncomeStoremanConfirmPage({super.key, required this.data});
 
@@ -114,7 +114,7 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.data.code ?? '#'}',
+                              '${widget.data.orderNo ?? '#'}',
                               style: TextStyle(
                                 color: black950,
                                 fontSize: 14,
@@ -122,7 +122,7 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                               ),
                             ),
                             Text(
-                              '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.inOutTypes?[0].date! ?? widget.data.createdAt!).toLocal())}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.requestStatusHistories?[0].date! ?? widget.data.createdAt!).toLocal())}',
                               style: TextStyle(
                                 color: black400,
                                 fontSize: 12,
@@ -134,9 +134,9 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: widget.data.inOutType == "NEW"
+                            color: widget.data.requestStatus == "NEW"
                                 ? primary.withOpacity(0.1)
-                                : widget.data.inOutType == "PENDING"
+                                : widget.data.requestStatus == "PENDING"
                                 ? orange.withOpacity(0.1)
                                 : green.withOpacity(0.1),
                           ),
@@ -145,17 +145,17 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                             vertical: 4,
                           ),
                           child: Text(
-                            '${widget.data.inOutType == "NEW"
+                            '${widget.data.requestStatus == "NEW"
                                 ? 'Хуваарилагдсан'
-                                : widget.data.inOutType == "PENDING"
+                                : widget.data.requestStatus == "PENDING"
                                 ? 'Агуулахаас гарсан'
-                                : widget.data.inOutType == "DONE"
+                                : widget.data.requestStatus == "DONE"
                                 ? 'Хүлээн авсан'
                                 : "-"}',
                             style: TextStyle(
-                              color: widget.data.inOutType == "NEW"
+                              color: widget.data.requestStatus == "NEW"
                                   ? primary
-                                  : widget.data.inOutType == "PENDING"
+                                  : widget.data.requestStatus == "PENDING"
                                   ? orange
                                   : green,
                               fontSize: 10,
@@ -467,10 +467,22 @@ class _IncomeStoremanConfirmPageState extends State<IncomeStoremanConfirmPage> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/default.jpg',
-                                          height: 62,
-                                          width: 62,
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadiusGeometry.circular(8),
+                                          child: data.mainImage != null
+                                              ? Image.network(
+                                                  '${data.mainImage!.url}',
+                                                  width: 62,
+                                                  height: 62,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  width: 62,
+                                                  height: 62,
+                                                  'assets/images/default.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
                                         ),
                                         SizedBox(width: 12),
                                         Expanded(

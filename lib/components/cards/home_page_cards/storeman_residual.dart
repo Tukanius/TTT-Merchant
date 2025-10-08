@@ -50,12 +50,19 @@ class _StoremanResidualState extends State<StoremanResidual> {
                                     ClipRRect(
                                       borderRadius:
                                           BorderRadiusGeometry.circular(8),
-                                      child: Image.asset(
-                                        height: 158,
-                                        width: 158,
-                                        'assets/images/default.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child: data.mainImage != null
+                                          ? Image.network(
+                                              '${data.mainImage!.url}',
+                                              height: 158,
+                                              width: 158,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              height: 158,
+                                              width: 158,
+                                              'assets/images/default.jpg',
+                                              fit: BoxFit.cover,
+                                            ),
                                     ),
                                     SizedBox(height: 6),
                                     Text(

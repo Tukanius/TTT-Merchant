@@ -9,8 +9,8 @@ import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
-import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_model.dart';
-import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
+// import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
 import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/src/main_page.dart';
 
@@ -18,7 +18,7 @@ class AcceptOrderModalStoremanConfirm extends StatefulWidget {
   final ConfirmIncomeRequest data;
   final String id;
   final Map<int, int> editedQuantity;
-  final StoremanIncomeModel product;
+  final IncomeModel product;
   const AcceptOrderModalStoremanConfirm({
     super.key,
     required this.data,
@@ -85,22 +85,22 @@ class _AcceptOrderModalStoremanConfirmState
         validate = false;
         isLoading = true;
       });
-      List<ProductPurchaseModel> products = widget.data.receivedProducts!
-          .where((p) => (p.quantity ?? 0) > 0)
-          .map((p) {
-            print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
-            return ProductPurchaseModel(
-              id: p.id,
-              price: p.price,
-              quantity: p.quantity,
-            );
-          })
-          .toList();
-      ConfirmIncomeRequest request = ConfirmIncomeRequest()
-        ..code = pinput.text
-        ..isComplaint = widget.data.isComplaint
-        ..receivedProducts = products;
-      await InventoryApi().incomeConfirm(request, widget.id);
+      // List<ProductPurchaseModel> products = widget.data.receivedProducts!
+      //     .where((p) => (p.quantity ?? 0) > 0)
+      //     .map((p) {
+      //       print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
+      //       return ProductPurchaseModel(
+      //         id: p.id,
+      //         price: p.price,
+      //         quantity: p.quantity,
+      //       );
+      //     })
+      //     .toList();
+      ConfirmIncomeRequest request = ConfirmIncomeRequest()..code = pinput.text;
+      //   ..isComplaint = widget.data.isComplaint
+      //   ..receivedProducts = products;
+      // await InventoryApi().incomeConfirm(request, widget.id);
+      await InventoryApi().incomeConfirmNew(request, widget.id);
       Navigator.of(context).pop();
       setState(() {
         isLoading = false;

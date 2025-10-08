@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_list.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/in_out_types.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_list_model.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class IncomeDoneHistoryCard extends StatefulWidget {
-  final StoremanIncomeList data;
+  final IncomeListModel data;
   final bool isExtended;
 
   const IncomeDoneHistoryCard({
@@ -22,6 +23,18 @@ class IncomeDoneHistoryCard extends StatefulWidget {
 }
 
 class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
+  String getLastStatusTime(List<InOutTypes> statuses) {
+    if (statuses.isEmpty)
+      return "${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}";
+    statuses.sort(
+      (a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)),
+    );
+    final latest = statuses.first;
+    return DateFormat(
+      'yyyy/MM/dd HH:mm',
+    ).format(DateTime.parse(latest.date!).toLocal());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +52,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                 Row(
                   children: [
                     SvgPicture.asset(
-                      widget.data.inOutType == "IN"
+                      widget.data.type == "IN"
                           ? 'assets/svg/in.svg'
                           : 'assets/svg/out.svg',
                     ),
@@ -63,15 +76,15 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                               height: 4,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: widget.data.inOutType == "IN"
+                                color: widget.data.type == "IN"
                                     ? green
                                     : redColor,
                               ),
                             ),
                             Text(
-                              ' ${widget.data.inOutType == "IN" ? 'Орлого' : 'Зарлага'}',
+                              ' ${widget.data.type == "IN" ? 'Орлого' : 'Зарлага'}',
                               style: TextStyle(
-                                color: widget.data.inOutType == "IN"
+                                color: widget.data.type == "IN"
                                     ? green
                                     : redColor,
                                 fontSize: 12,
@@ -88,7 +101,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                      '${getLastStatusTime(widget.data.requestStatusHistories ?? [])}',
                       style: TextStyle(
                         color: black400,
                         fontSize: 12,
@@ -165,7 +178,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.code ?? '#'}',
+                        '${widget.data.orderNo ?? '#'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -196,29 +209,29 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Баталгаажсан тоо:',
-                        style: TextStyle(
-                          color: black800,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        // 'Б.Эрдэнэ',
-                        '-',
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // SizedBox(height: 4),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Баталгаажсан тоо:',
+                  //       style: TextStyle(
+                  //         color: black800,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       // 'Б.Эрдэнэ',
+                  //       '-',
+                  //       style: TextStyle(
+                  //         color: black950,
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   // SizedBox(height: 4),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -269,10 +282,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        widget.data.type == "IN"
-                            ? '${widget.data.toInventory ?? '-'}'
-                            : '${widget.data.fromInventory ?? '-'}',
-
+                        '${widget.data.fromInventory?.name ?? "-"}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -294,9 +304,7 @@ class _IncomeDoneHistoryCardState extends State<IncomeDoneHistoryCard> {
                         ),
                       ),
                       Text(
-                        widget.data.type == "OUT"
-                            ? '${widget.data.toInventory ?? '-'}'
-                            : '${widget.data.fromInventory ?? '-'}',
+                        '${widget.data.toInventory?.name ?? "-"}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,

@@ -7,12 +7,14 @@ class PurchaseRequest {
   String? salesType;
   List<ProductPurchaseModel>? products;
   String? appUserId;
+  String? device;
 
   PurchaseRequest({
     this.cardNumber,
     this.products,
     this.salesType,
     this.appUserId,
+    this.device,
   });
   static $fromJson(Map<String, dynamic> json) =>
       _$PurchaseRequestFromJson(json);

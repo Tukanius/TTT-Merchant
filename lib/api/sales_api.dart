@@ -5,7 +5,7 @@ import 'package:ttt_merchant_flutter/models/payment_models/pay_method.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/purchase_model.dart';
 import 'package:ttt_merchant_flutter/models/purchase_models/purchase_request.dart';
 import 'package:ttt_merchant_flutter/models/payment_models/qpay_payment.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_model.dart';
 import 'package:ttt_merchant_flutter/models/sales_models/sales_request.dart';
 import 'package:ttt_merchant_flutter/models/card_models/wallet_transaction.dart';

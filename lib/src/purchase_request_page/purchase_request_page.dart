@@ -126,6 +126,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
         request.cardNumber = widget.data.card?.cardNo;
         request.products = products;
         request.salesType = widget.payType;
+        request.device = widget.data.device;
         if (widget.payType == "QR") {
           request.appUserId = widget.data.appUserId;
         }

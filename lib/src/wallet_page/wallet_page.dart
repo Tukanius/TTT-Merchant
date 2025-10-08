@@ -14,7 +14,7 @@ import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.da
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/cards/wallet_card/wallet_history_card.dart';
 import 'package:ttt_merchant_flutter/models/general/general_balance.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/src/wallet_page/wallet_recharge.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';

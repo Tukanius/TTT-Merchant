@@ -1,4 +1,4 @@
-part of '../models/inspector_models/result.dart';
+part of '../models/result.dart';
 
 Result _$ResultFromJson(dynamic res, Function fromJson) {
   Map<String, dynamic>? json;
@@ -12,13 +12,20 @@ Result _$ResultFromJson(dynamic res, Function fromJson) {
           .map((json) => fromJson(json as Map<String, dynamic>))
           .toList(),
       count: results.length,
+      totals: [],
     );
   } else {
     json = res as Map<String, dynamic>?;
+
     return Result(
       rows: (json!['rows'] as List)
           .map((json) => fromJson(json as Map<String, dynamic>))
           .toList(),
+      totals: json['totals'] != null
+          ? (json['totals'] is List
+                ? List<dynamic>.from(json['totals'])
+                : [json['totals']])
+          : [],
       count: json['count'] as int?,
     );
   }
@@ -27,6 +34,7 @@ Result _$ResultFromJson(dynamic res, Function fromJson) {
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
   'rows': instance.rows,
   'count': instance.count,
+  if (instance.totals != null) 'totals': instance.totals,
 };
 
 Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {

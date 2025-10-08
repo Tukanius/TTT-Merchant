@@ -13,21 +13,28 @@ import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
-import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_model.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/in_out_types.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_confirm_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class IncomeDistributorDetailArguments {
   final String id;
+  final String inOutType;
 
-  IncomeDistributorDetailArguments({required this.id});
+  IncomeDistributorDetailArguments({required this.inOutType, required this.id});
 }
 
 class IncomeDistributorDetail extends StatefulWidget {
   final String id;
+  final String inOutType;
+
   static const routeName = "IncomeDistributorDetail";
-  const IncomeDistributorDetail({super.key, required this.id});
+  const IncomeDistributorDetail({
+    super.key,
+    required this.id,
+    required this.inOutType,
+  });
 
   @override
   State<IncomeDistributorDetail> createState() =>
@@ -39,16 +46,16 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
   int stepIndex = 0;
   bool isLoading = false;
   bool isLoadingPage = true;
-  DistIncomeModel data = DistIncomeModel();
+  IncomeModel data = IncomeModel();
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      data = await InventoryApi().getDistributorIncome(widget.id);
+      data = await InventoryApi().getIncomeDetail(widget.id, widget.inOutType);
       print('====inoiuttype=====');
-      print(data.inOutType?.length);
+      print(data.requestStatusHistories?.length);
       print('====inoiuttype=====');
-      stepIndex = _getStepIndex(data.inOutType);
+      stepIndex = _getStepIndex(data.requestStatus);
       setState(() {
         isLoadingPage = false;
       });
@@ -117,9 +124,9 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
     setState(() {
       isLoadingPage = true;
     });
-    data = await InventoryApi().getDistributorIncome(widget.id);
+    data = await InventoryApi().getIncomeDetail(widget.id, widget.inOutType);
     setState(() {
-      stepIndex = _getStepIndex(data.inOutType);
+      stepIndex = _getStepIndex(data.requestStatus);
       isLoadingPage = false;
     });
     refreshController.refreshCompleted();
@@ -278,46 +285,15 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                             ),
                                           ),
                                           Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        '-',
-                                                        style: TextStyle(
-                                                          color: black950,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                      SizedBox(height: 2),
-                                                      Text(
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        '-',
-                                                        style: TextStyle(
-                                                          color: black600,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
+                                            child: Text(
+                                              '${data.transportCompany?.name ?? '-'}',
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -326,7 +302,9 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                   ),
                                 ),
                                 OrderTimeline(
-                                  steps: buildSteps(data.inOutTypes!),
+                                  steps: buildSteps(
+                                    data.requestStatusHistories!,
+                                  ),
                                   stepIndex: stepIndex,
                                   orange: orange,
                                   white50: white50,
@@ -391,7 +369,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                             ),
                                           ),
                                           Text(
-                                            '${data.code ?? '#'}',
+                                            '${data.orderNo ?? '#'}',
                                             style: TextStyle(
                                               color: black950,
                                               fontSize: 14,
@@ -423,29 +401,29 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 4),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Баталгаажсан тоо:',
-                                            style: TextStyle(
-                                              color: black800,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text(
-                                            '-',
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      // SizedBox(height: 4),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Text(
+                                      //       'Баталгаажсан тоо:',
+                                      //       style: TextStyle(
+                                      //         color: black800,
+                                      //         fontSize: 14,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       ),
+                                      //     ),
+                                      //     Text(
+                                      //       '-',
+                                      //       style: TextStyle(
+                                      //         color: black950,
+                                      //         fontSize: 14,
+                                      //         fontWeight: FontWeight.w600,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       // SizedBox(height: 4),
                                       // Row(
                                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -499,7 +477,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                             ),
                                           ),
                                           Text(
-                                            '${data.toInventory?.name ?? '-'}',
+                                            '${data.fromInventory?.name ?? '-'}',
                                             style: TextStyle(
                                               color: black950,
                                               fontSize: 14,
@@ -522,7 +500,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                                             ),
                                           ),
                                           Text(
-                                            '${data.fromInventory?.name ?? '-'}',
+                                            '${data.toInventory?.name ?? '-'}',
                                             style: TextStyle(
                                               color: black950,
                                               fontSize: 14,
@@ -660,7 +638,7 @@ class _IncomeDistributorDetailState extends State<IncomeDistributorDetail>
                     ),
                   ),
                 ),
-                data.inOutType == "PENDING"
+                data.requestStatus == "PENDING"
                     ? Align(
                         alignment: AlignmentDirectional.bottomCenter,
                         child: Container(

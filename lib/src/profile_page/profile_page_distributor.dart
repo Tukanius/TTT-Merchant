@@ -13,8 +13,8 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_history.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
 class ProfilePageDistributor extends StatefulWidget {
@@ -153,8 +153,7 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                               SizedBox(width: 12),
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${user.lastName?[0].toUpperCase()}. ${user.firstName} ',
@@ -186,7 +185,7 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                         onTap: () {
                           Navigator.of(
                             context,
-                          ).pushNamed(PurchaseHistoryPage.routeName);
+                          ).pushNamed(IncomeDistributorHistory.routeName);
                           // widget.onChangePage(0);
                         },
                         child: Container(
@@ -312,17 +311,15 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
                                       height: 24,
                                       child: Platform.isAndroid
                                           ? Center(
-                                              child:
-                                                  CircularProgressIndicator(
-                                                    color: white,
-                                                    strokeWidth: 2.5,
-                                                  ),
+                                              child: CircularProgressIndicator(
+                                                color: white,
+                                                strokeWidth: 2.5,
+                                              ),
                                             )
                                           : Center(
-                                              child:
-                                                  CupertinoActivityIndicator(
-                                                    color: white,
-                                                  ),
+                                              child: CupertinoActivityIndicator(
+                                                color: white,
+                                              ),
                                             ),
                                     )
                                   : Row(

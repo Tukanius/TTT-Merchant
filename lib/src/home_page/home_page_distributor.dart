@@ -16,9 +16,9 @@ import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/general/residual.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
-import 'package:ttt_merchant_flutter/src/purchase_request_page/purchase_history_page.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_history.dart';
 
 class HomePageDistributor extends StatefulWidget {
   final Function(int) onChangePage;
@@ -151,7 +151,7 @@ class _HomePageDistributorState extends State<HomePageDistributor>
                             onTap: () {
                               Navigator.of(
                                 context,
-                              ).pushNamed(PurchaseHistoryPage.routeName);
+                              ).pushNamed(IncomeDistributorHistory.routeName);
                             },
                             child: Row(
                               children: [

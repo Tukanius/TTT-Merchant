@@ -14,7 +14,7 @@ import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 
 class IncomeListStoreman extends StatefulWidget {
   static const routeName = "IncomeListStoreman";
@@ -30,109 +30,16 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
 
   bool isLoadingPage = true;
   Result incomeHistory = Result();
-  Result incomeSaleMan = Result();
-
   int page = 1;
   int limit = 10;
   int filterIndex = 0;
-  bool isLoadingHistoryIncome = true;
+  bool isLoadingHistory = true;
   int selectedIndexFilter = 0;
-  @override
-  FutureOr<void> afterFirstLayout(BuildContext context) async {
-    try {
-      await listOfInOut(page, limit, index: 0);
-      setState(() {
-        isLoadingPage = false;
-      });
-    } catch (e) {
-      print(e);
-      setState(() {
-        isLoadingPage = true;
-      });
-    }
-  }
-
-  listOfInOut(
-    page,
-    limit, {
-    int? index,
-    String? queryVehicle,
-    String? status,
-    String? startDate,
-    String? endDate,
-  }) async {
-    // final String selectedTab = tabs[selectedIndex];
-    // final String dateType = tabFilters[selectedTab] ?? 'ALL';
-    incomeSaleMan = await InventoryApi().getIncomeSaleMan(
-      ResultArguments(
-        offset: Offset(page: page, limit: limit),
-        filter: Filter(
-          // status: "NEW",
-          type: filterIndex == 0 ? "IN" : "OUT",
-          query: queryVehicle,
-          inOutType: status,
-          startDate: startDate != '' && startDate != null
-              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
-              : '',
-          endDate: endDate != '' && endDate != null
-              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
-              : '',
-        ),
-      ),
-    );
-    setState(() {
-      isLoadingHistoryIncome = false;
-    });
-  }
-
   final RefreshController refreshController = RefreshController(
     initialRefresh: false,
   );
-
-  onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    if (!mounted) return;
-    setState(() {
-      isLoadingPage = true;
-      limit = 10;
-    });
-    setState(() {
-      isLoadingPage = false;
-    });
-    await listOfInOut(
-      page,
-      limit,
-      index: filterIndex,
-      queryVehicle: controller.text,
-      startDate: startDate != '' && startDate != null
-          ? startDate.toString()
-          : '',
-      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
-    );
-    // widget.data
-    // await listOfInOut(page, limit, index: filterIndex);
-    // await listOfHistory(page, limit);
-    refreshController.refreshCompleted();
-  }
-
-  onLoading() async {
-    if (!mounted) return;
-    setState(() {
-      limit += 10;
-    });
-    await listOfInOut(
-      page,
-      limit,
-      index: filterIndex,
-      queryVehicle: controller.text,
-      startDate: startDate != '' && startDate != null
-          ? startDate.toString()
-          : '',
-      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
-    );
-    refreshController.loadComplete();
-  }
-
+  Timer? timer;
+  TextEditingController controller = TextEditingController();
   DateTime? startDate;
   DateTime? endDate;
 
@@ -149,18 +56,126 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
     return "";
   }
 
-  Timer? timer;
-  TextEditingController controller = TextEditingController();
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    try {
+      await listOfHistory(page, limit, filterIndex);
+      setState(() {
+        isLoadingPage = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        isLoadingPage = true;
+      });
+    }
+  }
+
+  listOfHistory(
+    page,
+    limit,
+    filterIndex, {
+    String? queryVehicle,
+    String? startDate,
+    String? endDate,
+  }) async {
+    filterIndex == 0
+        ? incomeHistory = await InventoryApi().getIncomeInList(
+            ResultArguments(
+              offset: Offset(page: page, limit: limit),
+              filter: Filter(
+                query: queryVehicle,
+                startDate: startDate != '' && startDate != null
+                    ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+                    : '',
+                endDate: endDate != '' && endDate != null
+                    ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+                    : '',
+              ),
+            ),
+          )
+        : incomeHistory = await InventoryApi().getIncomeOutList(
+            ResultArguments(
+              offset: Offset(page: page, limit: limit),
+              filter: Filter(
+                query: queryVehicle,
+                startDate: startDate != '' && startDate != null
+                    ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+                    : '',
+                endDate: endDate != '' && endDate != null
+                    ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+                    : '',
+              ),
+            ),
+          );
+
+    setState(() {
+      isLoadingHistory = false;
+    });
+  }
+
+  onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (!mounted) return;
+    setState(() {
+      isLoadingPage = true;
+      limit = 10;
+    });
+    setState(() {
+      isLoadingPage = false;
+    });
+    await listOfHistory(
+      page,
+      limit,
+      filterIndex,
+      queryVehicle: controller.text,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
+    // widget.data
+    // await listOfHistory(page, limit, index: filterIndex);
+    // await listOfHistory(page, limit);
+    refreshController.refreshCompleted();
+  }
+
+  onLoading() async {
+    if (!mounted) return;
+    setState(() {
+      limit += 10;
+    });
+    await listOfHistory(
+      page,
+      limit,
+      filterIndex,
+      queryVehicle: controller.text,
+      startDate: startDate != '' && startDate != null
+          ? startDate.toString()
+          : '',
+      endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+    );
+    refreshController.loadComplete();
+  }
 
   onChange(String query) async {
     if (timer != null) timer!.cancel();
     timer = Timer(const Duration(milliseconds: 500), () async {
       setState(() {
-        isLoadingHistoryIncome = true;
+        isLoadingHistory = true;
       });
-      await listOfInOut(page, limit, index: filterIndex, queryVehicle: query);
+      await listOfHistory(
+        page,
+        limit,
+        filterIndex,
+        queryVehicle: controller.text,
+        startDate: startDate != '' && startDate != null
+            ? startDate.toString()
+            : '',
+        endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+      );
       setState(() {
-        isLoadingHistoryIncome = false;
+        isLoadingHistory = false;
       });
     });
   }
@@ -201,7 +216,18 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                             setState(() {
                               filterIndex = 0;
                             });
-                            await listOfInOut(page, limit, index: 0);
+                            await listOfHistory(
+                              page,
+                              limit,
+                              filterIndex,
+                              queryVehicle: controller.text,
+                              startDate: startDate != '' && startDate != null
+                                  ? startDate.toString()
+                                  : '',
+                              endDate: endDate != '' && endDate != null
+                                  ? endDate.toString()
+                                  : '',
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -237,7 +263,18 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                             setState(() {
                               filterIndex = 1;
                             });
-                            await listOfInOut(page, limit, index: 1);
+                            await listOfHistory(
+                              page,
+                              limit,
+                              filterIndex,
+                              queryVehicle: controller.text,
+                              startDate: startDate != '' && startDate != null
+                                  ? startDate.toString()
+                                  : '',
+                              endDate: endDate != '' && endDate != null
+                                  ? endDate.toString()
+                                  : '',
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -334,9 +371,10 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                                             startDate = start;
                                             endDate = end;
                                           });
-                                          await listOfInOut(
+                                          await listOfHistory(
                                             page,
                                             limit,
+                                            filterIndex,
                                             queryVehicle: controller.text,
                                             startDate:
                                                 startDate != '' &&
@@ -405,12 +443,12 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                         child: Column(
                           children: [
                             SizedBox(height: 16),
-                            isLoadingHistoryIncome
+                            isLoadingHistory
                                 ? CustomLoader()
-                                : (incomeSaleMan.rows != null &&
-                                      incomeSaleMan.rows!.isNotEmpty)
+                                : (incomeHistory.rows != null &&
+                                      incomeHistory.rows!.isNotEmpty)
                                 ? Column(
-                                    children: incomeSaleMan.rows!
+                                    children: incomeHistory.rows!
                                         .map(
                                           (data) => Column(
                                             children: [

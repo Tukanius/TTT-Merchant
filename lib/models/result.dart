@@ -1,4 +1,4 @@
-part '../../parts/result.dart';
+part '../parts/result.dart';
 
 class Filter {
   String? date;
@@ -90,8 +90,9 @@ class ResultArguments {
 class Result {
   List<dynamic>? rows = [];
   int? count = 0;
+  List<dynamic>? totals = [];
 
-  Result({this.rows, this.count});
+  Result({this.rows, this.count, this.totals});
 
   factory Result.fromJson(dynamic json, Function fromJson) =>
       _$ResultFromJson(json, fromJson);

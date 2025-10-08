@@ -455,29 +455,29 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                             ],
                                           ),
 
-                                          SizedBox(height: 4),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Баталгаажсан тоо:',
-                                                style: TextStyle(
-                                                  color: black800,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              Text(
-                                                '- ш',
-                                                style: TextStyle(
-                                                  color: black950,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                          // SizedBox(height: 4),
+                                          // Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.spaceBetween,
+                                          //   children: [
+                                          //     Text(
+                                          //       'Баталгаажсан тоо:',
+                                          //       style: TextStyle(
+                                          //         color: black800,
+                                          //         fontSize: 14,
+                                          //         fontWeight: FontWeight.w500,
+                                          //       ),
+                                          //     ),
+                                          //     Text(
+                                          //       '- ш',
+                                          //       style: TextStyle(
+                                          //         color: black950,
+                                          //         fontSize: 14,
+                                          //         fontWeight: FontWeight.w600,
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           SizedBox(height: 14),
                                           Container(
                                             width: MediaQuery.of(

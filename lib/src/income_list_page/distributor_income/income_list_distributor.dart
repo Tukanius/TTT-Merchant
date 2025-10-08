@@ -14,7 +14,7 @@ import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/table_calendar/table_calendar.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/components/ui/form_textfield.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 
 class IncomeListPage extends StatefulWidget {
   static const routeName = "IncomeListPage";
@@ -38,41 +38,20 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     'Хүлээн авсан': "DONE",
   };
   bool isLoadingPage = true;
+  bool isLoadingHistory = true;
   Result incomeHistory = Result();
   ScrollController scrollController = ScrollController();
-  bool isLoadingHistory = true;
   int page = 1;
   int limit = 10;
   int selectedIndexFilter = 0;
 
-  listOfHistory(
-    page,
-    limit, {
-    String? queryVehicle,
-    String? startDate,
-    String? endDate,
-    String? status,
-  }) async {
-    incomeHistory = await InventoryApi().getIncomeHistory(
-      ResultArguments(
-        offset: Offset(page: page, limit: limit),
-        filter: Filter(
-          date: 'ALL',
-          query: queryVehicle,
-          startDate: startDate != '' && startDate != null
-              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
-              : '',
-          endDate: endDate != '' && endDate != null
-              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
-              : '',
-          inOutType: status,
-        ),
-      ),
-    );
-    setState(() {
-      isLoadingHistory = false;
-    });
-  }
+  DateTime? startDate;
+  DateTime? endDate;
+  Timer? timer;
+  TextEditingController controller = TextEditingController();
+  final RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
@@ -89,20 +68,40 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     }
   }
 
-  final RefreshController refreshController = RefreshController(
-    initialRefresh: false,
-  );
+  listOfHistory(
+    page,
+    limit, {
+    String? queryVehicle,
+    String? startDate,
+    String? endDate,
+    String? requestStatus,
+  }) async {
+    incomeHistory = await InventoryApi().getIncomeInList(
+      ResultArguments(
+        offset: Offset(page: page, limit: limit),
+        filter: Filter(
+          query: queryVehicle,
+          requestStatus: requestStatus,
+          startDate: startDate != '' && startDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+              : '',
+          endDate: endDate != '' && endDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+              : '',
+        ),
+      ),
+    );
+    setState(() {
+      isLoadingHistory = false;
+    });
+  }
 
   onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     if (!mounted) return;
     setState(() {
       isLoadingHistory = true;
-      isLoadingPage = true;
       limit = 10;
-    });
-    setState(() {
-      isLoadingPage = false;
     });
     final selectedTab = tabs[selectedIndexFilter];
     final filter = tabFilters[selectedTab];
@@ -110,16 +109,12 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
       page,
       limit,
       queryVehicle: controller.text,
+      requestStatus: filter,
       startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',
-      status: filter,
       endDate: endDate != '' && endDate != null ? endDate.toString() : '',
     );
-
-    // widget.data
-    // await listOfInOut(page, limit, index: filterIndex);
-    // await listOfHistory(page, limit);
     refreshController.refreshCompleted();
   }
 
@@ -134,7 +129,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
       page,
       limit,
       queryVehicle: controller.text,
-      status: filter,
+      requestStatus: filter,
       startDate: startDate != '' && startDate != null
           ? startDate.toString()
           : '',
@@ -142,9 +137,6 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     );
     refreshController.loadComplete();
   }
-
-  DateTime? startDate;
-  DateTime? endDate;
 
   String get formattedDate {
     if (startDate == null && endDate == null) {
@@ -159,19 +151,21 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
     return "";
   }
 
-  Timer? timer;
-  TextEditingController controller = TextEditingController();
-
   onChange(String query) async {
     if (timer != null) timer!.cancel();
     timer = Timer(const Duration(milliseconds: 500), () async {
-      setState(() {
-        isLoadingHistory = true;
-      });
-      await listOfHistory(page, limit, queryVehicle: query);
-      setState(() {
-        isLoadingHistory = false;
-      });
+      final selectedTab = tabs[selectedIndexFilter];
+      final filter = tabFilters[selectedTab];
+      await listOfHistory(
+        page,
+        limit,
+        requestStatus: filter,
+        queryVehicle: query,
+        startDate: startDate != '' && startDate != null
+            ? startDate.toString()
+            : '',
+        endDate: endDate != '' && endDate != null ? endDate.toString() : '',
+      );
     });
   }
 
@@ -314,6 +308,8 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                                         await listOfHistory(
                                           page,
                                           limit,
+                                          queryVehicle: controller.text,
+                                          requestStatus: filter,
                                           startDate:
                                               startDate != null &&
                                                   startDate != ''
@@ -323,7 +319,6 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                                               endDate != null && endDate != ''
                                               ? endDate.toString()
                                               : '',
-                                          status: filter,
                                         );
                                       },
                                     );
@@ -400,6 +395,8 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                                     await listOfHistory(
                                       page,
                                       limit,
+                                      requestStatus: filter,
+                                      queryVehicle: controller.text,
                                       startDate:
                                           startDate != null && startDate != ''
                                           ? startDate.toString()
@@ -407,7 +404,6 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
                                       endDate: endDate != null && endDate != ''
                                           ? endDate.toString()
                                           : '',
-                                      status: filter,
                                     );
                                   },
                                   child: Container(

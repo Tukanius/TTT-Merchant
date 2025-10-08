@@ -634,10 +634,17 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
                                         ),
                                         child: Row(
                                           children: [
-                                            Image.asset(
-                                              'assets/images/default.jpg',
-                                              height: 62,
-                                              width: 62,
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadiusGeometry.circular(
+                                                    8,
+                                                  ),
+                                              child: Image.asset(
+                                                width: 62,
+                                                height: 62,
+                                                'assets/images/default.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                             SizedBox(width: 12),
                                             Expanded(

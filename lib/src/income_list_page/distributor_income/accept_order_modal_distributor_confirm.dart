@@ -8,14 +8,14 @@ import 'package:pinput/pinput.dart';
 import 'package:ttt_merchant_flutter/api/inventory_api.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
-import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_model.dart';
-import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
+// import 'package:ttt_merchant_flutter/models/purchase_models/product_purchase_model.dart';
 
 class AcceptOrderModal extends StatefulWidget {
   final ConfirmIncomeRequest data;
   final String id;
   final Map<int, int> editedQuantity;
-  final DistIncomeModel product;
+  final IncomeModel product;
   const AcceptOrderModal({
     super.key,
     required this.data,
@@ -71,22 +71,21 @@ class _AcceptOrderModalState extends State<AcceptOrderModal>
         isLoading = true;
         validate = false;
       });
-      List<ProductPurchaseModel> products = widget.data.receivedProducts!
-          .where((p) => (p.quantity ?? 0) > 0)
-          .map((p) {
-            print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
-            return ProductPurchaseModel(
-              id: p.id,
-              price: p.price,
-              quantity: p.quantity,
-            );
-          })
-          .toList();
-      ConfirmIncomeRequest request = ConfirmIncomeRequest()
-        ..code = pinput.text
-        ..isComplaint = widget.data.isComplaint
-        ..receivedProducts = products;
-      await InventoryApi().incomeConfirm(request, widget.id);
+      // List<ProductPurchaseModel> products = widget.data.receivedProducts!
+      //     .where((p) => (p.quantity ?? 0) > 0)
+      //     .map((p) {
+      //       print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
+      //       return ProductPurchaseModel(
+      //         id: p.id,
+      //         price: p.price,
+      //         quantity: p.quantity,
+      //       );
+      //     })
+      //     .toList();
+      ConfirmIncomeRequest request = ConfirmIncomeRequest()..code = pinput.text;
+      //   ..isComplaint = widget.data.isComplaint
+      //   ..receivedProducts = products;
+      await InventoryApi().incomeConfirmNew(request, widget.id);
       Navigator.of(context).pop();
       setState(() {
         isLoading = false;

@@ -14,20 +14,27 @@ import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/in_out_types.dart';
-import 'package:ttt_merchant_flutter/models/income_models/storeman_income_models/storeman_income_model.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_confirm_page.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class IncomeStoremanDetailArguments {
   final String id;
+  final String inOutType;
 
-  IncomeStoremanDetailArguments({required this.id});
+  IncomeStoremanDetailArguments({required this.inOutType, required this.id});
 }
 
 class IncomeStoremanDetail extends StatefulWidget {
   final String id;
+  final String inOutType;
+
   static const routeName = "IncomeStoremanDetail";
-  const IncomeStoremanDetail({super.key, required this.id});
+  const IncomeStoremanDetail({
+    super.key,
+    required this.id,
+    required this.inOutType,
+  });
 
   @override
   State<IncomeStoremanDetail> createState() => _IncomeStoremanDetailState();
@@ -39,17 +46,17 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
   bool isLoading = false;
   // StoremanIncomeModel data = DistIncomeModel();
   bool isLoadingPage = true;
-  StoremanIncomeModel data = StoremanIncomeModel();
+  IncomeModel data = IncomeModel();
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
-      data = await InventoryApi().getStoremanIncome(widget.id);
+      data = await InventoryApi().getIncomeDetail(widget.id, widget.inOutType);
       print('====inoiuttype=====');
-      print(data.inOutTypes?.length);
+      print(data.requestStatusHistories?.length);
       print(data.type);
       print('====inoiuttype=====');
-      stepIndex = _getStepIndex(data.inOutType);
+      stepIndex = _getStepIndex(data.requestStatus);
       setState(() {
         isLoadingPage = false;
       });
@@ -118,9 +125,9 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
     setState(() {
       isLoadingPage = true;
     });
-    data = await InventoryApi().getStoremanIncome(widget.id);
+    data = await InventoryApi().getIncomeDetail(widget.id, widget.inOutType);
     setState(() {
-      stepIndex = _getStepIndex(data.verifiedStatus);
+      stepIndex = _getStepIndex(data.requestStatus);
       isLoadingPage = false;
     });
     print('=======isloading========');
@@ -309,46 +316,15 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                             ),
                                           ),
                                           Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        '-',
-                                                        style: TextStyle(
-                                                          color: black950,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                      SizedBox(height: 2),
-                                                      Text(
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        '-',
-                                                        style: TextStyle(
-                                                          color: black600,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
+                                            child: Text(
+                                              '${data.transportCompany?.name ?? "-"}',
+                                              style: TextStyle(
+                                                color: black950,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.end,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -357,7 +333,9 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                   ),
                                 ),
                                 OrderTimeline(
-                                  steps: buildSteps(data.inOutTypes!),
+                                  steps: buildSteps(
+                                    data.requestStatusHistories!,
+                                  ),
                                   stepIndex: stepIndex,
                                   orange: orange,
                                   white50: white50,
@@ -422,7 +400,7 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                             ),
                                           ),
                                           Text(
-                                            '${data.code ?? '#'}',
+                                            '${data.orderNo ?? '#'}',
                                             style: TextStyle(
                                               color: black950,
                                               fontSize: 14,
@@ -454,29 +432,29 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 4),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Баталгаажсан тоо:',
-                                            style: TextStyle(
-                                              color: black800,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text(
-                                            '-',
-                                            style: TextStyle(
-                                              color: black950,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      // SizedBox(height: 4),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Text(
+                                      //       'Баталгаажсан тоо:',
+                                      //       style: TextStyle(
+                                      //         color: black800,
+                                      //         fontSize: 14,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       ),
+                                      //     ),
+                                      //     Text(
+                                      //       '-',
+                                      //       style: TextStyle(
+                                      //         color: black950,
+                                      //         fontSize: 14,
+                                      //         fontWeight: FontWeight.w600,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       // SizedBox(height: 4),
                                       // Row(
                                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -533,7 +511,7 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                           ),
                                           Expanded(
                                             child: Text(
-                                              '${data.type == "OUT" ? data.fromInventory?.name ?? '-' : data.toInventory?.name ?? '-'}',
+                                              '${data.fromInventory?.name ?? '-'}',
                                               // 'Улаанбаатар хот, Баянгол дүүрэг, 1-р хороо, 5 байр 156 тоот',
                                               style: TextStyle(
                                                 color: black950,
@@ -562,7 +540,7 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                           ),
                                           Expanded(
                                             child: Text(
-                                              '${data.type == "OUT" ? data.toInventory?.name ?? '-' : data.fromInventory?.name ?? '-'}',
+                                              '${data.toInventory?.name ?? '-'}',
                                               style: TextStyle(
                                                 color: black950,
                                                 fontSize: 14,
@@ -590,7 +568,8 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                                           ),
                                           Expanded(
                                             child: Text(
-                                              '${data.type == "OUT" ? data.toInventory?.address?.additionalInformation ?? '-' : data.fromInventory?.address?.additionalInformation ?? '-'}',
+                                              // '${data.type == "OUT" ? data.toInventory?.address?.additionalInformation ?? '-' : data.fromInventory?.address?.additionalInformation ?? '-'}',
+                                              '123',
                                               style: TextStyle(
                                                 color: black950,
                                                 fontSize: 14,
@@ -730,8 +709,8 @@ class _IncomeStoremanDetailState extends State<IncomeStoremanDetail>
                   ),
                 ),
                 // data.inOutType == "PENDING" || data.type == "OUT"
-                data.type == "OUT" && data.inOutType == "NEW" ||
-                        data.type == "IN" && data.inOutType == "PENDING"
+                data.type == "OUT" && data.requestStatus == "NEW" ||
+                        data.type == "IN" && data.requestStatus == "PENDING"
                     ? Align(
                         alignment: AlignmentDirectional.bottomCenter,
                         child: Container(

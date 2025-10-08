@@ -1,5 +1,5 @@
 import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
-import 'package:ttt_merchant_flutter/models/inspector_models/result.dart';
+import 'package:ttt_merchant_flutter/models/result.dart';
 import 'package:ttt_merchant_flutter/utils/http_request.dart';
 
 class ScaleApi extends HttpRequest {

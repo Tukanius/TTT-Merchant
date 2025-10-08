@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_income_list.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/in_out_types.dart';
+import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_list_model.dart';
 import 'package:ttt_merchant_flutter/src/income_list_page/distributor_income/income_distributor_detail.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 
 class IncomeHistoryCard extends StatefulWidget {
-  final DistIncomeList data;
+  final IncomeListModel data;
   const IncomeHistoryCard({super.key, required this.data});
 
   @override
@@ -16,6 +17,18 @@ class IncomeHistoryCard extends StatefulWidget {
 }
 
 class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
+  String getLastStatusTime(List<InOutTypes> statuses) {
+    if (statuses.isEmpty)
+      return "${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}";
+    statuses.sort(
+      (a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)),
+    );
+    final latest = statuses.first;
+    return DateFormat(
+      'yyyy/MM/dd HH:mm',
+    ).format(DateTime.parse(latest.date!).toLocal());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +47,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${widget.data.code ?? '#'}',
+                      '${widget.data.orderNo ?? '#'}',
                       style: TextStyle(
                         color: black950,
                         fontSize: 14,
@@ -43,7 +56,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '${DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(widget.data.createdAt!).toLocal())}',
+                      '${getLastStatusTime(widget.data.requestStatusHistories ?? [])}',
                       style: TextStyle(
                         color: black400,
                         fontSize: 12,
@@ -55,31 +68,31 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: widget.data.inOutType == "CANCELED"
+                    color: widget.data.requestStatus == "CANCELED"
                         ? redColor.withOpacity(0.1)
-                        : widget.data.inOutType == "NEW"
+                        : widget.data.requestStatus == "NEW"
                         ? primary.withOpacity(0.1)
-                        : widget.data.inOutType == "PENDING"
+                        : widget.data.requestStatus == "PENDING"
                         ? orange.withOpacity(0.1)
                         : green.withOpacity(0.1),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                   child: Text(
-                    '${widget.data.inOutType == "NEW"
+                    '${widget.data.requestStatus == "NEW"
                         ? 'Хуваарилагдсан'
-                        : widget.data.inOutType == "PENDING"
+                        : widget.data.requestStatus == "PENDING"
                         ? 'Агуулахаас гарсан'
-                        : widget.data.inOutType == "DONE"
+                        : widget.data.requestStatus == "DONE"
                         ? 'Хүлээн авсан'
-                        : widget.data.inOutType == "CANCELED"
+                        : widget.data.requestStatus == "CANCELED"
                         ? 'Цуцлагдсан'
                         : "-"}',
                     style: TextStyle(
-                      color: widget.data.inOutType == "CANCELED"
+                      color: widget.data.requestStatus == "CANCELED"
                           ? redColor
-                          : widget.data.inOutType == "NEW"
+                          : widget.data.requestStatus == "NEW"
                           ? primary
-                          : widget.data.inOutType == "PENDING"
+                          : widget.data.requestStatus == "PENDING"
                           ? orange
                           : green,
                       fontSize: 10,
@@ -123,7 +136,6 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  // '${widget.data.staffUser?.lastName?[0].toUpperCase() ?? ''}. ${widget.data.staffUser?.firstName ?? '-'}',
                                   '${widget.data.vehiclePlateNo?.toUpperCase() ?? ''}',
                                   style: TextStyle(
                                     color: black950,
@@ -158,7 +170,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                                 ),
                                 SizedBox(height: 2),
                                 Text(
-                                  '${widget.data.quantity} Ш',
+                                  '${widget.data.quantity ?? '-'} Ш',
                                   style: TextStyle(
                                     color: orange,
                                     fontSize: 22,
@@ -173,61 +185,6 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                     ),
                   ],
                 ),
-                // SizedBox(height: 8),
-                // Text(
-                //   'Тээвэр төлөвлөгдсөн',
-                //   style: TextStyle(
-                //     color: black800,
-                //     fontSize: 12,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
-                // SizedBox(height: 4),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(100),
-                //           color: orange,
-                //         ),
-                //         padding: EdgeInsets.symmetric(vertical: 4),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [SvgPicture.asset('assets/svg/truck.svg')],
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(width: 4),
-                //     Expanded(
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(100),
-                //           color: orange,
-                //         ),
-                //         padding: EdgeInsets.symmetric(vertical: 4),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [SvgPicture.asset('assets/svg/truck.svg')],
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(width: 4),
-                //     Expanded(
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(100),
-                //           color: orange,
-                //         ),
-                //         padding: EdgeInsets.symmetric(vertical: 4),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [SvgPicture.asset('assets/svg/truck.svg')],
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -239,7 +196,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
               children: [
                 Expanded(
                   child: Text(
-                    '${widget.data.toInventory}',
+                    '${widget.data.fromInventory?.name ?? '-'}',
                     style: TextStyle(
                       color: black950,
                       fontSize: 14,
@@ -251,7 +208,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                 SvgPicture.asset('assets/svg/arrow_right.svg'),
                 Expanded(
                   child: Text(
-                    '${widget.data.fromInventory}',
+                    '${widget.data.toInventory?.name ?? '-'}',
                     style: TextStyle(
                       color: black950,
                       fontSize: 14,
@@ -269,6 +226,7 @@ class _IncomeHistoryCardState extends State<IncomeHistoryCard> {
                 IncomeDistributorDetail.routeName,
                 arguments: IncomeDistributorDetailArguments(
                   id: widget.data.id!,
+                  inOutType: widget.data.type!,
                 ),
               );
             },

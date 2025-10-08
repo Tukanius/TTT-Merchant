@@ -13,6 +13,7 @@ import 'package:ttt_merchant_flutter/models/general/general_init.dart';
 import 'package:ttt_merchant_flutter/models/user_models/user.dart';
 import 'package:ttt_merchant_flutter/provider/general_provider.dart';
 import 'package:ttt_merchant_flutter/provider/user_provider.dart';
+import 'package:ttt_merchant_flutter/src/income_list_page/storeman_income/income_storeman_history.dart';
 import 'package:ttt_merchant_flutter/src/profile_page/profile_detail_page.dart';
 import 'package:ttt_merchant_flutter/src/splash_page/splash_page.dart';
 
@@ -152,8 +153,7 @@ class _ProfilePageStoremanState extends State<ProfilePageStoreman>
                               SizedBox(width: 12),
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${user.firstName} ${user.lastName}',
@@ -181,13 +181,10 @@ class _ProfilePageStoremanState extends State<ProfilePageStoreman>
                         ),
                       ),
                       SizedBox(height: 16),
-    
+
                       GestureDetector(
                         onTap: () {
-                          // Navigator.of(context).pushNamed(IncomeListPage.routeName);
-                          user.userType == "STORE_MAN"
-                              ? widget.onChangePage(1)
-                              : widget.onChangePage(2);
+                          widget.onChangePage(1);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -203,7 +200,43 @@ class _ProfilePageStoremanState extends State<ProfilePageStoreman>
                                   SvgPicture.asset('assets/svg/board.svg'),
                                   SizedBox(width: 12),
                                   Text(
-                                    'Түлш тээвэрлэлт',
+                                    'Агуулахын хөдөлгөөн',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SvgPicture.asset('assets/svg/arrow_right.svg'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(
+                            context,
+                          ).pushNamed(IncomeStoremanHistory.routeName);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.all(12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/svg/board.svg'),
+                                  SizedBox(width: 12),
+                                  Text(
+                                    'Агуулахын хөдөлгөөн түүх',
                                     style: TextStyle(
                                       color: black950,
                                       fontSize: 12,
@@ -243,17 +276,15 @@ class _ProfilePageStoremanState extends State<ProfilePageStoreman>
                                       height: 24,
                                       child: Platform.isAndroid
                                           ? Center(
-                                              child:
-                                                  CircularProgressIndicator(
-                                                    color: white,
-                                                    strokeWidth: 2.5,
-                                                  ),
+                                              child: CircularProgressIndicator(
+                                                color: white,
+                                                strokeWidth: 2.5,
+                                              ),
                                             )
                                           : Center(
-                                              child:
-                                                  CupertinoActivityIndicator(
-                                                    color: white,
-                                                  ),
+                                              child: CupertinoActivityIndicator(
+                                                color: white,
+                                              ),
                                             ),
                                     )
                                   : Row(
