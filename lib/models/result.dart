@@ -11,6 +11,7 @@ class Filter {
   String? requestStatus;
   String? inOutType;
   String? receiptStatus;
+  String? listtype;
 
   Filter({
     this.date,
@@ -23,6 +24,7 @@ class Filter {
     this.requestStatus,
     this.inOutType,
     this.receiptStatus,
+    this.listtype,
   });
 }
 

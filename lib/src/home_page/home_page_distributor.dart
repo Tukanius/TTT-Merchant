@@ -49,6 +49,7 @@ class _HomePageDistributorState extends State<HomePageDistributor>
       ),
     );
     selectedResidual = general.residual?.first;
+    if (!mounted) return;
     setState(() {
       isLoadingHistory = false;
     });
@@ -62,11 +63,13 @@ class _HomePageDistributorState extends State<HomePageDistributor>
         listen: false,
       ).init();
       await listOfHistory(page, limit);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
       print(e);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = true;
         ;

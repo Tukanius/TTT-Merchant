@@ -50,6 +50,7 @@ class _IncomeInspectorListState extends State<IncomeInspectorList>
         filter: Filter(receiptStatus: "FACTORY_APPROVED"),
       ),
     );
+    if (!mounted) return; 
     setState(() {
       isLoadingList = false;
     });
@@ -59,11 +60,13 @@ class _IncomeInspectorListState extends State<IncomeInspectorList>
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
       await listOfInspector(page, limit);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
       print(e);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = true;
       });

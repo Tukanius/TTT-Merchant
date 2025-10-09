@@ -76,6 +76,7 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
         ),
       ),
     );
+    if (!mounted) return;
     setState(() {
       isLoadingHistory = false;
     });
@@ -85,11 +86,13 @@ class _SalesListPageState extends State<SalesListPage> with AfterLayoutMixin {
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
       await listOfHistory(page, limit);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
       print(e);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = true;
       });

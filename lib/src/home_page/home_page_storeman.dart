@@ -52,6 +52,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
         listen: false,
       ).init();
       await listOfHistory(page, limit, filterIndex);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
@@ -61,6 +62,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
       print('===loader===');
     } catch (e) {
       print(e);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
@@ -81,7 +83,8 @@ class _HomePageStoremanState extends State<HomePageStoreman>
               offset: Offset(page: page, limit: limit),
               filter: Filter(
                 query: queryVehicle,
-                requestStatus: "DONE",
+                // requestStatus: "DONE",
+                listtype: 'HISTORY',
                 startDate: startDate != '' && startDate != null
                     ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
                     : '',
@@ -95,6 +98,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
             ResultArguments(
               offset: Offset(page: page, limit: limit),
               filter: Filter(
+                listtype: "HISTORY",
                 query: queryVehicle,
                 requestStatus: "DONE",
                 startDate: startDate != '' && startDate != null
@@ -106,7 +110,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
               ),
             ),
           );
-
+    if (!mounted) return;
     setState(() {
       isLoadingHistory = false;
     });

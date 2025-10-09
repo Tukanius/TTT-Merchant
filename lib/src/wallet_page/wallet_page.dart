@@ -47,10 +47,12 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
       print('=========loadhistory=========');
       print(isLoadingHistory);
       print('=========loadhistory=========');
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = true;
       });
@@ -72,6 +74,7 @@ class _WalletPageState extends State<WalletPage> with AfterLayoutMixin {
         ),
       ),
     );
+    if (!mounted) return; 
     setState(() {
       isLoadingHistory = false;
     });

@@ -40,6 +40,7 @@ class _ProfilePageInspectorState extends State<ProfilePageInspector>
         context,
         listen: false,
       ).init();
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });

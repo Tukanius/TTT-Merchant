@@ -78,6 +78,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
             ResultArguments(
               offset: Offset(page: page, limit: limit),
               filter: Filter(
+                listtype: 'ALL',
                 startDate: startDate != '' && startDate != null
                     ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
                     : '',
@@ -91,6 +92,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
             ResultArguments(
               offset: Offset(page: page, limit: limit),
               filter: Filter(
+                listtype: 'ALL',
                 startDate: startDate != '' && startDate != null
                     ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
                     : '',

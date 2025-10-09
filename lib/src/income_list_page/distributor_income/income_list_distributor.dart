@@ -57,11 +57,13 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
       await listOfHistory(page, limit);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
       print(e);
+      if (!mounted) return;
       setState(() {
         isLoadingPage = true;
       });
@@ -80,6 +82,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(
+          listtype: "ALL",
           query: queryVehicle,
           requestStatus: requestStatus,
           startDate: startDate != '' && startDate != null
@@ -91,6 +94,7 @@ class _IncomeListPageState extends State<IncomeListPage> with AfterLayoutMixin {
         ),
       ),
     );
+    if (!mounted) return;
     setState(() {
       isLoadingHistory = false;
     });

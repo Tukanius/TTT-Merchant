@@ -40,10 +40,12 @@ class _ProfilePageDistributorState extends State<ProfilePageDistributor>
         context,
         listen: false,
       ).init();
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = true;
       });

@@ -40,10 +40,12 @@ class _ProfilePageStoremanState extends State<ProfilePageStoreman>
         context,
         listen: false,
       ).init();
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoadingPage = true;
       });

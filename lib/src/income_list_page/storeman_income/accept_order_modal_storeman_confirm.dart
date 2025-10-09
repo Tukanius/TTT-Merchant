@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:ttt_merchant_flutter/api/auth_api.dart';
 import 'package:ttt_merchant_flutter/api/inventory_api.dart';
+import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/dist_confirm_income.dart';
 import 'package:ttt_merchant_flutter/models/income_models/distributor_income_models/income_model.dart';
@@ -80,35 +81,41 @@ class _AcceptOrderModalStoremanConfirmState
     if (pinput.text != 'null' &&
         pinput.text.length <= 4 &&
         pinput.text.isEmpty == false) {
-      _saveEdits();
-      setState(() {
-        validate = false;
-        isLoading = true;
-      });
-      // List<ProductPurchaseModel> products = widget.data.receivedProducts!
-      //     .where((p) => (p.quantity ?? 0) > 0)
-      //     .map((p) {
-      //       print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
-      //       return ProductPurchaseModel(
-      //         id: p.id,
-      //         price: p.price,
-      //         quantity: p.quantity,
-      //       );
-      //     })
-      //     .toList();
-      ConfirmIncomeRequest request = ConfirmIncomeRequest()..code = pinput.text;
-      //   ..isComplaint = widget.data.isComplaint
-      //   ..receivedProducts = products;
-      // await InventoryApi().incomeConfirm(request, widget.id);
-      await InventoryApi().incomeConfirmNew(request, widget.id);
-      Navigator.of(context).pop();
-      setState(() {
-        isLoading = false;
-      });
-      teeverSuccess(context);
+      try {
+        _saveEdits();
+        setState(() {
+          validate = false;
+          isLoading = true;
+        });
+        // List<ProductPurchaseModel> products = widget.data.receivedProducts!
+        //     .where((p) => (p.quantity ?? 0) > 0)
+        //     .map((p) {
+        //       print("✅ Product ID: ${p.productId}, Quantity: ${p.name}");
+        //       return ProductPurchaseModel(
+        //         id: p.id,
+        //         price: p.price,
+        //         quantity: p.quantity,
+        //       );
+        //     })
+        //     .toList();
+        ConfirmIncomeRequest request = ConfirmIncomeRequest()
+          ..code = pinput.text;
+        //   ..isComplaint = widget.data.isComplaint
+        //   ..receivedProducts = products;
+        // await InventoryApi().incomeConfirm(request, widget.id);
+        await InventoryApi().incomeConfirmNew(request, widget.id);
+        Navigator.of(context).pop();
+        setState(() {
+          isLoading = false;
+        });
+        teeverSuccess(context);
+      } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
       setState(() {
-        isLoading = false;
         validate = true;
       });
     }
@@ -243,275 +250,292 @@ class _AcceptOrderModalStoremanConfirmState
         color: white50,
       ),
       width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: SingleChildScrollView(
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 8),
-              Container(
-                width: 38,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: black300,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Баталгаажуулах',
-                style: TextStyle(
-                  color: black950,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Машины дугаар:',
-                              style: TextStyle(
-                                color: black800,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${widget.product.vehiclePlateNo ?? '-'}',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
+      child: isLoadingPage == true
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 150),
+                Center(child: CustomLoader()),
+                SizedBox(height: 150),
+              ],
+            )
+          : Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 8),
+                    Container(
+                      width: 38,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: black300,
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                      SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Жолооч:',
-                              style: TextStyle(
-                                color: black800,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${widget.product.driverName ?? '-'}',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Баталгаажуулах',
+                      style: TextStyle(
+                        color: black950,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
-                      SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Тоо ширхэг:',
-                              style: TextStyle(
-                                color: black800,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${widget.product.quantity ?? '-'}ш',
-                              style: TextStyle(
-                                color: black950,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [Text('Жолооч'), Text('А.Аадар')],
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [Text('Шахмал түлш'), Text('200ш/ 5тн')],
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [Text('Тоо ширхэг'), Text('200ш')],
-                      // ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: white,
-                  ),
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Жолоочын бааталгаажуулах 4 оронтой кодыг оруулна уу.',
-                        style: TextStyle(
-                          color: black950,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 16),
-                      Pinput(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        autofocus: true,
-                        keyboardType: TextInputType.number,
-                        closeKeyboardWhenCompleted: true,
-                        // onCompleted: (value) => checkOpt(value),
-                        controller: pinput,
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value == '') {
-                            return "Код оруулна уу";
-                          }
-                          if (value.length < 4) {
-                            return "Баталгаажуулах код оруулна уу";
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            validate = false;
-                          });
-                        },
-                        length: 4,
-                        hapticFeedbackType: HapticFeedbackType.lightImpact,
-                        defaultPinTheme: defaultPinTheme,
-                        errorPinTheme: defaultPinTheme.copyBorderWith(
-                          border: Border.all(color: errorColor),
-                        ),
-                        errorTextStyle: TextStyle(
-                          color: errorColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      validate == true
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 12),
-                                Text(
-                                  'Баталгаажуулах код оруулна уу',
-                                  style: TextStyle(
-                                    color: redColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                                SizedBox(height: 12),
-                              ],
-                            )
-                          : SizedBox(),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: isLoading == true
-                          ? () {}
-                          : () {
-                              onSubmit();
-                            },
+                    ),
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
+                          color: white,
                           borderRadius: BorderRadius.circular(12),
-                          color: orange,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
                           children: [
-                            isLoading == true
-                                ? Container(
-                                    // margin: EdgeInsets.only(right: 15),
-                                    width: 17,
-                                    height: 17,
-                                    child: Platform.isAndroid
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: white,
-                                              strokeWidth: 2.5,
-                                            ),
-                                          )
-                                        : Center(
-                                            child: CupertinoActivityIndicator(
-                                              color: white,
-                                            ),
-                                          ),
-                                  )
-                                : Text(
-                                    'Батлах',
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Машины дугаар:',
                                     style: TextStyle(
-                                      color: white,
+                                      color: black800,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${widget.product.vehiclePlateNo ?? '-'}',
+                                    style: TextStyle(
+                                      color: black950,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                     ),
+                                    textAlign: TextAlign.right,
                                   ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Жолооч:',
+                                    style: TextStyle(
+                                      color: black800,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${widget.product.driverName ?? '-'}',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Тоо ширхэг:',
+                                    style: TextStyle(
+                                      color: black800,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${widget.product.quantity ?? '-'}ш',
+                                    style: TextStyle(
+                                      color: black950,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [Text('Жолооч'), Text('А.Аадар')],
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [Text('Шахмал түлш'), Text('200ш/ 5тн')],
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [Text('Тоо ширхэг'), Text('200ш')],
+                            // ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 16),
-                ],
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: white,
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Жолоочын бааталгаажуулах 4 оронтой кодыг оруулна уу.',
+                              style: TextStyle(
+                                color: black950,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 16),
+                            Pinput(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              autofocus: true,
+                              keyboardType: TextInputType.number,
+                              closeKeyboardWhenCompleted: true,
+                              // onCompleted: (value) => checkOpt(value),
+                              controller: pinput,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == '') {
+                                  return "Код оруулна уу";
+                                }
+                                if (value.length < 4) {
+                                  return "Баталгаажуулах код оруулна уу";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  validate = false;
+                                });
+                              },
+                              length: 4,
+                              hapticFeedbackType:
+                                  HapticFeedbackType.lightImpact,
+                              defaultPinTheme: defaultPinTheme,
+                              errorPinTheme: defaultPinTheme.copyBorderWith(
+                                border: Border.all(color: errorColor),
+                              ),
+                              errorTextStyle: TextStyle(
+                                color: errorColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            validate == true
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 12),
+                                      Text(
+                                        'Баталгаажуулах код оруулна уу',
+                                        style: TextStyle(
+                                          color: redColor,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      SizedBox(height: 12),
+                                    ],
+                                  )
+                                : SizedBox(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: isLoading == true
+                                ? () {}
+                                : () {
+                                    onSubmit();
+                                  },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: orange,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  isLoading == true
+                                      ? Container(
+                                          // margin: EdgeInsets.only(right: 15),
+                                          width: 17,
+                                          height: 17,
+                                          child: Platform.isAndroid
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        color: white,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                )
+                                              : Center(
+                                                  child:
+                                                      CupertinoActivityIndicator(
+                                                        color: white,
+                                                      ),
+                                                ),
+                                        )
+                                      : Text(
+                                          'Батлах',
+                                          style: TextStyle(
+                                            color: white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                      ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom + 16,
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

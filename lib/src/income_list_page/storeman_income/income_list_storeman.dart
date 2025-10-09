@@ -42,7 +42,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
   TextEditingController controller = TextEditingController();
   DateTime? startDate;
   DateTime? endDate;
-
+  ScrollController scrollController = ScrollController();
   String get formattedDate {
     if (startDate == null && endDate == null) {
       final now = DateTime.now();
@@ -60,11 +60,13 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     try {
       await listOfHistory(page, limit, filterIndex);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = false;
       });
     } catch (e) {
       print(e);
+      if (!mounted) return; 
       setState(() {
         isLoadingPage = true;
       });
@@ -84,6 +86,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
             ResultArguments(
               offset: Offset(page: page, limit: limit),
               filter: Filter(
+                listtype: "ALL",
                 query: queryVehicle,
                 startDate: startDate != '' && startDate != null
                     ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
@@ -98,6 +101,8 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
             ResultArguments(
               offset: Offset(page: page, limit: limit),
               filter: Filter(
+                listtype: "ALL",
+
                 query: queryVehicle,
                 startDate: startDate != '' && startDate != null
                     ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
@@ -108,7 +113,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
               ),
             ),
           );
-
+    if (!mounted) return;
     setState(() {
       isLoadingHistory = false;
     });
@@ -216,6 +221,11 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                             setState(() {
                               filterIndex = 0;
                             });
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeOut,
+                            );
                             await listOfHistory(
                               page,
                               limit,
@@ -263,6 +273,11 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                             setState(() {
                               filterIndex = 1;
                             });
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeOut,
+                            );
                             await listOfHistory(
                               page,
                               limit,
@@ -321,6 +336,7 @@ class _IncomeListStoremanState extends State<IncomeListStoreman>
                 onLoading: onLoading,
                 onRefresh: onRefresh,
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   child: Column(
                     children: [
                       Padding(
