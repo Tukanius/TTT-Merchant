@@ -7,20 +7,20 @@ import 'package:ttt_merchant_flutter/models/purchase_models/purchase_model.dart'
 import 'package:ttt_merchant_flutter/src/purchase_request_page/create_payment.dart';
 import 'package:ttt_merchant_flutter/utils/utils.dart';
 
-class SaleHistoryCard extends StatefulWidget {
+class PurchaseHistoryCard extends StatefulWidget {
   final bool isExtended;
   final PurchaseModel data;
-  const SaleHistoryCard({
+  const PurchaseHistoryCard({
     super.key,
     required this.isExtended,
     required this.data,
   });
 
   @override
-  State<SaleHistoryCard> createState() => _SaleHistoryCardState();
+  State<PurchaseHistoryCard> createState() => _PurchaseHistoryCardState();
 }
 
-class _SaleHistoryCardState extends State<SaleHistoryCard> {
+class _PurchaseHistoryCardState extends State<PurchaseHistoryCard> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);

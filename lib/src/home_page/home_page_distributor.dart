@@ -10,7 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/sales_api.dart';
 import 'package:ttt_merchant_flutter/components/cards/home_page_cards/distributor_residual.dart';
 import 'package:ttt_merchant_flutter/components/custom_app_bar/custom_app_bar.dart';
-import 'package:ttt_merchant_flutter/components/cards/home_page_cards/sale_history_card.dart';
+import 'package:ttt_merchant_flutter/components/cards/home_page_cards/purchase_history_card.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
@@ -197,7 +197,7 @@ class _HomePageDistributorState extends State<HomePageDistributor>
                                           }
                                         });
                                       },
-                                      child: SaleHistoryCard(
+                                      child: PurchaseHistoryCard(
                                         isExtended: isExpanded,
                                         data: item,
                                       ),

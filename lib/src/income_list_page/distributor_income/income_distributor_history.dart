@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ttt_merchant_flutter/api/inventory_api.dart';
+import 'package:ttt_merchant_flutter/api/sales_api.dart';
+import 'package:ttt_merchant_flutter/components/cards/home_page_cards/purchase_history_card.dart';
 import 'package:ttt_merchant_flutter/components/cards/income_page_cards/income_done_history_card.dart';
 import 'package:ttt_merchant_flutter/components/controller/refresher.dart';
 import 'package:ttt_merchant_flutter/components/custom_loader/custom_loader.dart';
@@ -32,6 +34,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
   DateTime? startDate;
   DateTime? endDate;
   int? selectedIndexTile;
+  int filterIndex = 0;
   final RefreshController refreshController = RefreshController(
     initialRefresh: false,
   );
@@ -73,7 +76,8 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
       ResultArguments(
         offset: Offset(page: page, limit: limit),
         filter: Filter(
-          listtype: "ALL",
+          // listtype: "ALL",
+          requestStatus: "DONE",
           startDate: startDate != '' && startDate != null
               ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
               : '',
@@ -125,6 +129,32 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
     refreshController.loadComplete();
   }
 
+  Result salesHistory = Result();
+
+  listOfOut(page, limit, {String? startDate, String? endDate}) async {
+    setState(() {
+      isLoadingHistory = true;
+    });
+    salesHistory = await SalesApi().getPurchaseHistory(
+      ResultArguments(
+        offset: Offset(page: page, limit: limit),
+        filter: Filter(
+          dateType: 'ALL',
+          startDate: startDate != '' && startDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(startDate))
+              : '',
+          endDate: endDate != '' && endDate != null
+              ? DateFormat("yyyy-MM-dd").format(DateTime.parse(endDate))
+              : '',
+        ),
+      ),
+    );
+    if (!mounted) return;
+    setState(() {
+      isLoadingHistory = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,110 +184,119 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
             ],
           ),
         ),
-        // bottom: PreferredSize(
-        //   preferredSize: Size.fromHeight(30),
-        //   child: Container(
-        //     alignment: Alignment.centerLeft,
-        //     child: Column(
-        //       children: [
-        //         Row(
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             Expanded(
-        //               child: GestureDetector(
-        //                 onTap: () async {
-        //                   setState(() {
-        //                     filterIndex = 0;
-        //                   });
-        //                   await listOfHistory(
-        //                     page,
-        //                     limit,
-        //                     filterIndex,
-        //                     startDate: startDate != '' && startDate != null
-        //                         ? startDate.toString()
-        //                         : '',
-        //                     endDate: endDate != '' && endDate != null
-        //                         ? endDate.toString()
-        //                         : '',
-        //                   );
-        //                 },
-        //                 child: Container(
-        //                   decoration: BoxDecoration(
-        //                     border: Border(
-        //                       bottom: BorderSide(
-        //                         width: 2,
-        //                         color: filterIndex == 0 ? black950 : white,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   padding: EdgeInsets.symmetric(vertical: 8),
-        //                   child: Row(
-        //                     mainAxisAlignment: MainAxisAlignment.center,
-        //                     children: [
-        //                       Text(
-        //                         'Орлого',
-        //                         style: TextStyle(
-        //                           color: filterIndex == 0 ? black950 : black800,
-        //                           fontSize: 16,
-        //                           fontWeight: FontWeight.w500,
-        //                         ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //             Expanded(
-        //               child: GestureDetector(
-        //                 onTap: () async {
-        //                   setState(() {
-        //                     filterIndex = 1;
-        //                   });
-        //                   await listOfHistory(
-        //                     page,
-        //                     limit,
-        //                     filterIndex,
-        //                     startDate: startDate != '' && startDate != null
-        //                         ? startDate.toString()
-        //                         : '',
-        //                     endDate: endDate != '' && endDate != null
-        //                         ? endDate.toString()
-        //                         : '',
-        //                   );
-        //                 },
-        //                 child: Container(
-        //                   decoration: BoxDecoration(
-        //                     border: Border(
-        //                       bottom: BorderSide(
-        //                         width: 2,
-        //                         color: filterIndex == 1 ? black950 : white,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   padding: EdgeInsets.symmetric(vertical: 8),
-        //                   child: Row(
-        //                     mainAxisAlignment: MainAxisAlignment.center,
-        //                     children: [
-        //                       Text(
-        //                         'Зарлага',
-        //                         style: TextStyle(
-        //                           color: filterIndex == 1 ? black950 : black800,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(30),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            filterIndex = 0;
+                          });
+                          await listOfHistory(
+                            page,
+                            limit,
+                            startDate: startDate != '' && startDate != null
+                                ? startDate.toString()
+                                : '',
+                            endDate: endDate != '' && endDate != null
+                                ? endDate.toString()
+                                : '',
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: 2,
+                                color: filterIndex == 0 ? black950 : white,
+                              ),
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Орлого',
+                                style: TextStyle(
+                                  color: filterIndex == 0 ? black950 : black800,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            filterIndex = 1;
+                          });
+                          await listOfOut(
+                            page,
+                            limit,
+                            startDate: startDate != '' && startDate != null
+                                ? startDate.toString()
+                                : '',
+                            endDate: endDate != '' && endDate != null
+                                ? endDate.toString()
+                                : '',
+                          );
+                          // await listOfHistory(
+                          //   page,
+                          //   limit,
+                          //   filterIndex,
+                          //   startDate: startDate != '' && startDate != null
+                          //       ? startDate.toString()
+                          //       : '',
+                          //   endDate: endDate != '' && endDate != null
+                          //       ? endDate.toString()
+                          //       : '',
+                          // );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: 2,
+                                color: filterIndex == 1 ? black950 : white,
+                              ),
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Зарлага',
+                                style: TextStyle(
+                                  color: filterIndex == 1 ? black950 : black800,
 
-        //                           fontSize: 16,
-        //                           fontWeight: FontWeight.w500,
-        //                         ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       backgroundColor: white50,
       body: isLoadingPage == true
@@ -409,7 +448,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                                     Text(
                                                       'Үлдэгдэл',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -445,7 +484,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                                     Text(
                                                       'Орлого',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -454,7 +493,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                                     Text(
                                                       '${data['in']} ш',
                                                       style: TextStyle(
-                                                        color: black950,
+                                                        color: green,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -489,7 +528,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                                     Text(
                                                       'Зарлага',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -498,7 +537,7 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                                     Text(
                                                       '${data['out']} ш',
                                                       style: TextStyle(
-                                                        color: black950,
+                                                        color: redColor,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -583,17 +622,33 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                                     endDate = end;
                                   });
                                   Navigator.pop(context);
-                                  await listOfHistory(
-                                    page,
-                                    limit,
-                                    startDate:
-                                        startDate != null && startDate != ''
-                                        ? startDate.toString()
-                                        : '',
-                                    endDate: endDate != null && endDate != ''
-                                        ? endDate.toString()
-                                        : '',
-                                  );
+                                  filterIndex == 0
+                                      ? await listOfHistory(
+                                          page,
+                                          limit,
+                                          startDate:
+                                              startDate != null &&
+                                                  startDate != ''
+                                              ? startDate.toString()
+                                              : '',
+                                          endDate:
+                                              endDate != null && endDate != ''
+                                              ? endDate.toString()
+                                              : '',
+                                        )
+                                      : await listOfOut(
+                                          page,
+                                          limit,
+                                          startDate:
+                                              startDate != '' &&
+                                                  startDate != null
+                                              ? startDate.toString()
+                                              : '',
+                                          endDate:
+                                              endDate != '' && endDate != null
+                                              ? endDate.toString()
+                                              : '',
+                                        );
                                 },
                               );
                             },
@@ -673,34 +728,84 @@ class _IncomeDistributorHistoryState extends State<IncomeDistributorHistory>
                               ? CustomLoader()
                               : (incomeHistory.rows != null &&
                                     incomeHistory.rows!.isNotEmpty)
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Column(
-                                    children: List.generate(
-                                      incomeHistory.rows!.length,
-                                      (index) {
-                                        final isExpanded =
-                                            selectedIndexTile == index;
-                                        final item = incomeHistory.rows![index];
-                                        return GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (selectedIndexTile == index) {
-                                                selectedIndexTile = null;
-                                              } else {
-                                                selectedIndexTile = index;
-                                              }
-                                            });
-                                          },
-                                          child: IncomeDoneHistoryCard(
-                                            isExtended: isExpanded,
-                                            data: item,
+                              ? filterIndex == 0
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Column(
+                                          children: List.generate(
+                                            incomeHistory.rows!.length,
+                                            (index) {
+                                              final isExpanded =
+                                                  selectedIndexTile == index;
+                                              final item =
+                                                  incomeHistory.rows![index];
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (selectedIndexTile ==
+                                                        index) {
+                                                      selectedIndexTile = null;
+                                                    } else {
+                                                      selectedIndexTile = index;
+                                                    }
+                                                  });
+                                                },
+                                                child: IncomeDoneHistoryCard(
+                                                  isExtended: isExpanded,
+                                                  data: item,
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                )
+                                        ),
+                                      )
+                                    : (salesHistory.rows != null &&
+                                          salesHistory.rows!.isNotEmpty)
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Column(
+                                          children: List.generate(
+                                            salesHistory.rows!.length,
+                                            (index) {
+                                              final isExpanded =
+                                                  selectedIndexTile == index;
+                                              final item =
+                                                  salesHistory.rows![index];
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (selectedIndexTile ==
+                                                        index) {
+                                                      selectedIndexTile = null;
+                                                    } else {
+                                                      selectedIndexTile = index;
+                                                    }
+                                                  });
+                                                },
+                                                child: PurchaseHistoryCard(
+                                                  isExtended: isExpanded,
+                                                  data: item,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      )
+                                    : Column(
+                                        children: [
+                                          SizedBox(height: 12),
+                                          Center(
+                                            child: const Text(
+                                              'Түүх алга байна',
+                                              style: TextStyle(
+                                                color: black600,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                               : Column(
                                   children: [
                                     SizedBox(height: 12),

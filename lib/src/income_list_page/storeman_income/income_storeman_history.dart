@@ -433,7 +433,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
                                                     Text(
                                                       'Үлдэгдэл',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -469,7 +469,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
                                                     Text(
                                                       'Орлого',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -478,7 +478,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
                                                     Text(
                                                       '${data['in']} ш',
                                                       style: TextStyle(
-                                                        color: black950,
+                                                        color: green,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -513,7 +513,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
                                                     Text(
                                                       'Зарлага',
                                                       style: TextStyle(
-                                                        color: orange,
+                                                        color: black950,
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -522,7 +522,7 @@ class _IncomeStoremanHistoryState extends State<IncomeStoremanHistory>
                                                     Text(
                                                       '${data['out']} ш',
                                                       style: TextStyle(
-                                                        color: black950,
+                                                        color: redColor,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
