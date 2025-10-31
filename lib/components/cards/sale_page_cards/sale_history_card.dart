@@ -146,42 +146,27 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Захиалгын дугаар:',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            'Захиалгын дугаар:',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.left,
                           ),
                         ),
-                        Text(
-                          '${widget.data.code}',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Захиалсан цэг:',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          '${widget.data.distributor != null ? widget.data.distributor?.name : '-'}',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            '${widget.data.code}',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                       ],
@@ -190,20 +175,58 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Захиалсан ажилтан:',
-                          style: TextStyle(
-                            color: black800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            'Захиалсан цэг:',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.left,
                           ),
                         ),
-                        Text(
-                          '${widget.data.user?.firstName ?? '-'}',
-                          style: TextStyle(
-                            color: black950,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                        SizedBox(width: 12),
+
+                        Expanded(
+                          child: Text(
+                            '${widget.data.distributor != null ? widget.data.distributor?.name : '-'}',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Захиалсан ажилтан:',
+                            style: TextStyle(
+                              color: black800,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+
+                        Expanded(
+                          child: Text(
+                            '${widget.data.user?.firstName ?? '-'}',
+                            style: TextStyle(
+                              color: black950,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                       ],
@@ -233,33 +256,24 @@ class _SaleHistoryCardState extends State<SaleHistoryCard> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      '${item.product?.name}:',
-                                      style: TextStyle(
-                                        color: black800,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                    Expanded(
+                                      child: Text(
+                                        '${item.product?.name}:',
+                                        style: TextStyle(
+                                          color: black800,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '${item.totalCount} x ',
-                                          style: TextStyle(
-                                            color: black950,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Text(
-                                          '${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
-                                          style: TextStyle(
-                                            color: black950,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
+                                    SizedBox(width: 8),
+                                    Text(
+                                      '${item.totalCount} x ${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮ ',
+                                      style: TextStyle(
+                                        color: black950,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ],
                                 ),

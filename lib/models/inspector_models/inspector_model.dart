@@ -4,6 +4,7 @@ part '../../parts/inspector_models/inspector_model.dart';
 
 class InspectorModel {
   String? id;
+  String? orderNo;
   String? contractId;
   String? contractPlanId;
   String? contractNo;
@@ -54,6 +55,7 @@ class InspectorModel {
     this.updatedAt,
     this.netWeight,
     this.orderProducts,
+    this.orderNo,
   });
   static $fromJson(Map<String, dynamic> json) => _$InspectorModelFromJson(json);
 

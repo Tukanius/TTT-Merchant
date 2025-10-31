@@ -52,7 +52,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
         listen: false,
       ).init();
       await listOfHistory(page, limit, filterIndex);
-      if (!mounted) return; 
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });
@@ -62,7 +62,7 @@ class _HomePageStoremanState extends State<HomePageStoreman>
       print('===loader===');
     } catch (e) {
       print(e);
-      if (!mounted) return; 
+      if (!mounted) return;
       setState(() {
         isLoadingPage = false;
       });

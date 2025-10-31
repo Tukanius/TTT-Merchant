@@ -51,6 +51,7 @@ InspectorModel _$InspectorModelFromJson(Map<String, dynamic> json) {
               .map((e) => OrderProducts.fromJson(e))
               .toList()
         : null,
+    orderNo: json['orderNo'] != null ? json['orderNo'] as String : null,
   );
 }
 
@@ -85,6 +86,7 @@ Map<String, dynamic> _$InspectorModelToJson(InspectorModel instance) {
   if (instance.netWeight != null) json['netWeight'] = instance.netWeight;
   if (instance.orderProducts != null)
     json['orderProducts'] = instance.orderProducts;
+  if (instance.orderNo != null) json['orderNo'] = instance.orderNo;
 
   return json;
 }

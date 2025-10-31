@@ -268,14 +268,18 @@ class _PurchaseHistoryCardState extends State<PurchaseHistoryCard> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      '${item.name}:',
-                                      style: TextStyle(
-                                        color: black800,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                    Expanded(
+                                      child: Text(
+                                        '${item.name}:',
+                                        style: TextStyle(
+                                          color: black800,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        textAlign: TextAlign.left,
                                       ),
                                     ),
+                                    SizedBox(width: 8),
                                     Text(
                                       '${item.quantity} x ${Utils().formatCurrencyDouble(item.price?.toDouble() ?? 0)}₮',
                                       style: TextStyle(
@@ -283,6 +287,7 @@ class _PurchaseHistoryCardState extends State<PurchaseHistoryCard> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                       ),
+                                      textAlign: TextAlign.right,
                                     ),
                                   ],
                                 ),

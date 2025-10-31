@@ -512,16 +512,22 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            '${item.product?.name}',
-                                                            style: TextStyle(
-                                                              color: black800,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${item.product?.name}',
+                                                              style: TextStyle(
+                                                                color: black800,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
                                                             ),
                                                           ),
+                                                          SizedBox(width: 8),
                                                           Text(
                                                             '${item.totalCount} x ${Utils().formatCurrencyDouble(item.product?.price?.toDouble() ?? 0)}₮',
                                                             style: TextStyle(
@@ -531,6 +537,8 @@ class _SaleDetailPageState extends State<SaleDetailPage> with AfterLayoutMixin {
                                                                   FontWeight
                                                                       .w600,
                                                             ),
+                                                            textAlign:
+                                                                TextAlign.right,
                                                           ),
                                                         ],
                                                       ),

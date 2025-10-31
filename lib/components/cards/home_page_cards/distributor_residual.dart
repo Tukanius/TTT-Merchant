@@ -65,12 +65,17 @@ class _DistributorResidualState extends State<DistributorResidual> {
                                             ),
                                     ),
                                     SizedBox(height: 6),
-                                    Text(
-                                      '${data.name}',
-                                      style: TextStyle(
-                                        color: black950,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                    Container(
+                                      width: 158,
+                                      child: Text(
+                                        '${data.name}',
+                                        style: TextStyle(
+                                          color: black950,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     SizedBox(height: 2),

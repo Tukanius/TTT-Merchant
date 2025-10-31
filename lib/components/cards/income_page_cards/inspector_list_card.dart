@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ttt_merchant_flutter/components/ui/color.dart';
 import 'package:ttt_merchant_flutter/models/inspector_models/inspector_model.dart';
+import 'package:ttt_merchant_flutter/utils/utils.dart';
 
 class InspectorListCard extends StatefulWidget {
   final InspectorModel data;
@@ -170,7 +171,7 @@ class _InspectorListCardState extends State<InspectorListCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.contractNo}',
+                        '${widget.data.contractNo ?? '-'}',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -192,7 +193,7 @@ class _InspectorListCardState extends State<InspectorListCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.ladedWeight ?? '#'}',
+                        '${Utils().formatCurrencyDouble(widget.data.ladedWeight?.toDouble() ?? 0)} кг',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -214,7 +215,7 @@ class _InspectorListCardState extends State<InspectorListCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.unladedWeight ?? '-'}',
+                        '${Utils().formatCurrencyDouble(widget.data.unladedWeight?.toDouble() ?? 0)} кг',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,
@@ -236,7 +237,7 @@ class _InspectorListCardState extends State<InspectorListCard> {
                         ),
                       ),
                       Text(
-                        '${widget.data.netWeight ?? '-'}',
+                        '${Utils().formatCurrencyDouble(widget.data.netWeight?.toDouble() ?? 0)} кг',
                         style: TextStyle(
                           color: black950,
                           fontSize: 14,

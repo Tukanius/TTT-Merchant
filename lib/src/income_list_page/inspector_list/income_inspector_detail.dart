@@ -312,7 +312,7 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${incomeData.contractNo ?? '-'}',
+                                  '${incomeData.orderNo ?? '-'}',
                                   style: TextStyle(
                                     color: black950,
                                     fontSize: 14,
@@ -437,34 +437,34 @@ class _IncomeInspectorDetailState extends State<IncomeInspectorDetail>
                           ],
                         ),
                       ),
-                      Container(
-                        color: white,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Тоо ширхэг:',
-                              style: TextStyle(
-                                color: black800,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              '${incomeData.orderProductCount ?? '-'} Тонн',
-                              style: TextStyle(
-                                color: orange,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   color: white,
+                      //   padding: EdgeInsets.symmetric(
+                      //     horizontal: 16,
+                      //     vertical: 10,
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         'Тоо ширхэг:',
+                      //         style: TextStyle(
+                      //           color: black800,
+                      //           fontSize: 14,
+                      //           fontWeight: FontWeight.w500,
+                      //         ),
+                      //       ),
+                      //       Text(
+                      //         '${incomeData.orderProductCount ?? '-'} Тонн',
+                      //         style: TextStyle(
+                      //           color: orange,
+                      //           fontSize: 16,
+                      //           fontWeight: FontWeight.w600,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
