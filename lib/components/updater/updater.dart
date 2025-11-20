@@ -38,7 +38,7 @@ class _UpdaterComponentState extends State<UpdaterComponent>
         debugLogging: true,
         messages: UpgraderMessages(code: 'mn'),
         countryCode: 'MN',
-        minAppVersion: '1.0.15',
+        minAppVersion: '1.0.16',
       ),
       child: widget.child,
     );

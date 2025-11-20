@@ -112,7 +112,7 @@ class _PurchaseRequestPageState extends State<PurchaseRequestPage>
                 productId: general.residual![i].id,
                 quantity: quantities[i],
                 name: general.residual![i].name,
-                price: general.productTypes![i].price,
+                price: general.residual![i].price,
                 residual: general.residual![i].residual,
                 mainImage: general.residual![i].mainImage != null
                     ? general.residual![i].mainImage

@@ -10,6 +10,7 @@ class Residual {
   Unit? unit;
   String? weight;
   MainImage? mainImage;
+  num? price;
 
   Residual({
     this.id,
@@ -18,6 +19,7 @@ class Residual {
     this.unit,
     this.weight,
     this.mainImage,
+    this.price,
   });
   static $fromJson(Map<String, dynamic> json) => _$ResidualFromJson(json);
 

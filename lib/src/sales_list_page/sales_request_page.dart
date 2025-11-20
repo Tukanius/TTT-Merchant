@@ -44,10 +44,10 @@ class _SalesRequestPageState extends State<SalesRequestPage>
         context,
         listen: false,
       ).init();
-      if (general.residual != null) {
-        quantities = List.filled(general.residual!.length, 0);
+      if (general.products != null) {
+        quantities = List.filled(general.products!.length, 0);
         controllers = List.generate(
-          general.residual!.length,
+          general.products!.length,
           (i) => TextEditingController(text: '0'),
         );
       }
@@ -71,17 +71,17 @@ class _SalesRequestPageState extends State<SalesRequestPage>
           isLoading = true;
         });
         List<RequestProductPost> products = [];
-        for (int i = 0; i < general.residual!.length; i++) {
+        for (int i = 0; i < general.products!.length; i++) {
           if (quantities[i] > 0) {
             products.add(
               RequestProductPost(
-                product: general.residual![i].id,
+                product: general.products![i].id,
                 totalCount: quantities[i],
-                name: general.residual![i].name,
-                price: general.productTypes![i].price,
-                residual: general.residual![i].residual,
-                mainImage: general.residual![i].mainImage != null
-                    ? general.residual![i].mainImage
+                name: general.products![i].name,
+                price: general.products![i].price,
+                residual: general.products![i].residual,
+                mainImage: general.products![i].mainImage != null
+                    ? general.products![i].mainImage
                     : null,
               ),
             );
@@ -270,12 +270,12 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          general.residual != null
+                          general.products != null
                               ? GridView.builder(
                                   padding: EdgeInsets.symmetric(vertical: 16),
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: general.residual!.length,
+                                  itemCount: general.products!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
@@ -284,7 +284,7 @@ class _SalesRequestPageState extends State<SalesRequestPage>
                                         childAspectRatio: 0.55,
                                       ),
                                   itemBuilder: (context, index) {
-                                    final resData = general.residual![index];
+                                    final resData = general.products![index];
                                     return Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(6),
